@@ -1,0 +1,19 @@
+name: "summarize-oss-contributions"
+description: "Generate a summary of your OSS contributions on GitHub, sorted by impact."
+author: "arayofcode"
+
+branding:
+  icon: "activity"
+  color: "green"
+
+inputs:
+  gh_token:
+    description: "GitHub token"
+    required: false
+    default: ${{ github.token }}
+
+runs:
+  using: docker
+  image: Dockerfile
+  env:
+    GITHUB_TOKEN: ${{ inputs.gh_token }}
