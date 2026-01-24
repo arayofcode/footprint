@@ -26,4 +26,6 @@ type ContributionEvent struct {
 	Score          float64          `json:"score,omitempty"`
 	Merged         bool             `json:"is_merged,omitempty"`
 	Answer         bool             `json:"is_answer,omitempty"`
+	Stars          int              `json:"stars"`
+	Forks          int              `json:"forks"`
 }

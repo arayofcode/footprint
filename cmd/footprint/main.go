@@ -7,10 +7,12 @@ import (
 	"log"
 	"os"
 
-	ghlib "github.com/google/go-github/v81/github"
+	"github.com/shurcooL/githubv4"
+	"golang.org/x/oauth2"
 
 	"github.com/arayofcode/footprint/internal/github"
 	"github.com/arayofcode/footprint/internal/render"
+	"github.com/arayofcode/footprint/internal/scoring"
 )
 
 const outputDir = "dist"
@@ -22,16 +24,16 @@ func main() {
 	if username == "" {
 		username = "Bhupesh-V"
 	}
-	var ghClient *ghlib.Client
-	if token := os.Getenv("GITHUB_TOKEN"); token != "" {
-		ghClient = ghlib.NewClient(nil).WithAuthToken(token)
-		log.Println("Using authenticated GitHub client")
-	} else {
-		ghClient = ghlib.NewClient(nil)
-		log.Println("Using unauthenticated GitHub client (lower rate limits)")
+	token := os.Getenv("GITHUB_TOKEN")
+	if token == "" {
+		log.Fatal("GITHUB_TOKEN environment variable is required for GraphQL API")
 	}
 
-	client := github.NewClient(ghClient)
+	src := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: token},
+	)
+	httpClient := oauth2.NewClient(ctx, src)
+	client := github.NewClient(githubv4.NewClient(httpClient))
 
 	log.Printf("Fetching PRs for user: %s\n", username)
 
@@ -51,6 +53,11 @@ func main() {
 
 	allEvents := append(externalPRs, ownRepoPRs...)
 	log.Printf("Total PRs: %d\n", len(allEvents))
+
+	// Calculate scores
+	for _, event := range allEvents {
+		event.Score = scoring.ImpactScore(*event)
+	}
 
 	report := render.GenerateReport(username, allEvents)
 

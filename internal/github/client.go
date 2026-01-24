@@ -3,165 +3,95 @@ package github
 import (
 	"context"
 	"fmt"
-	"strings"
 
-	"github.com/google/go-github/v81/github"
+	"github.com/shurcooL/githubv4"
 )
 
 type Client struct {
-	gh *github.Client
+	gv4 *githubv4.Client
 }
 
-func NewClient(ghClient *github.Client) *Client {
-	if ghClient == nil {
-		ghClient = github.NewClient(nil)
+func NewClient(gv4Client *githubv4.Client) *Client {
+	return &Client{
+		gv4: gv4Client,
 	}
-	return &Client{gh: ghClient}
 }
 
 func (c *Client) FetchExternalPRs(ctx context.Context, username string) ([]*ContributionEvent, error) {
-	// "author:username type:pr -user:username"
+	// Query: PRs authored by user, excluding their own repos
 	query := fmt.Sprintf("author:%s type:pr -user:%s", username, username)
-
-	var allEvents []*ContributionEvent
-	opts := &github.SearchOptions{
-		Sort:  "created",
-		Order: "desc",
-		ListOptions: github.ListOptions{
-			PerPage: 100,
-		},
-	}
-
-	for {
-		result, resp, err := c.gh.Search.Issues(ctx, query, opts)
-		if err != nil {
-			return nil, fmt.Errorf("searching PRs: %w", err)
-		}
-
-		for _, issue := range result.Issues {
-			event := issueToContributionEvent(issue, ContributionTypePR)
-			allEvents = append(allEvents, event)
-		}
-
-		if resp.NextPage == 0 {
-			break
-		}
-		opts.Page = resp.NextPage
-	}
-
-	return allEvents, nil
+	return c.searchPRs(ctx, query)
 }
 
 func (c *Client) FetchOwnRepoPRs(ctx context.Context, username string, minStars int) ([]*ContributionEvent, error) {
-	popularRepos, err := c.getPopularRepos(ctx, username, minStars)
-	if err != nil {
-		return nil, err
-	}
+	// Query: PRs authored by user, in their own repos with > minStars
+	query := fmt.Sprintf("author:%s type:pr user:%s stars:>%d", username, username, minStars)
+	return c.searchPRs(ctx, query)
+}
 
-	if len(popularRepos) == 0 {
-		return nil, nil
-	}
+type prSearchQuery struct {
+	Search struct {
+		Nodes []struct {
+			PullRequest struct {
+				ID         string
+				Title      string
+				URL        string
+				CreatedAt  githubv4.DateTime
+				State      githubv4.PullRequestState
+				Merged     bool
+				Repository struct {
+					NameWithOwner  string
+					StargazerCount int
+					ForkCount      int
+				}
+				Reactions struct {
+					TotalCount int
+				} `graphql:"reactions(content: THUMBS_UP)"` // Just counting thumbs up for now as a proxy, or use total if available
+			} `graphql:"... on PullRequest"`
+		}
+		PageInfo struct {
+			EndCursor   githubv4.String
+			HasNextPage bool
+		}
+	} `graphql:"search(query: $query, type: ISSUE, first: 100, after: $cursor)"`
+}
 
-	// "author:username type:pr repo:owner/repo1 repo:owner/repo2 ..."
-	var repoFilters []string
-	for _, repo := range popularRepos {
-		repoFilters = append(repoFilters, fmt.Sprintf("repo:%s", repo))
-	}
-
-	query := fmt.Sprintf("author:%s type:pr %s", username, strings.Join(repoFilters, " "))
-
+func (c *Client) searchPRs(ctx context.Context, queryStr string) ([]*ContributionEvent, error) {
 	var allEvents []*ContributionEvent
-	opts := &github.SearchOptions{
-		Sort:  "created",
-		Order: "desc",
-		ListOptions: github.ListOptions{
-			PerPage: 100,
-		},
+	variables := map[string]interface{}{
+		"query":  githubv4.String(queryStr),
+		"cursor": (*githubv4.String)(nil),
 	}
 
 	for {
-		result, resp, err := c.gh.Search.Issues(ctx, query, opts)
+		var q prSearchQuery
+		err := c.gv4.Query(ctx, &q, variables)
 		if err != nil {
-			return nil, fmt.Errorf("searching own repo PRs: %w", err)
+			return nil, fmt.Errorf("graphql search error: %w", err)
 		}
 
-		for _, issue := range result.Issues {
-			event := issueToContributionEvent(issue, ContributionTypePR)
+		for _, node := range q.Search.Nodes {
+			pr := node.PullRequest
+			event := &ContributionEvent{
+				ID:             pr.ID,
+				Type:           ContributionTypePR,
+				Repo:           pr.Repository.NameWithOwner,
+				URL:            pr.URL,
+				Title:          pr.Title,
+				CreatedAt:      pr.CreatedAt.Time,
+				Stars:          pr.Repository.StargazerCount,
+				Forks:          pr.Repository.ForkCount,
+				Merged:         pr.Merged,
+				ReactionsCount: pr.Reactions.TotalCount,
+			}
 			allEvents = append(allEvents, event)
 		}
 
-		if resp.NextPage == 0 {
+		if !q.Search.PageInfo.HasNextPage {
 			break
 		}
-		opts.Page = resp.NextPage
+		variables["cursor"] = githubv4.NewString(q.Search.PageInfo.EndCursor)
 	}
 
 	return allEvents, nil
-}
-
-// return repo full names (owner/repo) for user's repos with >= minStars.
-func (c *Client) getPopularRepos(ctx context.Context, username string, minStars int) ([]string, error) {
-	var popularRepos []string
-	opts := &github.RepositoryListByUserOptions{
-		Type:      "owner",
-		Sort:      "pushed",
-		Direction: "desc",
-		ListOptions: github.ListOptions{
-			PerPage: 100,
-		},
-	}
-
-	for {
-		repos, resp, err := c.gh.Repositories.ListByUser(ctx, username, opts)
-		if err != nil {
-			return nil, fmt.Errorf("listing user repos: %w", err)
-		}
-
-		for _, repo := range repos {
-			if repo.GetStargazersCount() > minStars {
-				popularRepos = append(popularRepos, repo.GetFullName())
-			}
-		}
-
-		if resp.NextPage == 0 {
-			break
-		}
-		opts.Page = resp.NextPage
-	}
-
-	return popularRepos, nil
-}
-
-func issueToContributionEvent(issue *github.Issue, eventType ContributionType) *ContributionEvent {
-	event := &ContributionEvent{
-		ID:        fmt.Sprintf("pr-%d", issue.GetID()),
-		Type:      eventType,
-		URL:       issue.GetHTMLURL(),
-		Title:     issue.GetTitle(),
-		CreatedAt: issue.GetCreatedAt().Time,
-	}
-
-	if url := issue.GetHTMLURL(); url != "" {
-		event.Repo = extractRepoFromURL(url)
-	}
-	if reactions := issue.GetReactions(); reactions != nil {
-		event.ReactionsCount = reactions.GetTotalCount()
-	}
-
-	// for detecting PR merging status
-	if issue.GetState() == "closed" && issue.GetPullRequestLinks() != nil {
-		// Note: To accurately detect merged status, we'd need to fetch the PR details
-		// For now, we mark closed PRs - merged detection requires additional API call
-		event.Merged = false
-	}
-
-	return event
-}
-
-func extractRepoFromURL(url string) string {
-	parts := strings.Split(url, "/")
-	if len(parts) >= 5 {
-		return parts[3] + "/" + parts[4]
-	}
-	return ""
 }
