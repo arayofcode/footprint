@@ -21,7 +21,7 @@ func TestRenderSummary_IncludesHeaderAndTotals(t *testing.T) {
 	generatedAt := time.Date(2025, 2, 1, 0, 0, 0, 0, time.UTC)
 	user := domain.User{Username: "ray"}
 
-	out, err := renderer.RenderSummary(context.Background(), user, generatedAt, events, projects)
+	out, err := renderer.RenderSummary(context.Background(), user, domain.UserStats{TotalPRs: 1, TotalReposCount: 1}, generatedAt, events, projects)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -57,7 +57,7 @@ func TestRenderSummary_FormatsRepositorySection(t *testing.T) {
 	}
 	user := domain.User{Username: "ray"}
 
-	out, err := renderer.RenderSummary(context.Background(), user, time.Now(), events, nil)
+	out, err := renderer.RenderSummary(context.Background(), user, domain.UserStats{}, time.Now(), events, nil)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -86,7 +86,7 @@ func TestRenderSummary_IncludesReactionsAndMergedFlags(t *testing.T) {
 	}
 	user := domain.User{Username: "ray"}
 
-	out, err := renderer.RenderSummary(context.Background(), user, time.Now(), events, nil)
+	out, err := renderer.RenderSummary(context.Background(), user, domain.UserStats{}, time.Now(), events, nil)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}

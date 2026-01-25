@@ -15,15 +15,15 @@ type fakeFetcher struct {
 	err    error
 }
 
-func (f fakeFetcher) FetchExternalContributions(ctx context.Context, username string) (domain.User, []domain.ContributionEvent, error) {
+func (f fakeFetcher) FetchExternalContributions(ctx context.Context, username string) (domain.User, domain.UserStats, []domain.ContributionEvent, error) {
 	if f.err != nil {
-		return domain.User{}, nil, f.err
+		return domain.User{}, domain.UserStats{}, nil, f.err
 	}
 	u := f.user
 	if u.Username == "" {
 		u.Username = username
 	}
-	return u, f.events, nil
+	return u, domain.UserStats{TotalPRs: 72}, f.events, nil
 }
 
 type fakeProjects struct {
@@ -52,14 +52,16 @@ func (fakeScorer) ScoreOwnedProject(project domain.OwnedProject) domain.OwnedPro
 
 type fakeReportRenderer struct {
 	user        domain.User
+	stats       domain.UserStats
 	generatedAt time.Time
 	events      []domain.ContributionEvent
 	projects    []domain.OwnedProject
 	err         error
 }
 
-func (f *fakeReportRenderer) RenderReport(ctx context.Context, user domain.User, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
+func (f *fakeReportRenderer) RenderReport(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
 	f.user = user
+	f.stats = stats
 	f.generatedAt = generatedAt
 	f.events = events
 	f.projects = projects
@@ -71,14 +73,16 @@ func (f *fakeReportRenderer) RenderReport(ctx context.Context, user domain.User,
 
 type fakeSummaryRenderer struct {
 	user        domain.User
+	stats       domain.UserStats
 	generatedAt time.Time
 	events      []domain.ContributionEvent
 	projects    []domain.OwnedProject
 	err         error
 }
 
-func (f *fakeSummaryRenderer) RenderSummary(ctx context.Context, user domain.User, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
+func (f *fakeSummaryRenderer) RenderSummary(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
 	f.user = user
+	f.stats = stats
 	f.generatedAt = generatedAt
 	f.events = events
 	f.projects = projects
@@ -93,7 +97,7 @@ type fakeCardRenderer struct {
 	err    error
 }
 
-func (f *fakeCardRenderer) RenderCard(ctx context.Context, user domain.User, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
+func (f *fakeCardRenderer) RenderCard(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
 	f.called = true
 	if f.err != nil {
 		return nil, f.err

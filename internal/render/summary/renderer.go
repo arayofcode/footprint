@@ -12,28 +12,19 @@ import (
 
 type Renderer struct{}
 
-func (Renderer) RenderSummary(ctx context.Context, user domain.User, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
+func (Renderer) RenderSummary(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
 	_ = ctx
 
 	var sb strings.Builder
-
-	// Calculate high-level stats
-	mergedPRs := 0
-	uniqueRepos := make(map[string]bool)
-	for _, e := range events {
-		if e.Type == domain.ContributionTypePR && e.Merged {
-			mergedPRs++
-		}
-		uniqueRepos[e.Repo] = true
-	}
 
 	fmt.Fprintf(&sb, "# OSS Footprint: @%s\n\n", user.Username)
 	fmt.Fprintf(&sb, "*Generated on %s*\n\n", generatedAt.Format("January 2, 2006"))
 
 	sb.WriteString("## Impact Snapshot\n\n")
-	fmt.Fprintf(&sb, "- **%d** Merged Pull Requests\n", mergedPRs)
+	fmt.Fprintf(&sb, "- **%d** Merged Pull Requests\n", stats.TotalPRs)
+	fmt.Fprintf(&sb, "- **%d** Total Commits\n", stats.TotalCommits)
 	fmt.Fprintf(&sb, "- **%d** Popular Projects Owned\n", len(projects))
-	fmt.Fprintf(&sb, "- **%d** Unique Repositories Contributed To\n\n", len(uniqueRepos))
+	fmt.Fprintf(&sb, "- **%d** Unique Repositories Contributed To\n\n", stats.TotalReposCount)
 
 	if len(projects) > 0 {
 		sb.WriteString("## Owned Projects\n\n")

@@ -26,7 +26,7 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 		return fmt.Errorf("generator dependencies are not fully configured")
 	}
 
-	user, events, err := g.Fetcher.FetchExternalContributions(ctx, username)
+	user, stats, events, err := g.Fetcher.FetchExternalContributions(ctx, username)
 	if err != nil {
 		return fmt.Errorf("fetching external contributions: %w", err)
 	}
@@ -41,12 +41,12 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 
 	generatedAt := time.Now()
 
-	reportJSON, err := g.ReportRenderer.RenderReport(ctx, user, generatedAt, events, projects)
+	reportJSON, err := g.ReportRenderer.RenderReport(ctx, user, stats, generatedAt, events, projects)
 	if err != nil {
 		return fmt.Errorf("rendering report: %w", err)
 	}
 
-	summaryMD, err := g.SummaryRenderer.RenderSummary(ctx, user, generatedAt, events, projects)
+	summaryMD, err := g.SummaryRenderer.RenderSummary(ctx, user, stats, generatedAt, events, projects)
 	if err != nil {
 		return fmt.Errorf("rendering summary: %w", err)
 	}
@@ -78,7 +78,7 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 	}
 
 	if g.CardRenderer != nil {
-		cardSVG, err := g.CardRenderer.RenderCard(ctx, user, generatedAt, events, projects)
+		cardSVG, err := g.CardRenderer.RenderCard(ctx, user, stats, generatedAt, events, projects)
 		if err != nil {
 			return fmt.Errorf("rendering card: %w", err)
 		}

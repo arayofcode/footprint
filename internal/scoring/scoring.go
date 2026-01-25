@@ -7,8 +7,9 @@ import (
 )
 
 const (
-	DefaultClamp  = 4.0
-	MergedPRBonus = 1.5
+	DefaultClamp   = 10.0
+	MergedPRBonus  = 1.5
+	OwnershipScore = 2500.0
 )
 
 var baseContributionScores = map[domain.ContributionType]float64{
@@ -45,8 +46,8 @@ func (c *Calculator) ScoreContribution(event domain.ContributionEvent) domain.Co
 }
 
 func (c *Calculator) ScoreOwnedProject(project domain.OwnedProject) domain.OwnedProject {
-	// v0 heuristic: use popularity multiplier as the score
-	project.Score = project.PopularityMultiplier(c.Clamp)
+	// Weighted ownership impact based on project popularity
+	project.Score = OwnershipScore * project.PopularityMultiplier(c.Clamp)
 	return project
 }
 

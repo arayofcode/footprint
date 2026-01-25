@@ -6,7 +6,7 @@ import (
 )
 
 type EventFetcher interface {
-	FetchExternalContributions(ctx context.Context, username string) (User, []ContributionEvent, error)
+	FetchExternalContributions(ctx context.Context, username string) (User, UserStats, []ContributionEvent, error)
 }
 
 type ProjectCatalog interface {
@@ -21,18 +21,23 @@ type ScoreCalculator interface {
 type User struct {
 	Username  string `json:"username"`
 	AvatarURL string `json:"avatar_url"`
+	Bio       string `json:"bio,omitempty"`
+	Company   string `json:"company,omitempty"`
+	Location  string `json:"location,omitempty"`
+	Website   string `json:"website,omitempty"`
+	Followers int    `json:"followers_count,omitempty"`
 }
 
 type ReportRenderer interface {
-	RenderReport(ctx context.Context, user User, generatedAt time.Time, events []ContributionEvent, projects []OwnedProject) ([]byte, error)
+	RenderReport(ctx context.Context, user User, stats UserStats, generatedAt time.Time, events []ContributionEvent, projects []OwnedProject) ([]byte, error)
 }
 
 type SummaryRenderer interface {
-	RenderSummary(ctx context.Context, user User, generatedAt time.Time, events []ContributionEvent, projects []OwnedProject) ([]byte, error)
+	RenderSummary(ctx context.Context, user User, stats UserStats, generatedAt time.Time, events []ContributionEvent, projects []OwnedProject) ([]byte, error)
 }
 
 type CardRenderer interface {
-	RenderCard(ctx context.Context, user User, generatedAt time.Time, events []ContributionEvent, projects []OwnedProject) ([]byte, error)
+	RenderCard(ctx context.Context, user User, stats UserStats, generatedAt time.Time, events []ContributionEvent, projects []OwnedProject) ([]byte, error)
 }
 
 type OutputWriter interface {

@@ -21,7 +21,7 @@ func TestRenderReport_BasicFields(t *testing.T) {
 	generatedAt := time.Date(2025, 2, 1, 0, 0, 0, 0, time.UTC)
 	user := domain.User{Username: "ray", AvatarURL: "https://avatar.com/ray"}
 
-	out, err := renderer.RenderReport(context.Background(), user, generatedAt, events, projects)
+	out, err := renderer.RenderReport(context.Background(), user, domain.UserStats{}, generatedAt, events, projects)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -55,7 +55,7 @@ func TestRenderReport_EventsByTypeEmptyWhenNoEvents(t *testing.T) {
 	renderer := Renderer{}
 	user := domain.User{Username: "ray"}
 
-	out, err := renderer.RenderReport(context.Background(), user, time.Now(), nil, nil)
+	out, err := renderer.RenderReport(context.Background(), user, domain.UserStats{}, time.Now(), nil, nil)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}

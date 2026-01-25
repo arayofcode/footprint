@@ -14,13 +14,14 @@ type Renderer struct{}
 type Report struct {
 	GeneratedAt   time.Time                  `json:"generatedAt"`
 	Username      string                     `json:"username"`
+	Stats         domain.UserStats           `json:"stats"`
 	TotalEvents   int                        `json:"totalEvents"`
 	EventsByType  map[string]int             `json:"eventsByType"`
 	Events        []domain.ContributionEvent `json:"events"`
 	OwnedProjects []domain.OwnedProject      `json:"ownedProjects"`
 }
 
-func (Renderer) RenderReport(ctx context.Context, user domain.User, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
+func (Renderer) RenderReport(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
 	_ = ctx
 
 	eventsByType := make(map[string]int)
@@ -31,6 +32,7 @@ func (Renderer) RenderReport(ctx context.Context, user domain.User, generatedAt 
 	report := Report{
 		GeneratedAt:   generatedAt,
 		Username:      user.Username,
+		Stats:         stats,
 		TotalEvents:   len(events),
 		EventsByType:  eventsByType,
 		Events:        events,

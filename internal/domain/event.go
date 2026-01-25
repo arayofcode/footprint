@@ -33,14 +33,27 @@ type ContributionEvent struct {
 	Snippet            string           `json:"snippet,omitempty"`
 	ReactionsCount     int              `json:"reactions_count,omitempty"`
 	Score              float64          `json:"score,omitempty"`
+
+	// Aggregated fields for repo-level summary
+	CommitCount int `json:"commit_count,omitempty"`
+	ReviewCount int `json:"review_count,omitempty"`
+}
+
+type UserStats struct {
+	TotalCommits    int
+	TotalPRs        int
+	TotalIssues     int
+	TotalReviews    int
+	TotalReposCount int
 }
 
 type OwnedProject struct {
-	Repo  string  `json:"repo"`
-	URL   string  `json:"url"`
-	Stars int     `json:"stars"`
-	Forks int     `json:"forks"`
-	Score float64 `json:"score,omitempty"`
+	Repo      string  `json:"repo"`
+	URL       string  `json:"url"`
+	AvatarURL string  `json:"avatar_url"`
+	Stars     int     `json:"stars"`
+	Forks     int     `json:"forks"`
+	Score     float64 `json:"score,omitempty"`
 }
 
 func (e ContributionEvent) StableID() string {
