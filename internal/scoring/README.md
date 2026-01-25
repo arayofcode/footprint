@@ -29,6 +29,10 @@ The log multiplier ensures that the impact score increases sublinearly with the 
 
 IMO forks signal repo's adoption, and the number of forks is generally significantly lesser than the stars. I want forks to matter noticeably, but not overpower the stars in the repo popularity multiplier, hence the 2*forks.
 
+### Repo-Level Aggregation
+
+For the "Top External Impact" section of the Footprint card, contributions are grouped by repository. The **Total Impact Score** for a repository is the sum of the impact scores of all unique contributions made to that project. This ensures that a single high-quality PR and multiple significant contributions are both recognized appropriately.
+
 Later, the algorithm will also consider a reaction multiplier, which takes into account:
 - Comment leading to issue resolution or PR
 - Comment tagged referred in another issue or PR

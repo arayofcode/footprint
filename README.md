@@ -5,16 +5,16 @@ Footprint is a GitHub Action and tool that discovers a user’s public open-sour
 ## Features
 
 -   **Deep Discovery**: Finds contributions across GitHub, focusing on impact beyond just code ownership.
-    -   *v0 Focus*: Public Pull Requests in external repos + owned repo highlights (stars threshold).
+    -   *v0 Focus*: **PRs authored** in external repos (ranked by impact) + owned repo highlights (ranked by stars).
     -   *Future*: Issues, comments, reviews, discussions, and wiki edits.
 -   **Impact & Quality**:
     -   Base-score + repo popularity multiplier (stars + forks).
-    -   Filters out noise (e.g., only includes owned repos if >= min stars).
-    -   *Future*: Reaction/reference multipliers and answer markers.
+    -   Repo-level aggregation: Ranks external projects by your **Total Impact Score**.
+    -   Noise Filtering: Excludes owned repos below star threshold; omits empty card sections.
 -   **Artifact Generation**:
     -   `dist/summary.md`: Human-readable portfolio summary.
     -   `dist/report.json`: JSON version of your footprint.
-    -   `dist/card.svg`: Embeddable SVG card (placeholder v0).
+    -   `dist/card.svg`: Dynamic, interactive SVG card (v0 model).
 
 ## Usage
 
@@ -85,10 +85,10 @@ jobs:
 ## Roadmap & Areas for Improvement
 
 ### Features
--   [ ] **SVG Card**: Generate a `dist/card.svg` for embedding in READMEs (like `snk`).
+-   [x] **SVG Card**: Generate a dynamic `dist/card.svg` with impact-based ranking and clickable rows.
 -   [ ] **More Contribution Types**: Add support for Issues, Issue Comments, Reviews, and Discussions.
--   [ ] **Impact Scoring**: Tune weights, clamps, and future reaction/reference multipliers.
--   [ ] **Merged Detection**: accurately detect if a PR was merged (requires extra API checks).
+-   [x] **Impact Scoring**: Base weights + popularity multiplier with repository-level aggregation.
+-   [x] **Merged Detection**: accurately detect if a PR was merged.
 
 ### Code & Tech Debt
 -   **Error Handling**: Improve granularity of error reporting in the GitHub client.
