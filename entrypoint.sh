@@ -22,23 +22,41 @@ if [ -n "$OUTPUT_BRANCH" ]; then
     # Defaults to 'dist' if not set in args (which action.yaml handles)
     TARGET_DIR="${OUTPUT_DIR:-dist}"
     
+    # Capture the absolute path of the generated artifacts
+    SOURCE_DIR="$(pwd)/$TARGET_DIR"
+    
     if [ ! -d "$TARGET_DIR" ]; then
         echo "Error: Output directory '$TARGET_DIR' not found."
         exit 1
     fi
 
-    # Create a temporary directory for the push to avoid messing with the workspace
+    # Create a temporary directory for the push
     PUSH_DIR=$(mktemp -d)
-    cp -r "$TARGET_DIR/." "$PUSH_DIR/"
     
     cd "$PUSH_DIR"
     git init
-    git checkout -b "$OUTPUT_BRANCH"
+    git remote add origin "$REMOTE_REPO"
+    
+    # Check if branch exists on remote
+    if git ls-remote --exit-code origin "$OUTPUT_BRANCH" > /dev/null 2>&1; then
+        echo "Updating existing branch: $OUTPUT_BRANCH"
+        git fetch origin "$OUTPUT_BRANCH"
+        git checkout "$OUTPUT_BRANCH"
+        # Remove all files in the current branch except the .git directory
+        find . -maxdepth 1 -not -name "." -not -name ".git" -exec rm -rf {} +
+    else
+        echo "Creating new branch: $OUTPUT_BRANCH"
+        git checkout --orphan "$OUTPUT_BRANCH"
+    fi
+    
+    # Copy new artifacts from the captured absolute path
+    cp -r "$SOURCE_DIR/." .
+    
     git add .
     
     # Only commit and push if there are changes
     if git commit -m "Auto-generated footprint data"; then
-        git push "$REMOTE_REPO" "$OUTPUT_BRANCH" --force
+        git push origin "$OUTPUT_BRANCH"
         echo "✓ Footprint artifacts successfully pushed to $OUTPUT_BRANCH"
     else
         echo "No changes to commit."
