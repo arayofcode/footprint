@@ -31,7 +31,7 @@ func (Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.U
 	ownedOSSCount := len(projects)
 
 	externalRepoMap := make(map[string]*externalRepoStat)
-	externalPRCount := 0
+	mergedPRCount := 0
 
 	for _, e := range events {
 		// Only consider truly external contributions
@@ -52,7 +52,9 @@ func (Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.U
 
 		if e.Type == domain.ContributionTypePR {
 			externalRepoMap[e.Repo].prCount++
-			externalPRCount++
+			if e.Merged {
+				mergedPRCount++
+			}
 		}
 	}
 
@@ -110,7 +112,7 @@ func (Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.U
 		}
 		externalSection = fmt.Sprintf(`
   <g transform="translate(40, %d)">
-    <text x="0" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="600" fill="white">Top External Impact</text>
+    <text x="0" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="600" fill="white">Top Repositories</text>
     %s
   </g>`, currentY, formatExternal(topExternal, user.Username))
 		currentY += 45 + (len(topExternal) * 45)
@@ -181,7 +183,7 @@ func (Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.U
       <circle cx="25" cy="48" r="3" fill="none" stroke="#22c55e" stroke-width="2"/>
       <path d="M 36 28 L 42 34 L 52 22" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
       <text x="75" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="700" fill="white">%d</text>
-      <text x="0" y="85" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#9ca3af">PRs authored</text>
+      <text x="0" y="85" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#9ca3af">PRs merged</text>
     </g>
   </g>
   
@@ -203,7 +205,7 @@ func (Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.U
 		userAvatarBase64,
 		ownedOSSCount,
 		externalRepoCount,
-		externalPRCount,
+		mergedPRCount,
 		ownedSection,
 		externalSection,
 		footerY,

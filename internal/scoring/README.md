@@ -4,38 +4,30 @@ Each contribution's impact score is calculated based on two metrics:
 - Base Score
 - Repo popularity
 
-Each activity has a different base score, which is listed below:
-Merged PRs receive a 1.5x base-score bonus before applying repo popularity.
-| Activity | Score |
-|-|-|
-| Pull Request | 10 |
-| PR Review | 3 |
-| Issue | 5 |
-| Comment | 2 |
+Each activity has a different base score:
 
-Each activity can have different attributes, like PR raised v/s merged, comment with high number of upvotes/ downvotes, or comment referenced in PR. These are not being used to determine impact of contribution right now, but will be used in a future iteration.
+|   Activity   | Base Score |
+|--------------|------------|
+| Pull Request |    10      |
+| PR Review    |     3      |
+| Issue        |     5      |
+| Comment      |     2      |
 
-The impact score also considers the repo popularity
+### Merged Bonus
+Merged PRs receive a **1.5x base-score bonus** before the popularity multiplier is applied. This prioritizes accepted contributions.
 
-Here's the current scoring algorithm:
+### Repo Popularity Multiplier
+The impact score is adjusted by the repository's adoption and popularity:
 
-```
-impact_score = base_score * popularity_multiplier
+```text
+impact_score = (base_score * bonus) * popularity_multiplier
 
 popularity_multiplier = 1 + log10(1 + repo_stars + 2*repo_forks)
 ```
 
-The log multiplier ensures that the impact score increases sublinearly with the number of stars and forks, and ensures a small contribution in a popular repo doesn't get disproportionately high impact score.
+The log multiplier ensures that the impact score increases sublinearly with the number of stars and forks. This ensures that while contribution to popular projects is rewarded, it doesn't disproportionately dwarf other meaningful work.
 
-IMO forks signal repo's adoption, and the number of forks is generally significantly lesser than the stars. I want forks to matter noticeably, but not overpower the stars in the repo popularity multiplier, hence the 2*forks.
+**Why 2*forks?** Forks signal high-intent adoption and are generally rarer than stars, so they are weighted more heavily to ensure they matter noticeably.
 
 ### Repo-Level Aggregation
-
-For the "Top External Impact" section of the Footprint card, contributions are grouped by repository. The **Total Impact Score** for a repository is the sum of the impact scores of all unique contributions made to that project. This ensures that a single high-quality PR and multiple significant contributions are both recognized appropriately.
-
-Later, the algorithm will also consider a reaction multiplier, which takes into account:
-- Comment leading to issue resolution or PR
-- Comment tagged referred in another issue or PR
-- Number of contributions made to a repo where user is an active contributor but not member of core team
-- Number of reactions to a commit or PR (emoji, comments or reviews).
-    - This can be tricky as someone's spammy PR might have high number of reactions.
+For ranking "Top Repositories" on the Footprint card, contributions are grouped by repository. The **Total Impact Score** for a repository is the sum of all individual contribution scores made to that project.

@@ -15,21 +15,39 @@ type Renderer struct{}
 func (Renderer) RenderSummary(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
 	_ = ctx
 
+	// 1. Filter out self-owned repo events and calculate accurate external stats
+	var externalEvents []domain.ContributionEvent
+	externalRepos := make(map[string]bool)
+	mergedPRs := 0
+	for _, e := range events {
+		parts := strings.Split(e.Repo, "/")
+		if len(parts) < 2 || parts[0] == user.Username {
+			continue
+		}
+		externalEvents = append(externalEvents, e)
+		externalRepos[e.Repo] = true
+		if e.Type == domain.ContributionTypePR && e.Merged {
+			mergedPRs++
+		}
+	}
+
 	var sb strings.Builder
 
 	fmt.Fprintf(&sb, "# OSS Footprint: @%s\n\n", user.Username)
 	fmt.Fprintf(&sb, "*Generated on %s*\n\n", generatedAt.Format("January 2, 2006"))
 
 	sb.WriteString("## Impact Snapshot\n\n")
-	fmt.Fprintf(&sb, "- **%d** Merged Pull Requests\n", stats.TotalPRs)
-	fmt.Fprintf(&sb, "- **%d** Total Commits\n", stats.TotalCommits)
 	fmt.Fprintf(&sb, "- **%d** Popular Projects Owned\n", len(projects))
-	fmt.Fprintf(&sb, "- **%d** Unique Repositories Contributed To\n\n", stats.TotalReposCount)
+	fmt.Fprintf(&sb, "- **%d** Unique Repositories Contributed To\n", len(externalRepos))
+	fmt.Fprintf(&sb, "- **%d** PRs Merged\n\n", mergedPRs)
 
 	if len(projects) > 0 {
 		sb.WriteString("## Owned Projects\n\n")
 		sort.Slice(projects, func(i, j int) bool {
-			return projects[i].Stars > projects[j].Stars
+			if projects[i].Stars != projects[j].Stars {
+				return projects[i].Stars > projects[j].Stars
+			}
+			return projects[i].Forks > projects[j].Forks
 		})
 		for _, project := range projects {
 			fmt.Fprintf(&sb, "- [`%s`](%s) · ⭐ %s · 🍴 %s\n", project.Repo, project.URL, formatLargeNum(project.Stars), formatLargeNum(project.Forks))
@@ -37,35 +55,47 @@ func (Renderer) RenderSummary(ctx context.Context, user domain.User, stats domai
 		sb.WriteString("\n")
 	}
 
-	repoGroups := groupByRepo(events)
+	repoGroups := groupByRepo(externalEvents)
 
-	sb.WriteString("## Contributions by Repository\n\n")
+	sb.WriteString("## Top Repositories\n\n")
 	type repoSummary struct {
-		repo   string
-		merged int
-		total  int
+		repo        string
+		impactScore float64
+		prCount     int
+		total       int
 	}
 	var repos []repoSummary
 	for repo, repoEvents := range repoGroups {
-		merged := 0
+		score := 0.0
+		prs := 0
 		for _, e := range repoEvents {
-			if e.Merged {
-				merged++
+			score += e.Score
+			if e.Type == domain.ContributionTypePR {
+				prs++
 			}
 		}
-		repos = append(repos, repoSummary{repo: repo, merged: merged, total: len(repoEvents)})
+		repos = append(repos, repoSummary{
+			repo:        repo,
+			impactScore: score,
+			prCount:     prs,
+			total:       len(repoEvents),
+		})
 	}
-	// Sort by total contributions
+
+	// Sort by Impact Score
 	sort.Slice(repos, func(i, j int) bool {
-		return repos[i].total > repos[j].total
+		if repos[i].impactScore != repos[j].impactScore {
+			return repos[i].impactScore > repos[j].impactScore
+		}
+		return repos[i].repo < repos[j].repo
 	})
 
 	for _, rs := range repos {
 		repo := rs.repo
 		repoEvents := repoGroups[repo]
 
-		fmt.Fprintf(&sb, "### [`%s`](https://github.com/%s)\n\n", repo, repo)
-		fmt.Fprintf(&sb, "*%d contribution(s) (%d merged)*\n\n", rs.total, rs.merged)
+		fmt.Fprintf(&sb, "### [%s](https://github.com/%s/pulls?q=is%%3Apr+author%%3A%s)\n\n", repo, repo, user.Username)
+		fmt.Fprintf(&sb, "*Total Impact: **%.1f** · %d PR(s)*\n\n", rs.impactScore, rs.prCount)
 
 		sort.Slice(repoEvents, func(i, j int) bool {
 			return repoEvents[i].CreatedAt.After(repoEvents[j].CreatedAt)

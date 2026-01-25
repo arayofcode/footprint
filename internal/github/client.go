@@ -41,8 +41,8 @@ func (c *Client) FetchExternalContributions(ctx context.Context, username string
 		}
 	}
 
-	// Use search to find specific high-impact authored PRs
-	authoredPRs, searchAuthoredCount, err := c.searchPRsWithCount(ctx, fmt.Sprintf("author:%s type:pr", username))
+	// Use search to find specific high-impact authored PRs, excluding self-owned repos
+	authoredPRs, searchAuthoredCount, err := c.searchPRsWithCount(ctx, fmt.Sprintf("author:%s type:pr -user:%s", username, username))
 	if err == nil {
 		if searchAuthoredCount > stats.TotalPRs {
 			stats.TotalPRs = searchAuthoredCount
@@ -57,7 +57,7 @@ func (c *Client) FetchExternalContributions(ctx context.Context, username string
 		stats.TotalReposCount = allTimeRepos
 	}
 
-	reviewedPRs, _, err := c.searchPRsWithCount(ctx, fmt.Sprintf("reviewer:%s type:pr", username))
+	reviewedPRs, _, err := c.searchPRsWithCount(ctx, fmt.Sprintf("reviewer:%s type:pr -user:%s", username, username))
 	if err != nil {
 		reviewedPRs = nil
 	}
