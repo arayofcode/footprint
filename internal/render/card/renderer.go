@@ -110,7 +110,7 @@ func (Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.U
 		}
 		externalSection = fmt.Sprintf(`
   <g transform="translate(40, %d)">
-    <text x="0" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="600" fill="white">Top Repos by Impact</text>
+    <text x="0" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="600" fill="white">Top External Impact</text>
     %s
   </g>`, currentY, formatExternal(topExternal, user.Username))
 		currentY += 45 + (len(topExternal) * 45)
@@ -217,16 +217,16 @@ func formatOwned(projects []domain.OwnedProject) string {
 	var s string
 	for i, p := range projects {
 		y := 45 + (i * 45)
+		repoAvatar := fetchAsDataURL(p.AvatarURL)
 		s += fmt.Sprintf(`
     <a xlink:href="%s" target="_blank" style="cursor: pointer;">
       <g transform="translate(0, %d)">
-        <rect width="24" height="24" rx="4" fill="#374151"/>
-        <path d="M7 8V6a2 2 0 012-2h6a2 2 0 012 2v2M7 8h10M7 8v10a2 2 0 002 2h6a2 2 0 002-2V8M9 12h6" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <image href="%s" width="24" height="24" clip-path="url(#repo-clip)" x="0" y="0"/>
         <text x="35" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="500" fill="white">%s</text>
         <text x="640" y="18" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#22c55e">%s ★</text>
       </g>
     </a>`,
-			html.EscapeString(p.URL), y, truncate(p.Repo, 40), formatCount(p.Stars))
+			html.EscapeString(p.URL), y, repoAvatar, truncate(p.Repo, 40), formatCount(p.Stars))
 	}
 	return s
 }
