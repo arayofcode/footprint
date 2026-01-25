@@ -155,36 +155,45 @@ func (Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.U
   
   <!-- Stat boxes -->
   <g transform="translate(40, 100)">
-    <g>
-      <rect x="-5" y="-5" width="70" height="70" rx="14" fill="#22c55e" opacity="0.15" filter="url(#glow)"/>
-      <rect width="60" height="60" rx="12" fill="#1f2937" stroke="#22c55e" stroke-width="1.5" opacity="0.9"/>
-      <path d="M 30 15 L 33 25 L 44 25 L 35 32 L 38 43 L 30 36 L 22 43 L 25 32 L 16 25 L 27 25 Z" fill="none" stroke="#22c55e" stroke-width="2" stroke-linejoin="round"/>
-      <text x="75" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="700" fill="white">%d</text>
-      <text x="0" y="85" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#9ca3af">Owned OSS Projects</text>
-    </g>
+    <!-- Box 1: Owned OSS -->
+    <a xlink:href="https://github.com/%s?tab=repositories&amp;q=&amp;type=source&amp;sort=stargazers" target="_blank" style="cursor: pointer;">
+      <g>
+        <rect x="-5" y="-5" width="70" height="70" rx="14" fill="#22c55e" opacity="0.15" filter="url(#glow)"/>
+        <rect width="60" height="60" rx="12" fill="#1f2937" stroke="#22c55e" stroke-width="1.5" opacity="0.9"/>
+        <path d="M 30 15 L 33 25 L 44 25 L 35 32 L 38 43 L 30 36 L 22 43 L 25 32 L 16 25 L 27 25 Z" fill="none" stroke="#22c55e" stroke-width="2" stroke-linejoin="round"/>
+        <text x="75" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="700" fill="white">%d</text>
+        <text x="0" y="85" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#9ca3af">Owned OSS Projects</text>
+      </g>
+    </a>
     
-    <g transform="translate(230, 0)">
-      <rect x="-5" y="-5" width="70" height="70" rx="14" fill="#22c55e" opacity="0.15" filter="url(#glow)"/>
-      <rect width="60" height="60" rx="12" fill="#1f2937" stroke="#22c55e" stroke-width="1.5" opacity="0.9"/>
-      <circle cx="22" cy="20" r="4" fill="none" stroke="#22c55e" stroke-width="2"/>
-      <circle cx="38" cy="20" r="4" fill="none" stroke="#22c55e" stroke-width="2"/>
-      <circle cx="30" cy="45" r="4" fill="none" stroke="#22c55e" stroke-width="2"/>
-      <path d="M 22 24 L 22 30 Q 22 35 30 35 L 30 41" fill="none" stroke="#22c55e" stroke-width="2"/>
-      <path d="M 38 24 L 38 30 Q 38 35 30 35" fill="none" stroke="#22c55e" stroke-width="2"/>
-      <text x="75" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="700" fill="white">%d</text>
-      <text x="0" y="85" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#9ca3af">External Repos</text>
-    </g>
+    <!-- Box 2: External Repos -->
+    <a xlink:href="https://github.com/pulls?q=is%%3Apr+author%%3A%s+-user%%3A%s" target="_blank" style="cursor: pointer;">
+      <g transform="translate(230, 0)">
+        <rect x="-5" y="-5" width="70" height="70" rx="14" fill="#22c55e" opacity="0.15" filter="url(#glow)"/>
+        <rect width="60" height="60" rx="12" fill="#1f2937" stroke="#22c55e" stroke-width="1.5" opacity="0.9"/>
+        <circle cx="22" cy="20" r="4" fill="none" stroke="#22c55e" stroke-width="2"/>
+        <circle cx="38" cy="20" r="4" fill="none" stroke="#22c55e" stroke-width="2"/>
+        <circle cx="30" cy="45" r="4" fill="none" stroke="#22c55e" stroke-width="2"/>
+        <path d="M 22 24 L 22 30 Q 22 35 30 35 L 30 41" fill="none" stroke="#22c55e" stroke-width="2"/>
+        <path d="M 38 24 L 38 30 Q 38 35 30 35" fill="none" stroke="#22c55e" stroke-width="2"/>
+        <text x="75" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="700" fill="white">%d</text>
+        <text x="0" y="85" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#9ca3af">External Repos</text>
+      </g>
+    </a>
     
-    <g transform="translate(460, 0)">
-      <rect x="-5" y="-5" width="70" height="70" rx="14" fill="#22c55e" opacity="0.15" filter="url(#glow)"/>
-      <rect width="60" height="60" rx="12" fill="#1f2937" stroke="#22c55e" stroke-width="1.5" opacity="0.9"/>
-      <circle cx="25" cy="20" r="4" fill="#22c55e"/>
-      <line x1="25" y1="24" x2="25" y2="45" stroke="#22c55e" stroke-width="2"/>
-      <circle cx="25" cy="48" r="3" fill="none" stroke="#22c55e" stroke-width="2"/>
-      <path d="M 36 28 L 42 34 L 52 22" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <text x="75" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="700" fill="white">%d</text>
-      <text x="0" y="85" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#9ca3af">PRs merged</text>
-    </g>
+    <!-- Box 3: PRs merged -->
+    <a xlink:href="https://github.com/pulls?q=is%%3Apr+author%%3A%s+-user%%3A%s+is%%3Amerged" target="_blank" style="cursor: pointer;">
+      <g transform="translate(460, 0)">
+        <rect x="-5" y="-5" width="70" height="70" rx="14" fill="#22c55e" opacity="0.15" filter="url(#glow)"/>
+        <rect width="60" height="60" rx="12" fill="#1f2937" stroke="#22c55e" stroke-width="1.5" opacity="0.9"/>
+        <circle cx="25" cy="20" r="4" fill="#22c55e"/>
+        <line x1="25" y1="24" x2="25" y2="45" stroke="#22c55e" stroke-width="2"/>
+        <circle cx="25" cy="48" r="3" fill="none" stroke="#22c55e" stroke-width="2"/>
+        <path d="M 36 28 L 42 34 L 52 22" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="75" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="700" fill="white">%d</text>
+        <text x="0" y="85" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#9ca3af">PRs merged</text>
+      </g>
+    </a>
   </g>
   
   %s
@@ -203,8 +212,13 @@ func (Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.U
 		totalHeight,
 		totalHeight,
 		userAvatarBase64,
+		user.Username,
 		ownedOSSCount,
+		user.Username,
+		user.Username,
 		externalRepoCount,
+		user.Username,
+		user.Username,
 		mergedPRCount,
 		ownedSection,
 		externalSection,

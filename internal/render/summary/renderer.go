@@ -40,6 +40,7 @@ func (Renderer) RenderSummary(ctx context.Context, user domain.User, stats domai
 	fmt.Fprintf(&sb, "- **%d** Popular Projects Owned\n", len(projects))
 	fmt.Fprintf(&sb, "- **%d** Unique Repositories Contributed To\n", len(externalRepos))
 	fmt.Fprintf(&sb, "- **%d** PRs Merged\n\n", mergedPRs)
+	fmt.Fprintf(&sb, "[View all external PRs authored by @%s](https://github.com/pulls?q=is%%3Apr+author%%3A%s+-user%%3A%s)\n\n", user.Username, user.Username, user.Username)
 
 	if len(projects) > 0 {
 		sb.WriteString("## Owned Projects\n\n")

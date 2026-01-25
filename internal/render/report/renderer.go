@@ -14,14 +14,15 @@ import (
 type Renderer struct{}
 
 type Report struct {
-	GeneratedAt   time.Time                  `json:"generatedAt"`
-	Username      string                     `json:"username"`
-	Stats         domain.UserStats           `json:"stats"`
-	TotalEvents   int                        `json:"totalEvents"`
-	EventsByType  map[string]int             `json:"eventsByType"`
-	Events        []domain.ContributionEvent `json:"events"`
-	OwnedProjects []domain.OwnedProject      `json:"ownedProjects"`
-	TopRepos      []RepoImpact               `json:"topRepos"`
+	GeneratedAt    time.Time                  `json:"generatedAt"`
+	Username       string                     `json:"username"`
+	Stats          domain.UserStats           `json:"stats"`
+	TotalEvents    int                        `json:"totalEvents"`
+	EventsByType   map[string]int             `json:"eventsByType"`
+	Events         []domain.ContributionEvent `json:"events"`
+	OwnedProjects  []domain.OwnedProject      `json:"ownedProjects"`
+	TopRepos       []RepoImpact               `json:"topRepos"`
+	ExternalPRsURL string                     `json:"externalPRsUrl"`
 }
 
 type RepoImpact struct {
@@ -81,14 +82,15 @@ func (Renderer) RenderReport(ctx context.Context, user domain.User, stats domain
 	})
 
 	report := Report{
-		GeneratedAt:   generatedAt,
-		Username:      user.Username,
-		Stats:         stats,
-		TotalEvents:   len(externalEvents),
-		EventsByType:  eventsByType,
-		Events:        externalEvents,
-		OwnedProjects: projects,
-		TopRepos:      topRepos,
+		GeneratedAt:    generatedAt,
+		Username:       user.Username,
+		Stats:          stats,
+		TotalEvents:    len(externalEvents),
+		EventsByType:   eventsByType,
+		Events:         externalEvents,
+		OwnedProjects:  projects,
+		TopRepos:       topRepos,
+		ExternalPRsURL: fmt.Sprintf("https://github.com/pulls?q=is:pr+author:%s+-user:%s", user.Username, user.Username),
 	}
 
 	data, err := json.MarshalIndent(report, "", "  ")
