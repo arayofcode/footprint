@@ -5,7 +5,7 @@ Each contribution's impact score is calculated based on two metrics:
 - Repo popularity
 
 Each activity has a different base score, which is listed below:
-<!-- TODO: Each activity can have several activities, e.g., Merged PR v/s unmerged PR -->
+Merged PRs receive a 1.5x base-score bonus before applying repo popularity.
 | Activity | Score |
 |-|-|
 | Pull Request | 10 |

@@ -2,45 +2,58 @@ package scoring
 
 import (
 	"fmt"
-	"math"
 
-	"github.com/arayofcode/footprint/internal/github"
+	"github.com/arayofcode/footprint/internal/domain"
 )
 
 const (
-	PRScore                float64 = 10.0
-	IssueScore             float64 = 5.0
-	IssueCommentScore      float64 = 2.0
-	ReviewScore            float64 = 3.0
-	ReviewCommentScore     float64 = 2.0
-	DiscussionScore        float64 = 2.0
-	DiscussionCommentScore float64 = 2.0
+	DefaultClamp  = 4.0
+	MergedPRBonus = 1.5
 )
 
-var baseContributionScores = map[github.ContributionType]float64{
-	github.ContributionTypePR:                PRScore,
-	github.ContributionTypeIssue:             IssueScore,
-	github.ContributionTypeIssueComment:      IssueCommentScore,
-	github.ContributionTypeReview:            ReviewScore,
-	github.ContributionTypeReviewComment:     ReviewCommentScore,
-	github.ContributionTypeDiscussion:        DiscussionScore,
-	github.ContributionTypeDiscussionComment: DiscussionCommentScore,
+var baseContributionScores = map[domain.ContributionType]float64{
+	domain.ContributionTypePR:                10.0,
+	domain.ContributionTypeIssue:             5.0,
+	domain.ContributionTypeIssueComment:      2.0,
+	domain.ContributionTypeReview:            3.0,
+	domain.ContributionTypeReviewComment:     2.0,
+	domain.ContributionTypeDiscussion:        2.0,
+	domain.ContributionTypeDiscussionComment: 2.0,
 }
 
-func baseScore(event github.ContributionEvent) float64 {
+type Calculator struct {
+	Clamp float64
+}
+
+func NewCalculator(clamp float64) *Calculator {
+	if clamp <= 0 {
+		clamp = DefaultClamp
+	}
+	return &Calculator{Clamp: clamp}
+}
+
+func (c *Calculator) ScoreContribution(event domain.ContributionEvent) domain.ContributionEvent {
+	base := baseScore(event)
+	multiplier := event.PopularityMultiplier(c.Clamp)
+
+	if event.Type == domain.ContributionTypePR && event.Merged {
+		base = base * MergedPRBonus
+	}
+
+	event.Score = base * multiplier
+	return event
+}
+
+func (c *Calculator) ScoreOwnedProject(project domain.OwnedProject) domain.OwnedProject {
+	// v0 heuristic: use popularity multiplier as the score
+	project.Score = project.PopularityMultiplier(c.Clamp)
+	return project
+}
+
+func baseScore(event domain.ContributionEvent) float64 {
 	if score, ok := baseContributionScores[event.Type]; ok {
 		return score
 	}
 	fmt.Printf("Score not found for type: %s", event.Type)
 	return 0
-}
-
-func popularityMultiplier(event github.ContributionEvent) float64 {
-	// Formula: 1 + log10(1 + repo_stars + 2*repo_forks)
-	val := 1.0 + float64(event.Stars) + 2.0*float64(event.Forks)
-	return 1.0 + math.Log10(val)
-}
-
-func ImpactScore(event github.ContributionEvent) float64 {
-	return baseScore(event) * popularityMultiplier(event)
 }

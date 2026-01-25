@@ -11,9 +11,53 @@ inputs:
     description: "GitHub token"
     required: false
     default: ${{ github.token }}
+  username:
+    description: "GitHub username (defaults to GITHUB_ACTOR)"
+    required: false
+  output_branch:
+    description: "Branch to publish generated artifacts"
+    required: false
+    default: "footprint-output"
+  output_dir:
+    description: "Output directory for artifacts"
+    required: false
+    default: "dist"
+  min_stars:
+    description: "Minimum stars for owned projects"
+    required: false
+    default: "5"
+  clamp:
+    description: "Clamp for popularity multiplier"
+    required: false
+    default: "4"
+  card:
+    description: "Generate SVG card"
+    required: false
+    default: "true"
+
+outputs:
+  total_contributions:
+    description: "Count of discovered external contributions"
+  owned_projects_count:
+    description: "Count of owned OSS projects meeting the star threshold"
+  total_score:
+    description: "Calculated aggregate impact score"
 
 runs:
   using: docker
   image: Dockerfile
   env:
     GITHUB_TOKEN: ${{ inputs.gh_token }}
+    OUTPUT_BRANCH: ${{ inputs.output_branch }}
+    OUTPUT_DIR: ${{ inputs.output_dir }}
+  args:
+    - "-username"
+    - "${{ inputs.username }}"
+    - "-output"
+    - "${{ inputs.output_dir }}"
+    - "-min-stars"
+    - "${{ inputs.min_stars }}"
+    - "-clamp"
+    - "${{ inputs.clamp }}"
+    - "-card"
+    - "${{ inputs.card }}"
