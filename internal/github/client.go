@@ -168,17 +168,6 @@ func (c *Client) fetchUser(ctx context.Context, username string) (domain.User, i
 	}, q.User.PullRequests.TotalCount, q.User.RepositoriesContributedTo.TotalCount, nil
 }
 
-func (c *Client) FetchExternalPRs(ctx context.Context, username string) ([]domain.ContributionEvent, error) {
-	// Query: PRs authored by user, excluding their own repos
-	query := fmt.Sprintf("author:%s type:pr -user:%s", username, username)
-	return c.searchPRs(ctx, query)
-}
-
-func (c *Client) FetchOwnRepoPRs(ctx context.Context, username string, minStars int) ([]domain.ContributionEvent, error) {
-	// Query: PRs authored by user, in their own repos with > minStars
-	query := fmt.Sprintf("author:%s type:pr user:%s stars:>%d", username, username, minStars)
-	return c.searchPRs(ctx, query)
-}
 
 func (c *Client) FetchOwnedProjects(ctx context.Context, username string, minStars int) ([]domain.OwnedProject, error) {
 	var projects []domain.OwnedProject
@@ -271,11 +260,6 @@ type prSearchQuery struct {
 			HasNextPage bool
 		}
 	} `graphql:"search(query: $query, type: ISSUE, first: 100, after: $cursor)"`
-}
-
-func (c *Client) searchPRs(ctx context.Context, queryStr string) ([]domain.ContributionEvent, error) {
-	events, _, err := c.searchPRsWithCount(ctx, queryStr)
-	return events, err
 }
 
 func (c *Client) searchPRsWithCount(ctx context.Context, queryStr string) ([]domain.ContributionEvent, int, error) {
