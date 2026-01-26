@@ -27,7 +27,7 @@ func (a *Actions) WriteSummary(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("opening GITHUB_STEP_SUMMARY: %w", err)
 	}
-	defer f.Close()
+	defer f.Close() //nolint:errcheck
 
 	if _, err := f.Write(data); err != nil {
 		return fmt.Errorf("writing to GITHUB_STEP_SUMMARY: %w", err)
@@ -44,7 +44,7 @@ func (a *Actions) SetOutput(name, value string) error {
 	if err != nil {
 		return fmt.Errorf("opening GITHUB_OUTPUT: %w", err)
 	}
-	defer f.Close()
+	defer f.Close() //nolint:errcheck
 
 	if _, err := fmt.Fprintf(f, "%s=%s\n", name, value); err != nil {
 		return fmt.Errorf("writing to GITHUB_OUTPUT: %w", err)

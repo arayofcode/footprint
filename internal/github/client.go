@@ -28,7 +28,7 @@ func (c *Client) FetchExternalContributions(ctx context.Context, username string
 	// Fetch global stats. We loop back 5 years to get a better 'footprint'
 	var stats domain.UserStats
 	now := time.Now()
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		yearStats, err := c.fetchUserStatsForYear(ctx, username, now.AddDate(-i, 0, 0))
 		if err == nil {
 			stats.TotalCommits += yearStats.TotalCommits
@@ -114,7 +114,7 @@ func (c *Client) fetchUserStatsForYear(ctx context.Context, username string, dat
 	from := time.Date(year, 1, 1, 0, 0, 0, 0, time.UTC)
 	to := time.Date(year, 12, 31, 23, 59, 59, 0, time.UTC)
 
-	variables := map[string]interface{}{
+	variables := map[string]any{
 		"login": githubv4.String(username),
 		"from":  githubv4.DateTime{Time: from},
 		"to":    githubv4.DateTime{Time: to},
@@ -152,7 +152,7 @@ func (c *Client) fetchUser(ctx context.Context, username string) (domain.User, i
 			} `graphql:"repositoriesContributedTo(first: 1)"`
 		} `graphql:"user(login: $login)"`
 	}
-	variables := map[string]interface{}{
+	variables := map[string]any{
 		"login": githubv4.String(username),
 	}
 	if err := c.gv4.Query(ctx, &q, variables); err != nil {
@@ -182,7 +182,7 @@ func (c *Client) FetchOwnRepoPRs(ctx context.Context, username string, minStars 
 
 func (c *Client) FetchOwnedProjects(ctx context.Context, username string, minStars int) ([]domain.OwnedProject, error) {
 	var projects []domain.OwnedProject
-	variables := map[string]interface{}{
+	variables := map[string]any{
 		"login":  githubv4.String(username),
 		"cursor": (*githubv4.String)(nil),
 	}
@@ -281,7 +281,7 @@ func (c *Client) searchPRs(ctx context.Context, queryStr string) ([]domain.Contr
 func (c *Client) searchPRsWithCount(ctx context.Context, queryStr string) ([]domain.ContributionEvent, int, error) {
 	var allEvents []domain.ContributionEvent
 	totalCount := 0
-	variables := map[string]interface{}{
+	variables := map[string]any{
 		"query":  githubv4.String(queryStr),
 		"cursor": (*githubv4.String)(nil),
 	}

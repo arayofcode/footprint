@@ -292,7 +292,7 @@ func fetchAsDataURL(url string) string {
 	if err != nil {
 		return html.EscapeString(url)
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() //nolint:errcheck
 	if resp.StatusCode != http.StatusOK {
 		return html.EscapeString(url)
 	}

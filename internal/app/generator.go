@@ -72,9 +72,9 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 			totalScore += p.Score
 		}
 
-		g.Actions.SetOutput("total_contributions", fmt.Sprintf("%d", len(events)))
-		g.Actions.SetOutput("owned_projects_count", fmt.Sprintf("%d", len(projects)))
-		g.Actions.SetOutput("total_score", fmt.Sprintf("%.2f", totalScore))
+		g.Actions.SetOutput("total_contributions", fmt.Sprintf("%d", len(events)))    //nolint:errcheck
+		g.Actions.SetOutput("owned_projects_count", fmt.Sprintf("%d", len(projects))) //nolint:errcheck
+		g.Actions.SetOutput("total_score", fmt.Sprintf("%.2f", totalScore))           //nolint:errcheck
 	}
 
 	if g.CardRenderer != nil {
