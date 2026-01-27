@@ -9,6 +9,11 @@ type EventFetcher interface {
 	FetchExternalContributions(ctx context.Context, username string) (User, UserStats, []ContributionEvent, error)
 }
 
+type ContributionStrategy interface {
+	Fetch(ctx context.Context, username string) ([]ContributionEvent, error)
+	Name() ContributionType
+}
+
 type ProjectCatalog interface {
 	FetchOwnedProjects(ctx context.Context, username string, minStars int) ([]OwnedProject, error)
 }

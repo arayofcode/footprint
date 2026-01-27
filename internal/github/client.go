@@ -10,12 +10,17 @@ import (
 )
 
 type Client struct {
-	gv4 *githubv4.Client
+	gv4        *githubv4.Client
+	strategies []domain.ContributionStrategy
 }
 
 func NewClient(gv4Client *githubv4.Client) *Client {
 	return &Client{
 		gv4: gv4Client,
+		strategies: []domain.ContributionStrategy{
+			NewPullRequestAuthoredStrategy(gv4Client),
+			NewPullRequestReviewedStrategy(gv4Client),
+		},
 	}
 }
 
@@ -41,11 +46,40 @@ func (c *Client) FetchExternalContributions(ctx context.Context, username string
 		}
 	}
 
-	// Use search to find specific high-impact authored PRs, excluding self-owned repos
-	authoredPRs, searchAuthoredCount, err := c.searchPRsWithCount(ctx, fmt.Sprintf("author:%s type:pr -user:%s", username, username))
-	if err == nil {
-		if searchAuthoredCount > stats.TotalPRs {
-			stats.TotalPRs = searchAuthoredCount
+	// Fetch contributions using strategies
+	eventMap := make(map[string]domain.ContributionEvent)
+	uniqueRepos := make(map[string]bool)
+
+	for _, strategy := range c.strategies {
+		events, err := strategy.Fetch(ctx, username)
+		if err != nil {
+			// Log error but continue with other strategies?
+			// For now, let's just log or ignore, or maybe partial failure is okay.
+			// The original code treated errors in search as "nil" result (sometimes).
+			// But let's be robust.
+			continue
+		}
+
+		// Update stats if this strategy found more items than global stats
+		// (Legacy logic adaptation: originally we updated stats.TotalPRs based on search count)
+		// Here we only know the count of events found.
+		if strategy.Name() == domain.ContributionTypePR {
+			if len(events) > stats.TotalPRs {
+				stats.TotalPRs = len(events)
+			}
+		}
+
+		for _, e := range events {
+			uniqueRepos[e.Repo] = true
+			if _, ok := eventMap[e.ID]; ok {
+				// preserve existing logic: reviews might overwrite or be handled specifically
+				// For now, last writer wins, which mimics previous behavior if Review strategy is last
+				// But we need to ensure the Type is correct. The strategy sets the Type.
+				// So if we have duplicates, the last strategy's version key wins.
+				eventMap[e.ID] = e
+			} else {
+				eventMap[e.ID] = e
+			}
 		}
 	}
 
@@ -55,30 +89,6 @@ func (c *Client) FetchExternalContributions(ctx context.Context, username string
 	}
 	if allTimeRepos > stats.TotalReposCount {
 		stats.TotalReposCount = allTimeRepos
-	}
-
-	reviewedPRs, _, err := c.searchPRsWithCount(ctx, fmt.Sprintf("reviewer:%s type:pr -user:%s", username, username))
-	if err != nil {
-		reviewedPRs = nil
-	}
-
-	// Consolidate events
-	eventMap := make(map[string]domain.ContributionEvent)
-	uniqueRepos := make(map[string]bool)
-
-	for _, e := range authoredPRs {
-		eventMap[e.ID] = e
-		uniqueRepos[e.Repo] = true
-	}
-	for _, e := range reviewedPRs {
-		uniqueRepos[e.Repo] = true
-		if val, ok := eventMap[e.ID]; ok {
-			val.Type = domain.ContributionTypeReview
-			eventMap[e.ID] = val
-		} else {
-			e.Type = domain.ContributionTypeReview
-			eventMap[e.ID] = e
-		}
 	}
 
 	// Ensure the repo count covers the unique repos we found in search
@@ -168,7 +178,6 @@ func (c *Client) fetchUser(ctx context.Context, username string) (domain.User, i
 	}, q.User.PullRequests.TotalCount, q.User.RepositoriesContributedTo.TotalCount, nil
 }
 
-
 func (c *Client) FetchOwnedProjects(ctx context.Context, username string, minStars int) ([]domain.OwnedProject, error) {
 	var projects []domain.OwnedProject
 	variables := map[string]any{
@@ -229,78 +238,4 @@ type ownedRepoQuery struct {
 		} `graphql:"repositories(first: 100, ownerAffiliations: OWNER, after: $cursor)"`
 		AvatarURL githubv4.URI `graphql:"avatarUrl"`
 	} `graphql:"user(login: $login)"`
-}
-
-type prSearchQuery struct {
-	Search struct {
-		IssueCount int
-		Nodes      []struct {
-			PullRequest struct {
-				ID         string
-				Title      string
-				URL        string
-				CreatedAt  githubv4.DateTime
-				State      githubv4.PullRequestState
-				Merged     bool
-				Repository struct {
-					NameWithOwner  string
-					StargazerCount int
-					ForkCount      int
-					Owner          struct {
-						AvatarURL githubv4.URI `graphql:"avatarUrl"`
-					}
-				}
-				Reactions struct {
-					TotalCount int
-				} `graphql:"reactions(content: THUMBS_UP)"` // Just counting thumbs up for now as a proxy, or use total if available
-			} `graphql:"... on PullRequest"`
-		}
-		PageInfo struct {
-			EndCursor   githubv4.String
-			HasNextPage bool
-		}
-	} `graphql:"search(query: $query, type: ISSUE, first: 100, after: $cursor)"`
-}
-
-func (c *Client) searchPRsWithCount(ctx context.Context, queryStr string) ([]domain.ContributionEvent, int, error) {
-	var allEvents []domain.ContributionEvent
-	totalCount := 0
-	variables := map[string]any{
-		"query":  githubv4.String(queryStr),
-		"cursor": (*githubv4.String)(nil),
-	}
-
-	for {
-		var q prSearchQuery
-		err := c.gv4.Query(ctx, &q, variables)
-		if err != nil {
-			return nil, 0, fmt.Errorf("graphql search error: %w", err)
-		}
-
-		totalCount = q.Search.IssueCount
-		for _, node := range q.Search.Nodes {
-			pr := node.PullRequest
-			event := domain.ContributionEvent{
-				ID:                 pr.ID,
-				Type:               domain.ContributionTypePR,
-				Repo:               pr.Repository.NameWithOwner,
-				URL:                pr.URL,
-				Title:              pr.Title,
-				CreatedAt:          pr.CreatedAt.Time,
-				Stars:              pr.Repository.StargazerCount,
-				Forks:              pr.Repository.ForkCount,
-				Merged:             pr.Merged,
-				ReactionsCount:     pr.Reactions.TotalCount,
-				RepoOwnerAvatarURL: pr.Repository.Owner.AvatarURL.String(),
-			}
-			allEvents = append(allEvents, event)
-		}
-
-		if !q.Search.PageInfo.HasNextPage {
-			break
-		}
-		variables["cursor"] = githubv4.NewString(q.Search.PageInfo.EndCursor)
-	}
-
-	return allEvents, totalCount, nil
 }

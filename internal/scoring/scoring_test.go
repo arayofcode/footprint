@@ -72,6 +72,7 @@ func TestScoreOwnedProject_UsesPopularityMultiplier(t *testing.T) {
 	if expected > calculator.Clamp {
 		expected = calculator.Clamp
 	}
+	expected *= OwnershipScore
 
 	assertFloatApprox(t, expected, scored.Score, 1e-9)
 }

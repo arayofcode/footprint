@@ -30,7 +30,7 @@ func TestRenderSummary_IncludesHeaderAndTotals(t *testing.T) {
 	assertContains(t, content, "# OSS Footprint: @ray")
 	assertContains(t, content, "Generated on February 1, 2025")
 	assertContains(t, content, "## Impact Snapshot")
-	assertContains(t, content, "**1** Merged Pull Requests")
+	assertContains(t, content, "**1** PRs Merged")
 	assertContains(t, content, "## Owned Projects")
 	assertContains(t, content, "`me/owned`")
 }
@@ -63,9 +63,9 @@ func TestRenderSummary_FormatsRepositorySection(t *testing.T) {
 	}
 
 	content := string(out)
-	assertContains(t, content, "## Contributions by Repository")
-	assertContains(t, content, "### [`a/b`](https://github.com/a/b)")
-	assertContains(t, content, "*2 contribution(s) (0 merged)*")
+	assertContains(t, content, "## Top Repositories")
+	assertContains(t, content, "### [a/b](https://github.com/a/b/pulls?q=is%3Apr+author%3Aray)")
+	assertContains(t, content, "*Total Impact: **16.7** · 1 PR(s)*")
 	assertContains(t, content, "**[Fix bug](https://github.com/a/b/pull/1)**")
 	assertContains(t, content, "**[File issue](https://github.com/a/b/issues/2)**")
 }
