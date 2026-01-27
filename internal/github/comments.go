@@ -12,6 +12,7 @@ type issueCommentSearchQuery struct {
 	User struct {
 		IssueComments struct {
 			Nodes []struct {
+				Typename   githubv4.String `graphql:"__typename"`
 				ID         string
 				URL        string
 				CreatedAt  githubv4.DateTime

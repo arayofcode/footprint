@@ -12,6 +12,7 @@ type searchQuery struct {
 	Search struct {
 		IssueCount int
 		Nodes      []struct {
+			Typename    githubv4.String `graphql:"__typename"`
 			PullRequest struct {
 				ID         string
 				Title      string
@@ -74,7 +75,8 @@ func searchWithCount(ctx context.Context, client *githubv4.Client, queryStr stri
 
 		totalCount = q.Search.IssueCount
 		for _, node := range q.Search.Nodes {
-			if node.PullRequest.ID != "" {
+			switch node.Typename {
+			case "PullRequest":
 				pr := node.PullRequest
 				event := domain.ContributionEvent{
 					ID:                 pr.ID,
@@ -90,7 +92,7 @@ func searchWithCount(ctx context.Context, client *githubv4.Client, queryStr stri
 					RepoOwnerAvatarURL: pr.Repository.Owner.AvatarURL.String(),
 				}
 				allEvents = append(allEvents, event)
-			} else if node.Issue.ID != "" {
+			case "Issue":
 				issue := node.Issue
 				event := domain.ContributionEvent{
 					ID:                 issue.ID,

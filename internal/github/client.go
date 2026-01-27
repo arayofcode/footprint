@@ -21,18 +21,14 @@ func NewClient(gv4Client *githubv4.Client) *Client {
 			NewPullRequestAuthoredStrategy(gv4Client),
 			NewPullRequestReviewedStrategy(gv4Client),
 			NewPullRequestCommentStrategy(gv4Client),
-			// NewIssueAuthoredStrategy(gv4Client),
+			NewIssueAuthoredStrategy(gv4Client),
 			NewIssueCommentsStrategy(gv4Client),
 		},
 	}
 }
 
 func (c *Client) FetchExternalContributions(ctx context.Context, username string) (domain.User, domain.UserStats, []domain.ContributionEvent, error) {
-	user, allTimePRs, allTimeRepos, err := c.fetchUser(ctx, username)
-
-	// TODO: Remove once it has been determined if these would be used
-	_ = allTimePRs
-	_ = allTimeRepos
+	user, _, _, err := c.fetchUser(ctx, username)
 
 	if err != nil {
 		return domain.User{}, domain.UserStats{}, nil, err
@@ -61,21 +57,8 @@ func (c *Client) FetchExternalContributions(ctx context.Context, username string
 	for _, strategy := range c.strategies {
 		events, err := strategy.Fetch(ctx, username)
 		if err != nil {
-			// Log error but continue with other strategies?
-			// For now, let's just log or ignore, or maybe partial failure is okay.
-			// The original code treated errors in search as "nil" result (sometimes).
-			// But let's be robust.
 			continue
 		}
-
-		// Update stats if this strategy found more items than global stats
-		// (Legacy logic adaptation: originally we updated stats.TotalPRs based on search count)
-		// Here we only know the count of events found.
-		// if strategy.Name() == domain.ContributionTypePR {
-		// 	if len(events) > stats.TotalPRs {
-		// 		stats.TotalPRs = len(events)
-		// 	}
-		// }
 
 		for _, e := range events {
 			uniqueRepos[e.Repo] = true
@@ -90,19 +73,6 @@ func (c *Client) FetchExternalContributions(ctx context.Context, username string
 			}
 		}
 	}
-
-	// Apply all-time totals if they are higher (most robust source)
-	// if allTimePRs > stats.TotalPRs {
-	// 	stats.TotalPRs = allTimePRs
-	// }
-	// if allTimeRepos > stats.TotalReposCount {
-	// 	stats.TotalReposCount = allTimeRepos
-	// }
-
-	// Ensure the repo count covers the unique repos we found in search
-	// if len(uniqueRepos) > stats.TotalReposCount {
-	// 	stats.TotalReposCount = len(uniqueRepos)
-	// }
 
 	allEvents := make([]domain.ContributionEvent, 0, len(eventMap))
 	for _, e := range eventMap {
