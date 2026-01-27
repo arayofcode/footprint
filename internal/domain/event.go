@@ -10,6 +10,7 @@ type ContributionType string
 
 const (
 	ContributionTypePR                ContributionType = "PR"
+	ContributionTypePRComment         ContributionType = "PR_COMMENT"
 	ContributionTypeIssue             ContributionType = "ISSUE"
 	ContributionTypeIssueComment      ContributionType = "ISSUE_COMMENT"
 	ContributionTypeReview            ContributionType = "REVIEW"

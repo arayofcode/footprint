@@ -2,7 +2,7 @@ package scoring
 
 import (
 	"fmt"
-	
+
 	"github.com/arayofcode/footprint/internal/domain"
 )
 
@@ -16,7 +16,6 @@ var baseContributionScores = map[domain.ContributionType]float64{
 	domain.ContributionTypeDiscussionComment: 2.0,
 }
 
-
 func baseScore(event domain.ContributionEvent) float64 {
 	if score, ok := baseContributionScores[event.Type]; ok {
 		return score
@@ -24,7 +23,6 @@ func baseScore(event domain.ContributionEvent) float64 {
 	fmt.Printf("Score not found for type: %s", event.Type)
 	return 0
 }
-
 
 func (c *Calculator) ScoreContribution(event domain.ContributionEvent) domain.ContributionEvent {
 	base := baseScore(event)

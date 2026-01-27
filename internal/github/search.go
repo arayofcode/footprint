@@ -8,7 +8,7 @@ import (
 	"github.com/shurcooL/githubv4"
 )
 
-type prSearchQuery struct {
+type searchQuery struct {
 	Search struct {
 		IssueCount int
 		Nodes      []struct {
@@ -31,6 +31,24 @@ type prSearchQuery struct {
 					TotalCount int
 				} `graphql:"reactions(content: THUMBS_UP)"`
 			} `graphql:"... on PullRequest"`
+			Issue struct {
+				ID         string
+				Title      string
+				URL        string
+				CreatedAt  githubv4.DateTime
+				State      githubv4.IssueState
+				Repository struct {
+					NameWithOwner  string
+					StargazerCount int
+					ForkCount      int
+					Owner          struct {
+						AvatarURL githubv4.URI `graphql:"avatarUrl"`
+					}
+				}
+				Reactions struct {
+					TotalCount int
+				} `graphql:"reactions(content: THUMBS_UP)"`
+			} `graphql:"... on Issue"`
 		}
 		PageInfo struct {
 			EndCursor   githubv4.String
@@ -39,7 +57,7 @@ type prSearchQuery struct {
 	} `graphql:"search(query: $query, type: ISSUE, first: 100, after: $cursor)"`
 }
 
-func searchPRsWithCount(ctx context.Context, client *githubv4.Client, queryStr string) ([]domain.ContributionEvent, int, error) {
+func searchWithCount(ctx context.Context, client *githubv4.Client, queryStr string) ([]domain.ContributionEvent, int, error) {
 	var allEvents []domain.ContributionEvent
 	totalCount := 0
 	variables := map[string]any{
@@ -48,7 +66,7 @@ func searchPRsWithCount(ctx context.Context, client *githubv4.Client, queryStr s
 	}
 
 	for {
-		var q prSearchQuery
+		var q searchQuery
 		err := client.Query(ctx, &q, variables)
 		if err != nil {
 			return nil, 0, fmt.Errorf("graphql search error: %w", err)
@@ -56,21 +74,38 @@ func searchPRsWithCount(ctx context.Context, client *githubv4.Client, queryStr s
 
 		totalCount = q.Search.IssueCount
 		for _, node := range q.Search.Nodes {
-			pr := node.PullRequest
-			event := domain.ContributionEvent{
-				ID:                 pr.ID,
-				Type:               domain.ContributionTypePR,
-				Repo:               pr.Repository.NameWithOwner,
-				URL:                pr.URL,
-				Title:              pr.Title,
-				CreatedAt:          pr.CreatedAt.Time,
-				Stars:              pr.Repository.StargazerCount,
-				Forks:              pr.Repository.ForkCount,
-				Merged:             pr.Merged,
-				ReactionsCount:     pr.Reactions.TotalCount,
-				RepoOwnerAvatarURL: pr.Repository.Owner.AvatarURL.String(),
+			if node.PullRequest.ID != "" {
+				pr := node.PullRequest
+				event := domain.ContributionEvent{
+					ID:                 pr.ID,
+					Type:               domain.ContributionTypePR,
+					Repo:               pr.Repository.NameWithOwner,
+					URL:                pr.URL,
+					Title:              pr.Title,
+					CreatedAt:          pr.CreatedAt.Time,
+					Stars:              pr.Repository.StargazerCount,
+					Forks:              pr.Repository.ForkCount,
+					Merged:             pr.Merged,
+					ReactionsCount:     pr.Reactions.TotalCount,
+					RepoOwnerAvatarURL: pr.Repository.Owner.AvatarURL.String(),
+				}
+				allEvents = append(allEvents, event)
+			} else if node.Issue.ID != "" {
+				issue := node.Issue
+				event := domain.ContributionEvent{
+					ID:                 issue.ID,
+					Type:               domain.ContributionTypeIssue,
+					Repo:               issue.Repository.NameWithOwner,
+					URL:                issue.URL,
+					Title:              issue.Title,
+					CreatedAt:          issue.CreatedAt.Time,
+					Stars:              issue.Repository.StargazerCount,
+					Forks:              issue.Repository.ForkCount,
+					ReactionsCount:     issue.Reactions.TotalCount,
+					RepoOwnerAvatarURL: issue.Repository.Owner.AvatarURL.String(),
+				}
+				allEvents = append(allEvents, event)
 			}
-			allEvents = append(allEvents, event)
 		}
 
 		if !q.Search.PageInfo.HasNextPage {

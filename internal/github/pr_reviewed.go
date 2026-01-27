@@ -17,8 +17,8 @@ func NewPullRequestReviewedStrategy(client *githubv4.Client) *PullRequestReviewe
 }
 
 func (s *PullRequestReviewedStrategy) Fetch(ctx context.Context, username string) ([]domain.ContributionEvent, error) {
-	query := fmt.Sprintf("reviewer:%s type:pr -user:%s", username, username)
-	events, _, err := searchPRsWithCount(ctx, s.client, query)
+	query := fmt.Sprintf("reviewer:%s -user:%s type:pr", username, username)
+	events, _, err := searchWithCount(ctx, s.client, query)
 	if err != nil {
 		return nil, err
 	}

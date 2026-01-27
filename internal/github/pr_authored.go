@@ -17,8 +17,8 @@ func NewPullRequestAuthoredStrategy(client *githubv4.Client) *PullRequestAuthore
 }
 
 func (s *PullRequestAuthoredStrategy) Fetch(ctx context.Context, username string) ([]domain.ContributionEvent, error) {
-	query := fmt.Sprintf("author:%s type:pr -user:%s", username, username)
-	events, _, err := searchPRsWithCount(ctx, s.client, query)
+	query := fmt.Sprintf("author:%s -user:%s type:pr", username, username)
+	events, _, err := searchWithCount(ctx, s.client, query)
 	if err != nil {
 		return nil, err
 	}
