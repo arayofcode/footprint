@@ -45,10 +45,7 @@ func RunCLI(ctx context.Context, cfg CLIConfig) error {
 		return fmt.Errorf("GITHUB_TOKEN is required for GitHub API access")
 	}
 
-	minStars := cfg.MinStars
-	if minStars == 0 {
-		minStars = 5
-	}
+	minStars := max(cfg.MinStars, 0)
 
 	outputDir := cfg.OutputDir
 	if outputDir == "" {
@@ -56,12 +53,12 @@ func RunCLI(ctx context.Context, cfg CLIConfig) error {
 	}
 
 	clamp := cfg.Clamp
-	if clamp == 0 {
+	if clamp <= 0 {
 		clamp = scoring.DefaultClamp
 	}
 
 	timeout := cfg.Timeout
-	if timeout == 0 {
+	if timeout <= 0 {
 		timeout = 60 * time.Second
 	}
 
