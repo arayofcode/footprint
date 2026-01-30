@@ -3,7 +3,6 @@ package github
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/arayofcode/footprint/internal/domain"
 	"github.com/shurcooL/githubv4"
@@ -28,26 +27,10 @@ func NewClient(gv4Client *githubv4.Client) *Client {
 }
 
 func (c *Client) FetchExternalContributions(ctx context.Context, username string) (domain.User, domain.UserStats, []domain.ContributionEvent, error) {
-	user, _, _, err := c.fetchUser(ctx, username)
+	user, err := c.fetchUser(ctx, username)
 
 	if err != nil {
 		return domain.User{}, domain.UserStats{}, nil, err
-	}
-
-	// Fetch global stats. We loop back 5 years to get a better 'footprint'
-	var stats domain.UserStats
-	now := time.Now()
-	for i := range 5 {
-		yearStats, err := c.fetchUserStatsForYear(ctx, username, now.AddDate(-i, 0, 0))
-		if err == nil {
-			stats.TotalCommits += yearStats.TotalCommits
-			stats.TotalIssues += yearStats.TotalIssues
-			stats.TotalPRs += yearStats.TotalPRs
-			stats.TotalReviews += yearStats.TotalReviews
-			if yearStats.TotalReposCount > stats.TotalReposCount {
-				stats.TotalReposCount = yearStats.TotalReposCount
-			}
-		}
 	}
 
 	// Fetch contributions using strategies
@@ -75,53 +58,25 @@ func (c *Client) FetchExternalContributions(ctx context.Context, username string
 	}
 
 	allEvents := make([]domain.ContributionEvent, 0, len(eventMap))
+	var stats domain.UserStats
+
 	for _, e := range eventMap {
 		allEvents = append(allEvents, e)
+		switch e.Type {
+		case domain.ContributionTypePR:
+			stats.TotalPRs++
+		case domain.ContributionTypeIssue:
+			stats.TotalIssues++
+		case domain.ContributionTypeReview:
+			stats.TotalReviews++
+		}
 	}
+	stats.TotalReposCount = len(uniqueRepos)
 
 	return user, stats, allEvents, nil
 }
 
-func (c *Client) fetchUserStatsForYear(ctx context.Context, username string, date time.Time) (domain.UserStats, error) {
-	var q struct {
-		User struct {
-			ContributionsCollection struct {
-				TotalCommitContributions            int
-				TotalIssueContributions             int
-				TotalPullRequestContributions       int
-				TotalPullRequestReviewContributions int
-				RepositoryContributions             struct {
-					TotalCount int
-				} `graphql:"repositoryContributions(first: 1)"`
-			} `graphql:"contributionsCollection(from: $from, to: $to)"`
-		} `graphql:"user(login: $login)"`
-	}
-
-	// Calculate year range
-	year := date.Year()
-	from := time.Date(year, 1, 1, 0, 0, 0, 0, time.UTC)
-	to := time.Date(year, 12, 31, 23, 59, 59, 0, time.UTC)
-
-	variables := map[string]any{
-		"login": githubv4.String(username),
-		"from":  githubv4.DateTime{Time: from},
-		"to":    githubv4.DateTime{Time: to},
-	}
-	if err := c.gv4.Query(ctx, &q, variables); err != nil {
-		return domain.UserStats{}, err
-	}
-
-	coll := q.User.ContributionsCollection
-	return domain.UserStats{
-		TotalCommits:    coll.TotalCommitContributions,
-		TotalPRs:        coll.TotalPullRequestContributions,
-		TotalIssues:     coll.TotalIssueContributions,
-		TotalReviews:    coll.TotalPullRequestReviewContributions,
-		TotalReposCount: coll.RepositoryContributions.TotalCount,
-	}, nil
-}
-
-func (c *Client) fetchUser(ctx context.Context, username string) (domain.User, int, int, error) {
+func (c *Client) fetchUser(ctx context.Context, username string) (domain.User, error) {
 	var q struct {
 		User struct {
 			Login     string
@@ -132,19 +87,13 @@ func (c *Client) fetchUser(ctx context.Context, username string) (domain.User, i
 			Followers struct {
 				TotalCount int
 			}
-			PullRequests struct {
-				TotalCount int
-			} `graphql:"pullRequests(first: 1)"`
-			RepositoriesContributedTo struct {
-				TotalCount int
-			} `graphql:"repositoriesContributedTo(first: 1)"`
 		} `graphql:"user(login: $login)"`
 	}
 	variables := map[string]any{
 		"login": githubv4.String(username),
 	}
 	if err := c.gv4.Query(ctx, &q, variables); err != nil {
-		return domain.User{}, 0, 0, fmt.Errorf("fetching user info: %w", err)
+		return domain.User{}, fmt.Errorf("fetching user info: %w", err)
 	}
 	return domain.User{
 		Username:  q.User.Login,
@@ -153,7 +102,7 @@ func (c *Client) fetchUser(ctx context.Context, username string) (domain.User, i
 		Company:   q.User.Company,
 		Location:  q.User.Location,
 		Followers: q.User.Followers.TotalCount,
-	}, q.User.PullRequests.TotalCount, q.User.RepositoriesContributedTo.TotalCount, nil
+	}, nil
 }
 
 func (c *Client) FetchOwnedProjects(ctx context.Context, username string, minStars int) ([]domain.OwnedProject, error) {
