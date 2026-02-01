@@ -1,15 +1,17 @@
 {
-  "generatedAt": "2026-01-26T10:36:49.483667473Z",
+  "generatedAt": "2026-02-01T02:01:55.934921867Z",
   "username": "arayofcode",
   "stats": {
-    "TotalCommits": 1427,
-    "TotalPRs": 35,
-    "TotalIssues": 17,
+    "TotalCommits": 0,
+    "TotalPRs": 9,
+    "TotalIssues": 2,
     "TotalReviews": 0,
-    "TotalReposCount": 6
+    "TotalReposCount": 16
   },
-  "totalEvents": 9,
+  "totalEvents": 23,
   "eventsByType": {
+    "ISSUE": 2,
+    "ISSUE_COMMENT": 12,
     "PR": 9
   },
   "events": [
@@ -22,7 +24,7 @@
       "title": "Adding Aryan",
       "created_at": "2022-05-03T06:25:43Z",
       "stars": 1419,
-      "forks": 5865,
+      "forks": 5863,
       "is_merged": true,
       "score": 60
     },
@@ -34,8 +36,8 @@
       "url": "https://github.com/jlord/patchwork/pull/35337",
       "title": "New file added in a different branch",
       "created_at": "2020-06-15T09:13:37Z",
-      "stars": 1145,
-      "forks": 42177,
+      "stars": 1146,
+      "forks": 42182,
       "is_merged": true,
       "score": 60
     },
@@ -60,8 +62,8 @@
       "url": "https://github.com/mvt-project/mvt/pull/56",
       "title": "Updating Documentation for Arch Linux",
       "created_at": "2021-07-21T21:53:07Z",
-      "stars": 12050,
-      "forks": 1179,
+      "stars": 12067,
+      "forks": 1181,
       "score": 40
     },
     {
@@ -72,8 +74,8 @@
       "url": "https://github.com/mvt-project/mvt/pull/24",
       "title": "Updated Documentation",
       "created_at": "2021-07-20T16:49:44Z",
-      "stars": 12050,
-      "forks": 1179,
+      "stars": 12067,
+      "forks": 1181,
       "score": 40
     },
     {
@@ -123,19 +125,189 @@
       "stars": 6,
       "forks": 20,
       "score": 26.720978579357173
+    },
+    {
+      "id": "I_kwDOALUi_87lR2VI",
+      "type": "ISSUE",
+      "repo": "exercism/cli",
+      "repo_owner_avatar_url": "https://avatars.githubusercontent.com/u/5624255?v=4",
+      "url": "https://github.com/exercism/cli/issues/1226",
+      "title": "Configuration/ Token isn't being detected in workspace + Home dir being created inside workspace",
+      "created_at": "2026-01-23T09:37:12Z",
+      "stars": 1397,
+      "forks": 368,
+      "score": 20
+    },
+    {
+      "id": "I_kwDOFExXwM6ZF8Jp",
+      "type": "ISSUE",
+      "repo": "zed-industries/zed",
+      "repo_owner_avatar_url": "https://avatars.githubusercontent.com/u/79345384?v=4",
+      "url": "https://github.com/zed-industries/zed/issues/18770",
+      "title": "Project Panel: Cannot create directory in parent directory within parent directory if path looks like `directory/subdirectory`",
+      "created_at": "2024-10-06T05:23:10Z",
+      "stars": 74450,
+      "forks": 6786,
+      "score": 20
+    },
+    {
+      "id": "IC_kwDOFExXwM6ivnWw",
+      "type": "ISSUE_COMMENT",
+      "repo": "zed-industries/zed",
+      "repo_owner_avatar_url": "https://avatars.githubusercontent.com/u/79345384?v=4",
+      "url": "https://github.com/zed-industries/zed/issues/26881#issuecomment-2730390960",
+      "title": "git: Stage and unstage buttons both enabled at same time in git diff view",
+      "created_at": "2025-03-17T17:50:52Z",
+      "stars": 74450,
+      "forks": 6786,
+      "score": 8
+    },
+    {
+      "id": "IC_kwDOFExXwM6iuTvZ",
+      "type": "ISSUE_COMMENT",
+      "repo": "zed-industries/zed",
+      "repo_owner_avatar_url": "https://avatars.githubusercontent.com/u/79345384?v=4",
+      "url": "https://github.com/zed-industries/zed/issues/26881#issuecomment-2730048473",
+      "title": "git: Stage and unstage buttons both enabled at same time in git diff view",
+      "created_at": "2025-03-17T15:57:34Z",
+      "stars": 74450,
+      "forks": 6786,
+      "score": 8
+    },
+    {
+      "id": "IC_kwDOFExXwM6it8v3",
+      "type": "ISSUE_COMMENT",
+      "repo": "zed-industries/zed",
+      "repo_owner_avatar_url": "https://avatars.githubusercontent.com/u/79345384?v=4",
+      "url": "https://github.com/zed-industries/zed/issues/26881#issuecomment-2729954295",
+      "title": "git: Stage and unstage buttons both enabled at same time in git diff view",
+      "created_at": "2025-03-17T15:27:47Z",
+      "stars": 74450,
+      "forks": 6786,
+      "score": 8
+    },
+    {
+      "id": "IC_kwDOCG5fGM582cYG",
+      "type": "ISSUE_COMMENT",
+      "repo": "testcontainers/testcontainers-go",
+      "repo_owner_avatar_url": "https://avatars.githubusercontent.com/u/13393021?v=4",
+      "url": "https://github.com/testcontainers/testcontainers-go/issues/815#issuecomment-2094646790",
+      "title": "[Bug]: Docs state docker context aware, but does not seem to work",
+      "created_at": "2024-05-05T06:09:39Z",
+      "stars": 4634,
+      "forks": 588,
+      "score": 8
+    },
+    {
+      "id": "IC_kwDOAsF6Tc5459jO",
+      "type": "ISSUE_COMMENT",
+      "repo": "hadolint/hadolint",
+      "repo_owner_avatar_url": "https://avatars.githubusercontent.com/u/34047791?v=4",
+      "url": "https://github.com/hadolint/hadolint/issues/401#issuecomment-2028460238",
+      "title": "Trusted registries don't work correctly for multi-part repo names",
+      "created_at": "2024-03-30T20:19:21Z",
+      "stars": 11899,
+      "forks": 484,
+      "score": 8
+    },
+    {
+      "id": "IC_kwDOAeTMas5Qjyuk",
+      "type": "ISSUE_COMMENT",
+      "repo": "WebGoat/WebGoat",
+      "repo_owner_avatar_url": "https://avatars.githubusercontent.com/u/7718244?v=4",
+      "url": "https://github.com/WebGoat/WebGoat/issues/986#issuecomment-1351560100",
+      "title": "User registration not persistant",
+      "created_at": "2022-12-14T14:53:58Z",
+      "stars": 8897,
+      "forks": 7251,
+      "score": 8
+    },
+    {
+      "id": "IC_kwDODaFum841VkbJ",
+      "type": "ISSUE_COMMENT",
+      "repo": "google/it-cert-automation-practice",
+      "repo_owner_avatar_url": "https://avatars.githubusercontent.com/u/1342004?v=4",
+      "url": "https://github.com/google/it-cert-automation-practice/pull/16022#issuecomment-894846665",
+      "title": "Closes: #1",
+      "created_at": "2021-08-08T19:53:04Z",
+      "stars": 990,
+      "forks": 46176,
+      "score": 8
+    },
+    {
+      "id": "IC_kwDOFwnm3840w96a",
+      "type": "ISSUE_COMMENT",
+      "repo": "mvt-project/mvt",
+      "repo_owner_avatar_url": "https://avatars.githubusercontent.com/u/87478403?v=4",
+      "url": "https://github.com/mvt-project/mvt/issues/51#issuecomment-885251738",
+      "title": "Error: mvt-android download-apks --output",
+      "created_at": "2021-07-22T21:37:14Z",
+      "stars": 12067,
+      "forks": 1181,
+      "reactions_count": 1,
+      "score": 8
+    },
+    {
+      "id": "IC_kwDOFwnm3840uMrr",
+      "type": "ISSUE_COMMENT",
+      "repo": "mvt-project/mvt",
+      "repo_owner_avatar_url": "https://avatars.githubusercontent.com/u/87478403?v=4",
+      "url": "https://github.com/mvt-project/mvt/pull/24#issuecomment-884525803",
+      "title": "Updated Documentation",
+      "created_at": "2021-07-21T21:57:18Z",
+      "stars": 12067,
+      "forks": 1181,
+      "score": 8
+    },
+    {
+      "id": "IC_kwDOFwnm3840uMcw",
+      "type": "ISSUE_COMMENT",
+      "repo": "mvt-project/mvt",
+      "repo_owner_avatar_url": "https://avatars.githubusercontent.com/u/87478403?v=4",
+      "url": "https://github.com/mvt-project/mvt/pull/24#issuecomment-884524848",
+      "title": "Updated Documentation",
+      "created_at": "2021-07-21T21:55:10Z",
+      "stars": 12067,
+      "forks": 1181,
+      "score": 8
+    },
+    {
+      "id": "IC_kwDOHkiYis6el_A_",
+      "type": "ISSUE_COMMENT",
+      "repo": "Green-Software-Foundation/patterns",
+      "repo_owner_avatar_url": "https://avatars.githubusercontent.com/u/84547728?v=4",
+      "url": "https://github.com/Green-Software-Foundation/patterns/issues/346#issuecomment-2660757567",
+      "title": "Catch-22 on using Security Tools to reduce impact of security threats",
+      "created_at": "2025-02-15T05:46:46Z",
+      "stars": 127,
+      "forks": 42,
+      "reactions_count": 1,
+      "score": 6.652671721857502
+    },
+    {
+      "id": "IC_kwDONPTDws6km4AZ",
+      "type": "ISSUE_COMMENT",
+      "repo": "postgres/pgcommitfest",
+      "repo_owner_avatar_url": "https://avatars.githubusercontent.com/u/177543?v=4",
+      "url": "https://github.com/postgres/pgcommitfest/issues/19#issuecomment-2761654297",
+      "title": "Add a free form \"status\" field",
+      "created_at": "2025-03-28T15:11:55Z",
+      "stars": 14,
+      "forks": 21,
+      "score": 5.511749711344983
     }
   ],
   "ownedProjects": [],
   "topRepos": [
     {
+      "repo": "mvt-project/mvt",
+      "impactScore": 104,
+      "prCount": 2
+    },
+    {
       "repo": "cs-ashoka/21-days-of-code",
       "impactScore": 93.52342502775011,
       "prCount": 3
-    },
-    {
-      "repo": "mvt-project/mvt",
-      "impactScore": 80,
-      "prCount": 2
     },
     {
       "repo": "jlord/patchwork",
@@ -148,6 +320,11 @@
       "prCount": 1
     },
     {
+      "repo": "zed-industries/zed",
+      "impactScore": 44,
+      "prCount": 0
+    },
+    {
       "repo": "shanirivers/open-source-mathematics-degree",
       "impactScore": 35.19827993775719,
       "prCount": 1
@@ -156,6 +333,41 @@
       "repo": "hlxsites/prisma-cloud-docs",
       "impactScore": 33.09630167425899,
       "prCount": 1
+    },
+    {
+      "repo": "exercism/cli",
+      "impactScore": 20,
+      "prCount": 0
+    },
+    {
+      "repo": "hadolint/hadolint",
+      "impactScore": 8,
+      "prCount": 0
+    },
+    {
+      "repo": "google/it-cert-automation-practice",
+      "impactScore": 8,
+      "prCount": 0
+    },
+    {
+      "repo": "WebGoat/WebGoat",
+      "impactScore": 8,
+      "prCount": 0
+    },
+    {
+      "repo": "testcontainers/testcontainers-go",
+      "impactScore": 8,
+      "prCount": 0
+    },
+    {
+      "repo": "Green-Software-Foundation/patterns",
+      "impactScore": 6.652671721857502,
+      "prCount": 0
+    },
+    {
+      "repo": "postgres/pgcommitfest",
+      "impactScore": 5.511749711344983,
+      "prCount": 0
     }
   ],
   "externalPRsUrl": "https://github.com/pulls?q=is:pr+author:arayofcode+-user:arayofcode"
