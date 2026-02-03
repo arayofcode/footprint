@@ -209,7 +209,7 @@ func (Renderer) render(ctx context.Context, user domain.User, stats domain.UserS
 
 	if showSections {
 		sectionHeight := 0
-		rowHeight := 50
+		rowHeight := 55
 		if isVertical {
 			rowHeight = 65
 		}
@@ -293,11 +293,13 @@ func (Renderer) render(ctx context.Context, user domain.User, stats domain.UserS
   <rect width="%d" height="%d" rx="16" fill="#1a1a1a" />
   
   <!-- Header -->
-  <g>
-    <image href="%s" x="40" y="25" width="40" height="40" clip-path="url(#avatar-clip)" />
-    <circle cx="60" cy="45" r="20" fill="none" stroke="#22c55e" stroke-width="2"/>
-    <a xlink:href="https://github.com/%s" target="_blank"><text x="95" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="600" fill="white">%s</text></a>
-  </g>
+  <a xlink:href="https://github.com/%s" target="_blank">
+    <g>
+      <image href="%s" x="40" y="25" width="40" height="40" clip-path="url(#avatar-clip)" />
+      <circle cx="60" cy="45" r="20" fill="none" stroke="#22c55e" stroke-width="2"/>
+      <text x="95" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="600" fill="white">%s</text>
+    </g>
+  </a>
   
 %s
   %s
@@ -312,8 +314,9 @@ func (Renderer) render(ctx context.Context, user domain.User, stats domain.UserS
 `,
 		cardWidth, totalHeight, cardWidth, totalHeight,
 		cardWidth, totalHeight,
+		user.Username,
 		userAvatarBase64,
-		user.Username, user.Username,
+		user.Username,
 		statSection,
 		ownedSection,
 		externalSection,
@@ -328,11 +331,10 @@ func (Renderer) render(ctx context.Context, user domain.User, stats domain.UserS
 
 func formatOwnedLandscape(projects []domain.OwnedProject, isVertical bool) string {
 	var s string
-	rowHeight := 50
-	statX := 320
+	rowHeight := 55
+	cardWidth := 340 // Inside section width
 	if isVertical {
-		rowHeight = 65
-		statX = 420
+		cardWidth = 420
 	}
 	for i, p := range projects {
 		y := 35 + (i * rowHeight)
@@ -341,26 +343,28 @@ func formatOwnedLandscape(projects []domain.OwnedProject, isVertical bool) strin
 		s += fmt.Sprintf(`
     <a xlink:href="%s" target="_blank">
       <g transform="translate(0, %d)">
-        <image href="%s" width="24" height="24" clip-path="url(#repo-clip)" x="0" y="0"/>
-        <text x="32" y="10" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" fill="white">%s</text>
-        <g transform="translate(%d, 10)">
-           <text x="0" y="10" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#22c55e">%s</text>
-           <g transform="translate(%d, 0) scale(0.6)" stroke="#22c55e" fill="none">%s</g>
+        <rect width="%d" height="45" rx="10" fill="#1f2937" opacity="0.3" stroke="#374151" stroke-width="1"/>
+        <g transform="translate(10, 10.5)">
+          <image href="%s" width="24" height="24" clip-path="url(#repo-clip)" x="0" y="0"/>
+        </g>
+        <text x="42" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" fill="white">%s</text>
+        <g transform="translate(%d, 10.5)">
+           %s
+           <text x="32" y="16.5" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#22c55e">%s</text>
         </g>
       </g>
     </a>`,
-			html.EscapeString(p.URL), y, repoAvatar, truncate(p.Repo, 30), statX, formatCount(p.Stars), -len(formatCount(p.Stars))*8-15, iconStar)
+			html.EscapeString(p.URL), y, cardWidth, repoAvatar, truncate(p.Repo, 25), cardWidth-85, renderSmallIconBox(iconStar), formatCount(p.Stars))
 	}
 	return s
 }
 
 func formatExternalLandscape(repos []*externalRepoStat, username string, isVertical bool) string {
 	var s string
-	rowHeight := 50
-	badgeX := 320
+	rowHeight := 55
+	cardWidth := 340
 	if isVertical {
-		rowHeight = 65
-		badgeX = 420
+		cardWidth = 420
 	}
 	for i, r := range repos {
 		y := 35 + (i * rowHeight)
@@ -374,7 +378,7 @@ func formatExternalLandscape(repos []*externalRepoStat, username string, isVerti
 			repoName = parts[1]
 		}
 
-		// Build individual clickable contribution badges
+		// Build individual badges
 		type badge struct {
 			count string
 			icon  string
@@ -402,44 +406,39 @@ func formatExternalLandscape(repos []*externalRepoStat, username string, isVerti
 		repoLink := fmt.Sprintf("https://github.com/%s", r.name)
 		s += fmt.Sprintf(`
     <g transform="translate(0, %d)">
+      <rect width="%d" height="45" rx="10" fill="#1f2937" opacity="0.3" stroke="#374151" stroke-width="1"/>
       <a xlink:href="%s" target="_blank">
-        <image href="%s" width="24" height="24" clip-path="url(#repo-clip)" x="0" y="0"/>
-        <text x="32" y="10" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" fill="white">%s</text>
-        <text x="32" y="24" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#9ca3af">%s</text>
+        <g transform="translate(10, 10.5)">
+          <image href="%s" width="24" height="24" clip-path="url(#repo-clip)" x="0" y="0"/>
+        </g>
+        <text x="42" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600" fill="white">%s</text>
+        <text x="42" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#9ca3af">%s</text>
       </a>
-      <g transform="translate(%d, 12)">`,
+      <g transform="translate(%d, 10.5)">`,
 			y,
+			cardWidth,
 			html.EscapeString(repoLink),
 			repoAvatar,
-			html.EscapeString(truncate(repoName, 20)),
+			html.EscapeString(truncate(repoName, 15)),
 			html.EscapeString(truncate(ownerName, 20)),
-			badgeX,
+			cardWidth-10,
 		)
 
 		xOffset := 0
 		for idx, b := range badges {
-			if idx > 0 {
-				s += fmt.Sprintf(`
-        <text x="%d" y="9" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#6b7280"> · </text>`, xOffset)
-				xOffset -= 10
-			}
+			_ = idx
+			countWidth := len(b.count) * 8
+			xOffset -= countWidth + 28
 
-			// Render count
 			s += fmt.Sprintf(`
-        <a xlink:href="%s" target="_blank">
-          <text x="%d" y="9" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#22c55e" style="cursor: pointer;">%s</text>
-        </a>`, html.EscapeString(b.link), xOffset, b.count)
+      <a xlink:href="%s" target="_blank">
+        <g transform="translate(%d, 0)">
+           %s
+           <text x="28" y="16.5" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#22c55e">%s</text>
+        </g>
+      </a>`, html.EscapeString(b.link), xOffset, renderSmallIconBox(b.icon), b.count)
 
-			countWidth := len(b.count) * 6
-			xOffset -= countWidth + 4
-
-			// Render icon
-			s += fmt.Sprintf(`
-        <a xlink:href="%s" target="_blank">
-          <g transform="translate(%d, 0) scale(0.5)" stroke="#22c55e" fill="none">%s</g>
-        </a>`, html.EscapeString(b.link), xOffset-12, b.icon)
-
-			xOffset -= 12 + 8
+			xOffset -= 8 // Small gap between badges
 		}
 		s += `
       </g>
@@ -485,6 +484,14 @@ func fetchAsDataURL(url string) string {
 	}
 	encoded := base64.StdEncoding.EncodeToString(data)
 	return fmt.Sprintf("data:%s;base64,%s", contentType, encoded)
+}
+
+func renderSmallIconBox(icon string) string {
+	return fmt.Sprintf(`
+      <rect width="24" height="24" rx="6" fill="#1f2937" opacity="0.6" stroke="#22c55e" stroke-width="1"/>
+      <g transform="translate(4.5, 4.5) scale(0.6)" stroke="#22c55e" fill="none">
+        %s
+      </g>`, icon)
 }
 
 func formatLargeNum(n int) string {
