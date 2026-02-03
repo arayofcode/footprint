@@ -20,6 +20,7 @@ type issueCommentSearchQuery struct {
 					NameWithOwner  string
 					StargazerCount int
 					ForkCount      int
+					IsPrivate      bool
 					Owner          struct {
 						AvatarURL githubv4.URI `graphql:"avatarUrl"`
 					}
@@ -54,6 +55,9 @@ func searchIssueComments(ctx context.Context, client *githubv4.Client, username 
 		}
 
 		for _, node := range q.User.IssueComments.Nodes {
+			if node.Repository.IsPrivate {
+				continue
+			}
 			event := domain.ContributionEvent{
 				ID:                 node.ID,
 				Type:               domain.ContributionTypeIssueComment,
@@ -89,6 +93,7 @@ type pullRequestCommentSearchQuery struct {
 					NameWithOwner  string
 					StargazerCount int
 					ForkCount      int
+					IsPrivate      bool
 					Owner          struct {
 						AvatarURL githubv4.URI `graphql:"avatarUrl"`
 					}
@@ -123,6 +128,9 @@ func searchPullRequestComments(ctx context.Context, client *githubv4.Client, use
 		}
 
 		for _, node := range q.User.PullRequestComments.Nodes {
+			if node.Repository.IsPrivate {
+				continue
+			}
 			event := domain.ContributionEvent{
 				ID:                 node.ID,
 				Type:               domain.ContributionTypePRComment,
