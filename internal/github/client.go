@@ -19,7 +19,6 @@ func NewClient(gv4Client *githubv4.Client) *Client {
 		strategies: []domain.ContributionStrategy{
 			NewPullRequestAuthoredStrategy(gv4Client),
 			NewPullRequestReviewedStrategy(gv4Client),
-			NewPullRequestCommentStrategy(gv4Client),
 			NewIssueAuthoredStrategy(gv4Client),
 			NewIssueCommentsStrategy(gv4Client),
 		},
@@ -46,10 +45,6 @@ func (c *Client) FetchExternalContributions(ctx context.Context, username string
 		for _, e := range events {
 			uniqueRepos[e.Repo] = true
 			if _, ok := eventMap[e.ID]; ok {
-				// preserve existing logic: reviews might overwrite or be handled specifically
-				// For now, last writer wins, which mimics previous behavior if Review strategy is last
-				// But we need to ensure the Type is correct. The strategy sets the Type.
-				// So if we have duplicates, the last strategy's version key wins.
 				eventMap[e.ID] = e
 			} else {
 				eventMap[e.ID] = e
@@ -69,6 +64,8 @@ func (c *Client) FetchExternalContributions(ctx context.Context, username string
 			stats.TotalIssues++
 		case domain.ContributionTypeReview:
 			stats.TotalReviews++
+		case domain.ContributionTypeIssueComment:
+			stats.TotalIssueComments++
 		}
 	}
 	stats.TotalReposCount = len(uniqueRepos)

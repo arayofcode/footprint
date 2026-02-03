@@ -36,10 +36,19 @@ func (Renderer) RenderSummary(ctx context.Context, user domain.User, stats domai
 	fmt.Fprintf(&sb, "# OSS Footprint: @%s\n\n", user.Username)
 	fmt.Fprintf(&sb, "*Generated on %s*\n\n", generatedAt.Format("January 2, 2006"))
 
+	// Calculate total stars from owned projects
+	totalStars := 0
+	for _, p := range projects {
+		totalStars += p.Stars
+	}
+
 	sb.WriteString("## Impact Snapshot\n\n")
-	fmt.Fprintf(&sb, "- **%d** Popular Projects Owned\n", len(projects))
-	fmt.Fprintf(&sb, "- **%d** Unique Repositories Contributed To\n", len(externalRepos))
-	fmt.Fprintf(&sb, "- **%d** PRs Merged\n\n", mergedPRs)
+	fmt.Fprintf(&sb, "- 🔀 **%d** PRs Opened\n", stats.TotalPRs)
+	fmt.Fprintf(&sb, "- 📋 **%d** PR Reviews\n", stats.TotalReviews)
+	fmt.Fprintf(&sb, "- 🐛 **%d** Issues Opened\n", stats.TotalIssues)
+	fmt.Fprintf(&sb, "- 💬 **%d** Issue Comments\n", stats.TotalIssueComments)
+	fmt.Fprintf(&sb, "- 📦 **%d** Projects Owned\n", len(projects))
+	fmt.Fprintf(&sb, "- ⭐ **%s** Stars Earned\n\n", formatLargeNum(totalStars))
 	fmt.Fprintf(&sb, "[View all external PRs authored by @%s](https://github.com/pulls?q=is%%3Apr+author%%3A%s+-user%%3A%s)\n\n", user.Username, user.Username, user.Username)
 
 	if len(projects) > 0 {

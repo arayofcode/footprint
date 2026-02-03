@@ -21,7 +21,7 @@ func TestRenderSummary_IncludesHeaderAndTotals(t *testing.T) {
 	generatedAt := time.Date(2025, 2, 1, 0, 0, 0, 0, time.UTC)
 	user := domain.User{Username: "ray"}
 
-	out, err := renderer.RenderSummary(context.Background(), user, domain.UserStats{TotalPRs: 1, TotalReposCount: 1}, generatedAt, events, projects)
+	out, err := renderer.RenderSummary(context.Background(), user, domain.UserStats{TotalPRs: 1, TotalReposCount: 1, TotalIssues: 1}, generatedAt, events, projects)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -30,7 +30,8 @@ func TestRenderSummary_IncludesHeaderAndTotals(t *testing.T) {
 	assertContains(t, content, "# OSS Footprint: @ray")
 	assertContains(t, content, "Generated on February 1, 2025")
 	assertContains(t, content, "## Impact Snapshot")
-	assertContains(t, content, "**1** PRs Merged")
+	assertContains(t, content, "🔀 **1** PRs Opened")
+	assertContains(t, content, "🐛 **1** Issues Opened")
 	assertContains(t, content, "## Owned Projects")
 	assertContains(t, content, "`me/owned`")
 }

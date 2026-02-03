@@ -16,11 +16,7 @@ func NewPullRequestCommentStrategy(client *githubv4.Client) *PullRequestCommentS
 }
 
 func (s *PullRequestCommentStrategy) Fetch(ctx context.Context, username string) ([]domain.ContributionEvent, error) {
-	events, err := searchPullRequestComments(ctx, s.client, username)
-	if err != nil {
-		return nil, err
-	}
-	return events, nil
+	return searchPullRequestComments(ctx, s.client, username)
 }
 
 func (s *PullRequestCommentStrategy) Name() domain.ContributionType {

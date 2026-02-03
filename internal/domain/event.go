@@ -41,11 +41,13 @@ type ContributionEvent struct {
 }
 
 type UserStats struct {
-	TotalCommits    int
-	TotalPRs        int
-	TotalIssues     int
-	TotalReviews    int
-	TotalReposCount int
+	TotalCommits       int
+	TotalPRs           int
+	TotalIssues        int
+	TotalReviews       int
+	TotalIssueComments int
+	TotalReposCount    int
+	TotalStarsEarned   int
 }
 
 type OwnedProject struct {

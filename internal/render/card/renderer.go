@@ -28,10 +28,7 @@ func (Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.U
 	_ = ctx
 
 	// 1. Calculate KPIs
-	ownedOSSCount := len(projects)
-
 	externalRepoMap := make(map[string]*externalRepoStat)
-	mergedPRCount := 0
 
 	for _, e := range events {
 		// Only consider truly external contributions
@@ -52,13 +49,37 @@ func (Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.U
 
 		if e.Type == domain.ContributionTypePR {
 			externalRepoMap[e.Repo].prCount++
-			if e.Merged {
-				mergedPRCount++
-			}
 		}
 	}
 
-	externalRepoCount := len(externalRepoMap)
+	// Calculate total stars
+	totalStars := 0
+	for _, p := range projects {
+		totalStars += p.Stars
+	}
+
+	// 6 Stats Grid
+	// Row 1
+	stat1 := renderStatBox(0, 0, "PRs Opened", formatCount(stats.TotalPRs), iconPR, "#22c55e")
+	stat2 := renderStatBox(230, 0, "PR Reviews", formatCount(stats.TotalReviews), iconReview, "#22c55e")
+
+	// Row 2
+	stat3 := renderStatBox(0, 100, "Issues Opened", formatCount(stats.TotalIssues), iconIssue, "#22c55e")
+	stat4 := renderStatBox(230, 100, "Issue Comments", formatCount(stats.TotalIssueComments), iconComment, "#22c55e")
+
+	// Row 3
+	stat5 := renderStatBox(0, 200, "Projects Owned", formatCount(len(projects)), iconProject, "#22c55e")
+	stat6 := renderStatBox(230, 200, "Stars Earned", formatLargeNum(totalStars), iconStar, "#22c55e")
+
+	statSection := fmt.Sprintf(`
+  <g transform="translate(40, 100)">
+    %s
+    %s
+    %s
+    %s
+    %s
+    %s
+  </g>`, stat1, stat2, stat3, stat4, stat5, stat6)
 
 	// 2. Prepare Sections Data
 
@@ -94,7 +115,9 @@ func (Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.U
 	}
 
 	// 3. Dynamic Section Positioning
-	currentY := 225
+	// Stat grid now has 3 rows (0, 100, 200). Ends at 200+70 = 270.
+	// Add gap of 40 -> 310 relative to start (100) -> 410 absolute.
+	currentY := 410
 	ownedSection := ""
 	if len(topOwned) > 0 {
 		ownedSection = fmt.Sprintf(`
@@ -126,7 +149,7 @@ func (Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.U
 
 	// 5. Generate SVG
 	svg := fmt.Sprintf(`<?xml version="1.0" encoding="UTF-8"?>
-<svg width="720" height="%d" viewBox="0 0 720 %d" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="500" height="%d" viewBox="0 0 500 %d" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
     <filter id="glow" x="-50%%" y="-50%%" width="200%%" height="200%%">
       <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
@@ -144,7 +167,7 @@ func (Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.U
   </defs>
   
   <!-- Background -->
-  <rect width="720" height="%d" rx="20" fill="#1a1a1a" />
+  <rect width="500" height="%d" rx="20" fill="#1a1a1a" />
   
   <!-- Header section -->
   <g>
@@ -153,58 +176,18 @@ func (Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.U
     <text x="95" y="58" font-family="system-ui, -apple-system, sans-serif" font-size="26" font-weight="600" fill="white">GitHub Footprint</text>
   </g>
   
-  <!-- Stat boxes -->
-  <g transform="translate(40, 100)">
-    <!-- Box 1: Owned OSS -->
-    <a xlink:href="https://github.com/%s?tab=repositories&amp;q=&amp;type=source&amp;sort=stargazers" target="_blank" style="cursor: pointer;">
-      <g>
-        <rect x="-5" y="-5" width="70" height="70" rx="14" fill="#22c55e" opacity="0.15" filter="url(#glow)"/>
-        <rect width="60" height="60" rx="12" fill="#1f2937" stroke="#22c55e" stroke-width="1.5" opacity="0.9"/>
-        <path d="M 30 15 L 33 25 L 44 25 L 35 32 L 38 43 L 30 36 L 22 43 L 25 32 L 16 25 L 27 25 Z" fill="none" stroke="#22c55e" stroke-width="2" stroke-linejoin="round"/>
-        <text x="75" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="700" fill="white">%d</text>
-        <text x="0" y="85" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#9ca3af">Owned OSS Projects</text>
-      </g>
-    </a>
-    
-    <!-- Box 2: External Repos -->
-    <a xlink:href="https://github.com/pulls?q=is%%3Apr+author%%3A%s+-user%%3A%s" target="_blank" style="cursor: pointer;">
-      <g transform="translate(230, 0)">
-        <rect x="-5" y="-5" width="70" height="70" rx="14" fill="#22c55e" opacity="0.15" filter="url(#glow)"/>
-        <rect width="60" height="60" rx="12" fill="#1f2937" stroke="#22c55e" stroke-width="1.5" opacity="0.9"/>
-        <circle cx="22" cy="20" r="4" fill="none" stroke="#22c55e" stroke-width="2"/>
-        <circle cx="38" cy="20" r="4" fill="none" stroke="#22c55e" stroke-width="2"/>
-        <circle cx="30" cy="45" r="4" fill="none" stroke="#22c55e" stroke-width="2"/>
-        <path d="M 22 24 L 22 30 Q 22 35 30 35 L 30 41" fill="none" stroke="#22c55e" stroke-width="2"/>
-        <path d="M 38 24 L 38 30 Q 38 35 30 35" fill="none" stroke="#22c55e" stroke-width="2"/>
-        <text x="75" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="700" fill="white">%d</text>
-        <text x="0" y="85" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#9ca3af">External Repos</text>
-      </g>
-    </a>
-    
-    <!-- Box 3: PRs merged -->
-    <a xlink:href="https://github.com/pulls?q=is%%3Apr+author%%3A%s+-user%%3A%s+is%%3Amerged" target="_blank" style="cursor: pointer;">
-      <g transform="translate(460, 0)">
-        <rect x="-5" y="-5" width="70" height="70" rx="14" fill="#22c55e" opacity="0.15" filter="url(#glow)"/>
-        <rect width="60" height="60" rx="12" fill="#1f2937" stroke="#22c55e" stroke-width="1.5" opacity="0.9"/>
-        <circle cx="25" cy="20" r="4" fill="#22c55e"/>
-        <line x1="25" y1="24" x2="25" y2="45" stroke="#22c55e" stroke-width="2"/>
-        <circle cx="25" cy="48" r="3" fill="none" stroke="#22c55e" stroke-width="2"/>
-        <path d="M 36 28 L 42 34 L 52 22" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <text x="75" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="700" fill="white">%d</text>
-        <text x="0" y="85" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#9ca3af">PRs merged</text>
-      </g>
-    </a>
-  </g>
+
   
+%s
   %s
   %s
   
   <g transform="translate(40, %d)">
     <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#6b7280">Range: All-time</text>
     <a xlink:href="https://github.com/arayofcode/footprint" target="_blank">
-      <text x="360" y="0" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#22c55e" style="cursor: pointer;">Generated by Footprint</text>
+      <text x="250" y="0" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#22c55e" style="cursor: pointer;">Generated by Footprint</text>
     </a>
-    <text x="640" y="0" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#6b7280">Last Updated %s</text>
+    <text x="420" y="0" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#6b7280">Last Updated %s</text>
   </g>
 </svg>
 `,
@@ -212,14 +195,8 @@ func (Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.U
 		totalHeight,
 		totalHeight,
 		userAvatarBase64,
-		user.Username,
-		ownedOSSCount,
-		user.Username,
-		user.Username,
-		externalRepoCount,
-		user.Username,
-		user.Username,
-		mergedPRCount,
+
+		statSection,
 		ownedSection,
 		externalSection,
 		footerY,
@@ -239,7 +216,7 @@ func formatOwned(projects []domain.OwnedProject) string {
       <g transform="translate(0, %d)">
         <image href="%s" width="24" height="24" clip-path="url(#repo-clip)" x="0" y="0"/>
         <text x="35" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="500" fill="white">%s</text>
-        <text x="640" y="18" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#22c55e">%s ★</text>
+        <text x="420" y="18" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#22c55e">%s ★</text>
       </g>
     </a>`,
 			html.EscapeString(p.URL), y, repoAvatar, truncate(p.Repo, 40), formatCount(p.Stars))
@@ -261,7 +238,7 @@ func formatExternal(repos []*externalRepoStat, username string) string {
       <g transform="translate(0, %d)">
         <image href="%s" width="24" height="24" clip-path="url(#repo-clip)" x="0" y="0"/>
         <text x="35" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="500" fill="white">%s</text>
-        <text x="640" y="18" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="600" fill="#22c55e">%d PRs</text>
+        <text x="420" y="18" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="600" fill="#22c55e">%d PRs</text>
       </g>
     </a>`,
 			html.EscapeString(prLink), y, repoAvatar, truncate(r.name, 40), r.prCount)
@@ -307,3 +284,32 @@ func fetchAsDataURL(url string) string {
 	encoded := base64.StdEncoding.EncodeToString(data)
 	return fmt.Sprintf("data:%s;base64,%s", contentType, encoded)
 }
+
+func formatLargeNum(n int) string {
+	if n >= 1000 {
+		return fmt.Sprintf("%.1fk", float64(n)/1000.0)
+	}
+	return fmt.Sprintf("%d", n)
+}
+
+func renderStatBox(x, y int, label, value, iconPath, color string) string {
+	return fmt.Sprintf(`
+    <g transform="translate(%d, %d)">
+      <rect x="-5" y="-5" width="70" height="70" rx="14" fill="%s" opacity="0.15" filter="url(#glow)"/>
+      <rect width="60" height="60" rx="12" fill="#1f2937" stroke="%s" stroke-width="1.5" opacity="0.9"/>
+      <g transform="translate(18, 18)">
+        <path d="%s" fill="none" stroke="%s" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+      <text x="75" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="700" fill="white">%s</text>
+      <text x="75" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#9ca3af" letter-spacing="0.5">%s</text>
+    </g>`, x, y, color, color, iconPath, color, value, strings.ToUpper(label))
+}
+
+const (
+	iconPR      = "M6 3v12M18 9v12M6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z m12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"                                 // Git branch-ish
+	iconReview  = "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"                          // Clipboard-ish
+	iconIssue   = "M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2m0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8m-1-5h2m-2-4h2m-4 4h2M9 9h2m-2 4h2m4-4h2m-2 4h2"                                                                 // Bug/Circle-ish
+	iconComment = "M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" // Message bubble
+	iconProject = "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z M3.27 6.96L12 12.01l8.73-5.05 M12 22.08V12"                     // Box/Package
+	iconStar    = "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"                                                                                             // Star
+)
