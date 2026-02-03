@@ -85,6 +85,33 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 		if err := g.Writer.Write(ctx, "card.svg", cardSVG); err != nil {
 			return fmt.Errorf("writing card.svg: %w", err)
 		}
+
+		// Minimal card
+		minimalSVG, err := g.CardRenderer.RenderMinimalCard(ctx, user, stats, generatedAt, events, projects)
+		if err != nil {
+			return fmt.Errorf("rendering minimal card: %w", err)
+		}
+		if err := g.Writer.Write(ctx, "card-minimal.svg", minimalSVG); err != nil {
+			return fmt.Errorf("writing card-minimal.svg: %w", err)
+		}
+
+		// Extended card
+		extendedSVG, err := g.CardRenderer.RenderExtendedCard(ctx, user, stats, generatedAt, events, projects)
+		if err != nil {
+			return fmt.Errorf("rendering extended card: %w", err)
+		}
+		if err := g.Writer.Write(ctx, "card-extended.svg", extendedSVG); err != nil {
+			return fmt.Errorf("writing card-extended.svg: %w", err)
+		}
+
+		// Extended-minimal card
+		extMinimalSVG, err := g.CardRenderer.RenderExtendedMinimalCard(ctx, user, stats, generatedAt, events, projects)
+		if err != nil {
+			return fmt.Errorf("rendering extended-minimal card: %w", err)
+		}
+		if err := g.Writer.Write(ctx, "card-extended-minimal.svg", extMinimalSVG); err != nil {
+			return fmt.Errorf("writing card-extended-minimal.svg: %w", err)
+		}
 	}
 
 	return nil

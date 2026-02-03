@@ -69,5 +69,7 @@ jobs:
 
 ## Roadmap & Areas for Improvement
 
-- **More Contribution Types**: Add support for Issues, Issue Comments, Reviews, and Discussions.
-- **Activity Analytics**: Improve scoring using activities like `comment referenced in PR`, `comment marked as answer`, upvotes on issue created by user, etc.
+- **More Contribution Types**: Discussions, Wiki edits, and Gist activity.
+- **Activity Analytics**: Refine scoring using metadata like `merged by`, `pushed to main`, or `tagged as help wanted`.
+- **Reaction Indexing**: Incorporate emoji reactions for qualitative impact assessment.
+- **Custom Themes**: Add themes (Dark/Light/Glassmorphism) to the SVG card.

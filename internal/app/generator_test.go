@@ -105,6 +105,27 @@ func (f *fakeCardRenderer) RenderCard(ctx context.Context, user domain.User, sta
 	return []byte("card"), nil
 }
 
+func (f *fakeCardRenderer) RenderMinimalCard(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
+	if f.err != nil {
+		return nil, f.err
+	}
+	return []byte("minimal-card"), nil
+}
+
+func (f *fakeCardRenderer) RenderExtendedCard(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
+	if f.err != nil {
+		return nil, f.err
+	}
+	return []byte("extended-card"), nil
+}
+
+func (f *fakeCardRenderer) RenderExtendedMinimalCard(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
+	if f.err != nil {
+		return nil, f.err
+	}
+	return []byte("extended-minimal-card"), nil
+}
+
 type fakeWriter struct {
 	writes map[string][]byte
 	err    error

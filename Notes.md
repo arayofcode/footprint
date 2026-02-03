@@ -53,9 +53,7 @@ This makes setup extremely simple:
 
 ## 5) Scope
 
-### v0 Scope (Current)
-
-Footprint v0 focuses on two buckets:
+Footprint currently focuses on two buckets:
 
 #### A) **Owned OSS Projects ("Project Score")**
 
@@ -63,10 +61,10 @@ These are repositories that the user owns and that meet a minimal popularity thr
 
 * repo owner is the user
 * repo is public
-* repo is not a fork (recommended)
+* repo is not a fork
 * **stars ≥ 5** (configurable)
 
-**Owned projects are *not* treated as contribution events** to avoid inflating contribution score via self activity.
+**Owned projects are *not* treated as contribution events** to avoid self-inflation. The card displays these with a clean layout focused on repo name and star count.
 
 #### B) **External Contributions ("Contribution Score")**
 

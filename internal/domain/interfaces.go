@@ -43,6 +43,9 @@ type SummaryRenderer interface {
 
 type CardRenderer interface {
 	RenderCard(ctx context.Context, user User, stats UserStats, generatedAt time.Time, events []ContributionEvent, projects []OwnedProject) ([]byte, error)
+	RenderMinimalCard(ctx context.Context, user User, stats UserStats, generatedAt time.Time, events []ContributionEvent, projects []OwnedProject) ([]byte, error)
+	RenderExtendedCard(ctx context.Context, user User, stats UserStats, generatedAt time.Time, events []ContributionEvent, projects []OwnedProject) ([]byte, error)
+	RenderExtendedMinimalCard(ctx context.Context, user User, stats UserStats, generatedAt time.Time, events []ContributionEvent, projects []OwnedProject) ([]byte, error)
 }
 
 type OutputWriter interface {

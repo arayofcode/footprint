@@ -38,6 +38,11 @@ func TestRenderCard_GeneratesSVGWithStats(t *testing.T) {
 		t.Error("expected SVG output")
 	}
 
+	// Check for landscape dimensions (800px wide)
+	if !strings.Contains(svg, `width="800"`) {
+		t.Error("expected landscape width of 800")
+	}
+
 	// Check for new stats labels
 	expectedLabels := []string{
 		"PRS OPENED",
@@ -61,13 +66,119 @@ func TestRenderCard_GeneratesSVGWithStats(t *testing.T) {
 		t.Error("expected SVG to contain Star count 10")
 	}
 
-	// Check for owned section
-	if !strings.Contains(svg, "Owned Projects") {
-		t.Error("expected SVG to contain 'Owned Projects' section")
+	// Standard card should NOT contain sections
+	if strings.Contains(svg, "TOP PROJECTS CREATED") {
+		t.Error("standard card should not contain 'TOP PROJECTS CREATED' section")
+	}
+	if strings.Contains(svg, "KEY CONTRIBUTIONS") {
+		t.Error("standard card should not contain 'KEY CONTRIBUTIONS' section")
+	}
+}
+
+func TestRenderMinimalCard_HidesZeroStats(t *testing.T) {
+	renderer := Renderer{}
+	user := domain.User{Username: "ray"}
+	stats := domain.UserStats{
+		TotalPRs:           5,
+		TotalReviews:       0, // Zero - should be hidden
+		TotalIssues:        2,
+		TotalIssueComments: 0, // Zero - should be hidden
 	}
 
-	// Check for external repos section (from events)
-	if !strings.Contains(svg, "Top Repositories") {
-		t.Error("expected SVG to contain 'Top Repositories' section")
+	out, err := renderer.RenderMinimalCard(context.Background(), user, stats, time.Now(), nil, nil)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+
+	svg := string(out)
+
+	// Should contain non-zero labels
+	if !strings.Contains(svg, "PRS OPENED") {
+		t.Error("expected SVG to contain 'PRS OPENED'")
+	}
+	if !strings.Contains(svg, "ISSUES OPENED") {
+		t.Error("expected SVG to contain 'ISSUES OPENED'")
+	}
+
+	// Should NOT contain zero-value labels
+	if strings.Contains(svg, "PR REVIEWS") {
+		t.Error("expected SVG to hide zero-value 'PR REVIEWS'")
+	}
+	if strings.Contains(svg, "ISSUE COMMENTS") {
+		t.Error("expected SVG to hide zero-value 'ISSUE COMMENTS'")
+	}
+}
+
+func TestRenderExtendedCard_IncludesSections(t *testing.T) {
+	renderer := Renderer{}
+	events := []domain.ContributionEvent{
+		{Type: domain.ContributionTypePR, Repo: "external/repo", Merged: true, Score: 5, RepoOwnerAvatarURL: "https://example.com/avatar.png"},
+	}
+	projects := []domain.OwnedProject{
+		{Repo: "myrepo", Stars: 10, Forks: 2, URL: "https://github.com/ray/myrepo"},
+	}
+	user := domain.User{Username: "ray"}
+	stats := domain.UserStats{TotalPRs: 5}
+
+	out, err := renderer.RenderExtendedCard(context.Background(), user, stats, time.Now(), events, projects)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+
+	svg := string(out)
+
+	// Should contain sections
+	if !strings.Contains(svg, "TOP PROJECTS CREATED") {
+		t.Error("expected SVG to contain 'TOP PROJECTS CREATED' section")
+	}
+	if !strings.Contains(svg, "KEY CONTRIBUTIONS") {
+		t.Error("expected SVG to contain 'KEY CONTRIBUTIONS' section")
+	}
+}
+
+func TestRenderExtendedMinimalCard_HidesEmptySections(t *testing.T) {
+	renderer := Renderer{}
+	user := domain.User{Username: "ray"}
+	stats := domain.UserStats{TotalPRs: 5}
+
+	// No events and no projects - sections should be hidden
+	out, err := renderer.RenderExtendedMinimalCard(context.Background(), user, stats, time.Now(), nil, nil)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+
+	svg := string(out)
+
+	// Should NOT contain sections when empty
+	if strings.Contains(svg, "TOP PROJECTS CREATED") {
+		t.Error("expected SVG to hide 'TOP PROJECTS CREATED' when no projects")
+	}
+	if strings.Contains(svg, "KEY CONTRIBUTIONS") {
+		t.Error("expected SVG to hide 'KEY CONTRIBUTIONS' when no external contributions")
+	}
+}
+
+func TestRenderExtendedMinimalCard_ShiftsExternalToLeft(t *testing.T) {
+	renderer := Renderer{}
+	user := domain.User{Username: "ray"}
+	stats := domain.UserStats{TotalPRs: 5}
+	events := []domain.ContributionEvent{
+		{Type: domain.ContributionTypePR, Repo: "ext/repo", Merged: true, Score: 5},
+	}
+
+	// No projects, but has events. Key Contributions should move to x=40.
+	out, err := renderer.RenderExtendedMinimalCard(context.Background(), user, stats, time.Now(), events, nil)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+
+	svg := string(out)
+
+	// Should contain Key Contributions at x=40
+	if !strings.Contains(svg, `<g transform="translate(40,`) {
+		t.Error("expected section to be at x=40 when left side is empty")
+	}
+	if !strings.Contains(svg, "KEY CONTRIBUTIONS") {
+		t.Error("expected SVG to contain 'KEY CONTRIBUTIONS'")
 	}
 }
