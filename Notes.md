@@ -66,22 +66,15 @@ These are repositories that the user owns and that meet a minimal popularity thr
 
 **Owned projects are *not* treated as contribution events** to avoid self-inflation. The card displays these with a clean layout focused on repo name and star count.
 
-#### B) **External Contributions ("Contribution Score")**
-
-These are activities in repositories the user does **not** own.
-
-* **PRs authored** (primary v0 KPI): Pull Requests opened in external repos.
-* **Merged detection**: PR merged vs unmerged impact boost.
-* **Top External Impact**: Grouped and ranked by **Total Impact Score** (sum of individual contribution scores).
+* **External Contributions ("Contribution Score")**
+    * Activities in repositories the user does **not** own.
+    * **Calculated Scores**: PRs authored, PR Reviews, Issues opened, and Comments (Issue/Review/Discussion).
+    * **Merged detection**: Merged Pull Requests receive a **1.5x score boost**.
+    * **Top External Impact**: Grouped and ranked by **Total Impact Score**.
 
 ---
 
-### v1+ (Planned)
-
-* Issues opened
-* Issue comments
-* PR reviews + review comments
-* Discussions created / replied (if accessible)
+### Planned Features
 * Wiki contributions
 * Reaction-based impact indexing (reactions, references, answer markers)
 
@@ -142,13 +135,11 @@ As a developer who contributes across GitHub, I want to generate a “Footprint�
 3. Normalize into a common `ContributionEvent` format
 4. Compute an impact score (heuristic)
 5. Generate report artifacts (JSON/MD/SVG)
-    * **SVG Card (v0 model)**:
-        * Dynamic height based on visible content.
-        * Omit sections if empty (Owned/External).
-        * Clickable rows:
-            * **Owned**: Links to the repository.
-            * **External**: Links to `https://github.com/{repo}/pulls?q=is:pr+author:{username}`.
-        * Intelligent Icons: Generic icon for owned projects, owner avatar for external impact.
+    * **SVG Card**:
+        * **Modular Design**: Compact "card-within-a-card" rows with rounded corners.
+        * **Interactive Layers**: Entire rows are clickable; individual metrics link to specialized GitHub search queries.
+        * **Grid Alignment**: Standardized metric columns (normalized spacing) for a balanced, professional grid.
+        * **Intelligent Avatars**: Full-circle clipped avatars for users and repositories.
 6. Publish artifacts to an output branch
 7. Provide embed snippet for README/website
 
@@ -206,8 +197,7 @@ Each contribution’s impact score is calculated based on two metrics:
 * `repo_forks`: repository **fork count**
 * **Comment**: issue comment or PR comment (future: discussion comments)
 
-### Base Score (v0)
-
+### Base Score
 Each activity has a different base score:
 
 | Activity     | Base Score |
@@ -217,7 +207,8 @@ Each activity has a different base score:
 | Issue        |          5 |
 | Comment      |          2 |
 
-> Note: Each activity can have several attributes (e.g., merged PR vs unmerged PR, comment referenced by a PR, etc.). These are not used in v0 scoring, but will be incorporated in future iterations.
+### Scoring Attributes
+Each activity can have several attributes (e.g., merged PR vs unmerged PR, comment referenced by a PR, etc.). These contribute to the final impact score by applying multipliers or bonuses.
 
 ### Repo Popularity Multiplier
 
@@ -231,11 +222,9 @@ The log multiplier ensures that the impact score increases sublinearly with the 
 
 **Why `2*forks`:** Forks signal adoption and contributor intent (fork → modify → PR). Fork counts are usually significantly lower than stars, so weighting them higher ensures forks matter noticeably without overpowering stars.
 
-> Optional stability tweak (recommended for v0): clamp the multiplier to avoid extremely large repos skewing results:
->
-> `popularity_multiplier = min(4.0, 1 + log10(1 + repo_stars + 2*repo_forks))`
+`popularity_multiplier = min(4.0, 1 + log10(1 + repo_stars + 2*repo_forks))`
 
-### Future: Reaction / Reference Multiplier (v1+)
+### Future: Reaction / Reference Multiplier
 
 Later, the algorithm may add a reaction/reference multiplier based on:
 
@@ -253,7 +242,7 @@ Later, the algorithm may add a reaction/reference multiplier based on:
 For a sample of users:
 
 * ≥95% of runs successfully generate artifacts
-* ≥30% of discovered events are non-PR events (v1+)
+* ≥30% of discovered events are non-PR events
 * p95 runtime ≤ 60 seconds for typical users
 * ≥20% of users copy the embed snippet (if analytics added)
 

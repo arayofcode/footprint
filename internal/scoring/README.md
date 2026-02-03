@@ -9,7 +9,7 @@ Each activity has a different base score:
 |   Activity   | Base Score |
 |--------------|------------|
 | Pull Request |    10      |
-| PR Review    |     5      |
+| PR Review    |     3      |
 | Issue        |     5      |
 | Comment      |     2      |
 

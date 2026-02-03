@@ -14,7 +14,8 @@ Footprint is a GitHub Action and tool that discovers a user’s public open-sour
 - **Artifact Generation**:
     - `dist/summary.md`: Human-readable portfolio summary.
     - `dist/report.json`: JSON version of your footprint.
-    - `dist/card.svg`: Dynamic, interactive SVG card (v0 model).
+    - `dist/card.svg`: Dynamic, interactive SVG card clickable stats, taking you to exact contributions.
+    - `card-extended.svg`: Rich dashboard view including top projects and external contribution highlights.
 
 ## Usage
 
@@ -69,7 +70,6 @@ jobs:
 
 ## Roadmap & Areas for Improvement
 
-- **More Contribution Types**: Discussions, Wiki edits, and Gist activity.
-- **Activity Analytics**: Refine scoring using metadata like `merged by`, `pushed to main`, or `tagged as help wanted`.
+- **New Data Sources**: Wiki edits, PR comments, Gist activity, and GitHub Discussions.
+- **Detailed Analytics**: Refine scoring using metadata like `merged by`, `pushed to main`, or `tagged as help wanted`.
 - **Reaction Indexing**: Incorporate emoji reactions for qualitative impact assessment.
-- **Custom Themes**: Add themes (Dark/Light/Glassmorphism) to the SVG card.
