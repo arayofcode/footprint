@@ -1,12 +1,14 @@
 {
-  "generatedAt": "2026-02-01T02:01:55.934921867Z",
+  "generatedAt": "2026-02-03T19:05:42.821391275Z",
   "username": "arayofcode",
   "stats": {
     "TotalCommits": 0,
     "TotalPRs": 9,
     "TotalIssues": 2,
     "TotalReviews": 0,
-    "TotalReposCount": 16
+    "TotalIssueComments": 23,
+    "TotalReposCount": 16,
+    "TotalStarsEarned": 0
   },
   "totalEvents": 23,
   "eventsByType": {
@@ -24,7 +26,7 @@
       "title": "Adding Aryan",
       "created_at": "2022-05-03T06:25:43Z",
       "stars": 1419,
-      "forks": 5863,
+      "forks": 5861,
       "is_merged": true,
       "score": 60
     },
@@ -36,8 +38,8 @@
       "url": "https://github.com/jlord/patchwork/pull/35337",
       "title": "New file added in a different branch",
       "created_at": "2020-06-15T09:13:37Z",
-      "stars": 1146,
-      "forks": 42182,
+      "stars": 1147,
+      "forks": 42214,
       "is_merged": true,
       "score": 60
     },
@@ -62,8 +64,8 @@
       "url": "https://github.com/mvt-project/mvt/pull/56",
       "title": "Updating Documentation for Arch Linux",
       "created_at": "2021-07-21T21:53:07Z",
-      "stars": 12067,
-      "forks": 1181,
+      "stars": 12073,
+      "forks": 1182,
       "score": 40
     },
     {
@@ -74,8 +76,8 @@
       "url": "https://github.com/mvt-project/mvt/pull/24",
       "title": "Updated Documentation",
       "created_at": "2021-07-20T16:49:44Z",
-      "stars": 12067,
-      "forks": 1181,
+      "stars": 12073,
+      "forks": 1182,
       "score": 40
     },
     {
@@ -134,7 +136,7 @@
       "url": "https://github.com/exercism/cli/issues/1226",
       "title": "Configuration/ Token isn't being detected in workspace + Home dir being created inside workspace",
       "created_at": "2026-01-23T09:37:12Z",
-      "stars": 1397,
+      "stars": 1398,
       "forks": 368,
       "score": 20
     },
@@ -146,8 +148,8 @@
       "url": "https://github.com/zed-industries/zed/issues/18770",
       "title": "Project Panel: Cannot create directory in parent directory within parent directory if path looks like `directory/subdirectory`",
       "created_at": "2024-10-06T05:23:10Z",
-      "stars": 74450,
-      "forks": 6786,
+      "stars": 74639,
+      "forks": 6810,
       "score": 20
     },
     {
@@ -158,8 +160,8 @@
       "url": "https://github.com/zed-industries/zed/issues/26881#issuecomment-2730390960",
       "title": "git: Stage and unstage buttons both enabled at same time in git diff view",
       "created_at": "2025-03-17T17:50:52Z",
-      "stars": 74450,
-      "forks": 6786,
+      "stars": 74639,
+      "forks": 6810,
       "score": 8
     },
     {
@@ -170,8 +172,8 @@
       "url": "https://github.com/zed-industries/zed/issues/26881#issuecomment-2730048473",
       "title": "git: Stage and unstage buttons both enabled at same time in git diff view",
       "created_at": "2025-03-17T15:57:34Z",
-      "stars": 74450,
-      "forks": 6786,
+      "stars": 74639,
+      "forks": 6810,
       "score": 8
     },
     {
@@ -182,8 +184,8 @@
       "url": "https://github.com/zed-industries/zed/issues/26881#issuecomment-2729954295",
       "title": "git: Stage and unstage buttons both enabled at same time in git diff view",
       "created_at": "2025-03-17T15:27:47Z",
-      "stars": 74450,
-      "forks": 6786,
+      "stars": 74639,
+      "forks": 6810,
       "score": 8
     },
     {
@@ -194,8 +196,8 @@
       "url": "https://github.com/testcontainers/testcontainers-go/issues/815#issuecomment-2094646790",
       "title": "[Bug]: Docs state docker context aware, but does not seem to work",
       "created_at": "2024-05-05T06:09:39Z",
-      "stars": 4634,
-      "forks": 588,
+      "stars": 4639,
+      "forks": 587,
       "score": 8
     },
     {
@@ -206,8 +208,8 @@
       "url": "https://github.com/hadolint/hadolint/issues/401#issuecomment-2028460238",
       "title": "Trusted registries don't work correctly for multi-part repo names",
       "created_at": "2024-03-30T20:19:21Z",
-      "stars": 11899,
-      "forks": 484,
+      "stars": 11910,
+      "forks": 485,
       "score": 8
     },
     {
@@ -218,8 +220,8 @@
       "url": "https://github.com/WebGoat/WebGoat/issues/986#issuecomment-1351560100",
       "title": "User registration not persistant",
       "created_at": "2022-12-14T14:53:58Z",
-      "stars": 8897,
-      "forks": 7251,
+      "stars": 8905,
+      "forks": 7280,
       "score": 8
     },
     {
@@ -230,8 +232,8 @@
       "url": "https://github.com/google/it-cert-automation-practice/pull/16022#issuecomment-894846665",
       "title": "Closes: #1",
       "created_at": "2021-08-08T19:53:04Z",
-      "stars": 990,
-      "forks": 46176,
+      "stars": 991,
+      "forks": 46177,
       "score": 8
     },
     {
@@ -242,8 +244,8 @@
       "url": "https://github.com/mvt-project/mvt/issues/51#issuecomment-885251738",
       "title": "Error: mvt-android download-apks --output",
       "created_at": "2021-07-22T21:37:14Z",
-      "stars": 12067,
-      "forks": 1181,
+      "stars": 12073,
+      "forks": 1182,
       "reactions_count": 1,
       "score": 8
     },
@@ -255,8 +257,8 @@
       "url": "https://github.com/mvt-project/mvt/pull/24#issuecomment-884525803",
       "title": "Updated Documentation",
       "created_at": "2021-07-21T21:57:18Z",
-      "stars": 12067,
-      "forks": 1181,
+      "stars": 12073,
+      "forks": 1182,
       "score": 8
     },
     {
@@ -267,8 +269,8 @@
       "url": "https://github.com/mvt-project/mvt/pull/24#issuecomment-884524848",
       "title": "Updated Documentation",
       "created_at": "2021-07-21T21:55:10Z",
-      "stars": 12067,
-      "forks": 1181,
+      "stars": 12073,
+      "forks": 1182,
       "score": 8
     },
     {
@@ -279,10 +281,10 @@
       "url": "https://github.com/Green-Software-Foundation/patterns/issues/346#issuecomment-2660757567",
       "title": "Catch-22 on using Security Tools to reduce impact of security threats",
       "created_at": "2025-02-15T05:46:46Z",
-      "stars": 127,
+      "stars": 128,
       "forks": 42,
       "reactions_count": 1,
-      "score": 6.652671721857502
+      "score": 6.656759206877475
     },
     {
       "id": "IC_kwDONPTDws6km4AZ",
@@ -340,12 +342,7 @@
       "prCount": 0
     },
     {
-      "repo": "hadolint/hadolint",
-      "impactScore": 8,
-      "prCount": 0
-    },
-    {
-      "repo": "google/it-cert-automation-practice",
+      "repo": "testcontainers/testcontainers-go",
       "impactScore": 8,
       "prCount": 0
     },
@@ -355,13 +352,18 @@
       "prCount": 0
     },
     {
-      "repo": "testcontainers/testcontainers-go",
+      "repo": "google/it-cert-automation-practice",
+      "impactScore": 8,
+      "prCount": 0
+    },
+    {
+      "repo": "hadolint/hadolint",
       "impactScore": 8,
       "prCount": 0
     },
     {
       "repo": "Green-Software-Foundation/patterns",
-      "impactScore": 6.652671721857502,
+      "impactScore": 6.656759206877475,
       "prCount": 0
     },
     {
