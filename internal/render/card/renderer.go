@@ -354,7 +354,7 @@ func formatOwnedLandscape(projects []domain.OwnedProject, isVertical bool) strin
         </g>
       </g>
     </a>`,
-			html.EscapeString(p.URL), y, cardWidth, repoAvatar, truncate(p.Repo, 25), cardWidth-85, renderSmallIconBox(iconStar), formatCount(p.Stars))
+			html.EscapeString(p.URL), y, cardWidth, repoAvatar, truncate(p.Repo, 25), cardWidth-80, renderSmallIconBox(iconStar), formatCount(p.Stars))
 	}
 	return s
 }
@@ -421,15 +421,11 @@ func formatExternalLandscape(repos []*externalRepoStat, username string, isVerti
 			repoAvatar,
 			html.EscapeString(truncate(repoName, 15)),
 			html.EscapeString(truncate(ownerName, 20)),
-			cardWidth-10,
+			cardWidth-5,
 		)
 
-		xOffset := 0
-		for idx, b := range badges {
-			_ = idx
-			countWidth := len(b.count) * 8
-			xOffset -= countWidth + 28
-
+		xOffset := -50
+		for _, b := range badges {
 			s += fmt.Sprintf(`
       <a xlink:href="%s" target="_blank">
         <g transform="translate(%d, 0)">
@@ -437,8 +433,7 @@ func formatExternalLandscape(repos []*externalRepoStat, username string, isVerti
            <text x="28" y="16.5" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#22c55e">%s</text>
         </g>
       </a>`, html.EscapeString(b.link), xOffset, renderSmallIconBox(b.icon), b.count)
-
-			xOffset -= 8 // Small gap between badges
+			xOffset -= 50
 		}
 		s += `
       </g>
