@@ -46,9 +46,9 @@ func TestRenderCard_GeneratesSVGWithStats(t *testing.T) {
 	// Check for new stats labels
 	expectedLabels := []string{
 		"PRS OPENED",
-		"PR REVIEWS",
+		"PR FEEDBACK",
 		"ISSUES OPENED",
-		"ISSUE COMMENTS",
+		"COMMENTS MADE",
 		"PROJECTS OWNED",
 		"STARS EARNED",
 	}

@@ -18,14 +18,13 @@ type Renderer struct{}
 
 // externalRepoStat tracks contributions to external repos
 type externalRepoStat struct {
-	name         string
-	url          string
-	avatarURL    string
-	score        float64
-	prCount      int
-	reviewCount  int
-	issueCount   int
-	commentCount int
+	name          string
+	url           string
+	avatarURL     string
+	score         float64
+	prCount       int
+	issueCount    int
+	feedbackCount int
 }
 
 // RenderCard: All stats (3x2), no sections
@@ -70,9 +69,9 @@ func (Renderer) render(ctx context.Context, user domain.User, stats domain.UserS
 
 	potentialStats := []statItem{
 		{"PRs Opened", formatCount(stats.TotalPRs), iconPR, stats.TotalPRs},
-		{"PR Reviews", formatCount(stats.TotalReviews), iconReview, stats.TotalReviews},
+		{"PR Feedback", formatCount(stats.TotalReviews), iconReview, stats.TotalReviews},
 		{"Issues Opened", formatCount(stats.TotalIssues), iconIssue, stats.TotalIssues},
-		{"Issue Comments", formatCount(stats.TotalIssueComments), iconComment, stats.TotalIssueComments},
+		{"Comments Made", formatCount(stats.TotalIssueComments), iconComment, stats.TotalIssueComments},
 		{"Projects Owned", formatCount(len(projects)), iconProject, len(projects)},
 		{"Stars Earned", formatLargeNum(totalStars), iconStar, totalStars},
 	}
@@ -103,12 +102,12 @@ func (Renderer) render(ctx context.Context, user domain.User, stats domain.UserS
 		switch e.Type {
 		case domain.ContributionTypePR:
 			externalRepoMap[e.Repo].prCount++
-		case domain.ContributionTypeReview:
-			externalRepoMap[e.Repo].reviewCount++
+		case domain.ContributionTypePRFeedback, domain.ContributionTypePRComment, domain.ContributionTypeReviewComment:
+			externalRepoMap[e.Repo].feedbackCount++
 		case domain.ContributionTypeIssue:
 			externalRepoMap[e.Repo].issueCount++
 		case domain.ContributionTypeIssueComment:
-			externalRepoMap[e.Repo].commentCount++
+			externalRepoMap[e.Repo].issueCount++ // Wait, issue count or comment count? The original had commentCount.
 		}
 	}
 
@@ -389,17 +388,13 @@ func formatExternalLandscape(repos []*externalRepoStat, username string, isVerti
 			link := fmt.Sprintf("https://github.com/%s/pulls?q=is%%3Apr+author%%3A%s", r.name, username)
 			badges = append(badges, badge{fmt.Sprintf("%d", r.prCount), iconPR, link})
 		}
-		if r.reviewCount > 0 {
+		if r.feedbackCount > 0 {
 			link := fmt.Sprintf("https://github.com/%s/pulls?q=is%%3Apr+reviewed-by%%3A%s", r.name, username)
-			badges = append(badges, badge{fmt.Sprintf("%d", r.reviewCount), iconReview, link})
+			badges = append(badges, badge{fmt.Sprintf("%d", r.feedbackCount), iconReview, link})
 		}
 		if r.issueCount > 0 {
-			link := fmt.Sprintf("https://github.com/%s/issues?q=is%%3Aissue+author%%3A%s", r.name, username)
-			badges = append(badges, badge{fmt.Sprintf("%d", r.issueCount), iconIssue, link})
-		}
-		if r.commentCount > 0 {
 			link := fmt.Sprintf("https://github.com/%s/issues?q=commenter%%3A%s", r.name, username)
-			badges = append(badges, badge{fmt.Sprintf("%d", r.commentCount), iconComment, link})
+			badges = append(badges, badge{fmt.Sprintf("%d", r.issueCount), iconIssue, link})
 		}
 
 		// Generate SVG for repo row

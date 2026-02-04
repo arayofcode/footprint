@@ -24,11 +24,11 @@ func (s *PullRequestReviewedStrategy) Fetch(ctx context.Context, username string
 	}
 	// Mark events as reviews
 	for i := range events {
-		events[i].Type = domain.ContributionTypeReview
+		events[i].Type = domain.ContributionTypePRFeedback
 	}
 	return events, nil
 }
 
 func (s *PullRequestReviewedStrategy) Name() domain.ContributionType {
-	return domain.ContributionTypeReview
+	return domain.ContributionTypePRFeedback
 }

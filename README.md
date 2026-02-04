@@ -5,7 +5,7 @@ Footprint is a GitHub Action and tool that discovers a user’s public open-sour
 ## Features
 
 - **Deep Discovery**: Finds contributions across GitHub, focusing on impact beyond just code ownership.
-    - **Contributions**: PRs opened, PRs reviewed, Issues opened, and Issue comments.
+    - **Contributions**: PRs opened, PR feedback (comments/ reviews), Issues opened, and Issue comments.
     - **Highlighting**: Top external contributions (ranked by impact) + owned repo highlights (ranked by stars).
 - **Impact & Quality**:
     - **Merged Bonus**: Merged Pull Requests receive a **1.5x bonus** to prioritize landing code.

@@ -13,7 +13,7 @@ const (
 	ContributionTypePRComment         ContributionType = "PR_COMMENT"
 	ContributionTypeIssue             ContributionType = "ISSUE"
 	ContributionTypeIssueComment      ContributionType = "ISSUE_COMMENT"
-	ContributionTypeReview            ContributionType = "REVIEW"
+	ContributionTypePRFeedback        ContributionType = "PR_FEEDBACK"
 	ContributionTypeReviewComment     ContributionType = "REVIEW_COMMENT"
 	ContributionTypeDiscussion        ContributionType = "DISCUSSION"
 	ContributionTypeDiscussionComment ContributionType = "DISCUSSION_COMMENT"

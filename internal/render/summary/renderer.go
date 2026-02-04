@@ -146,7 +146,7 @@ func formatEvent(event domain.ContributionEvent) string {
 		icon = "🐛"
 	case domain.ContributionTypeIssueComment:
 		icon = "💬"
-	case domain.ContributionTypeReview:
+	case domain.ContributionTypePRFeedback:
 		icon = "👀"
 	case domain.ContributionTypeReviewComment:
 		icon = "💭"

@@ -68,7 +68,7 @@ These are repositories that the user owns and that meet a minimal popularity thr
 
 * **External Contributions ("Contribution Score")**
     * Activities in repositories the user does **not** own.
-    * **Calculated Scores**: PRs authored, PR Reviews, Issues opened, and Comments (Issue/Review/Discussion).
+    * **Calculated Scores**: PRs authored, PR Feedback (Reviews/Comments), Issues opened, and Comments.
     * **Merged detection**: Merged Pull Requests receive a **1.5x score boost**.
     * **Top External Impact**: Grouped and ranked by **Total Impact Score**.
 
@@ -161,7 +161,7 @@ As a developer who contributes across GitHub, I want to generate a “Footprint�
 ### ContributionEvent (external activity)
 
 * `id` (stable; recommended: `<owner>/<repo>#<number>` for PRs)
-* `type` (PR | ISSUE | ISSUE_COMMENT | REVIEW | REVIEW_COMMENT | DISCUSSION | DISCUSSION_COMMENT)
+* `type` (PR | ISSUE | ISSUE_COMMENT | PR_FEEDBACK | PR_COMMENT | DISCUSSION | DISCUSSION_COMMENT)
 * `repo` (owner/name)
 * `url`
 * `title` (if applicable)
@@ -200,10 +200,8 @@ Each contribution’s impact score is calculated based on two metrics:
 ### Base Score
 Each activity has a different base score:
 
-| Activity     | Base Score |
-| ------------ | ---------: |
 | Pull Request |         10 |
-| PR Review    |          3 |
+| PR Feedback  |          3 |
 | Issue        |          5 |
 | Comment      |          2 |
 

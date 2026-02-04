@@ -3,6 +3,7 @@ package github
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/arayofcode/footprint/internal/domain"
 	"github.com/shurcooL/githubv4"
@@ -26,7 +27,8 @@ type issueCommentSearchQuery struct {
 					}
 				}
 				Issue struct {
-					Title string
+					Typename githubv4.String `graphql:"__typename"`
+					Title    string
 				}
 				Reactions struct {
 					TotalCount int
@@ -58,9 +60,13 @@ func searchIssueComments(ctx context.Context, client *githubv4.Client, username 
 			if node.Repository.IsPrivate {
 				continue
 			}
+			cType := domain.ContributionTypeIssueComment
+			if strings.Contains(node.URL, "/pull/") {
+				cType = domain.ContributionTypePRComment
+			}
 			event := domain.ContributionEvent{
 				ID:                 node.ID,
-				Type:               domain.ContributionTypeIssueComment,
+				Type:               cType,
 				Repo:               node.Repository.NameWithOwner,
 				URL:                node.URL,
 				Title:              node.Issue.Title,

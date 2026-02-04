@@ -62,7 +62,7 @@ func (c *Client) FetchExternalContributions(ctx context.Context, username string
 			stats.TotalPRs++
 		case domain.ContributionTypeIssue:
 			stats.TotalIssues++
-		case domain.ContributionTypeReview:
+		case domain.ContributionTypePRFeedback, domain.ContributionTypePRComment, domain.ContributionTypeReviewComment:
 			stats.TotalReviews++
 		case domain.ContributionTypeIssueComment:
 			stats.TotalIssueComments++
