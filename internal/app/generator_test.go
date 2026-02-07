@@ -15,15 +15,15 @@ type fakeFetcher struct {
 	err    error
 }
 
-func (f fakeFetcher) FetchExternalContributions(ctx context.Context, username string) (domain.User, domain.UserStats, []domain.ContributionEvent, error) {
+func (f fakeFetcher) FetchExternalContributions(ctx context.Context, username string) (domain.User, []domain.ContributionEvent, error) {
 	if f.err != nil {
-		return domain.User{}, domain.UserStats{}, nil, f.err
+		return domain.User{}, nil, f.err
 	}
 	u := f.user
 	if u.Username == "" {
 		u.Username = username
 	}
-	return u, domain.UserStats{TotalPRs: 72}, f.events, nil
+	return u, f.events, nil
 }
 
 type fakeProjects struct {

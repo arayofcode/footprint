@@ -27,7 +27,7 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 		return fmt.Errorf("generator dependencies are not fully configured")
 	}
 
-	user, stats, events, err := g.Fetcher.FetchExternalContributions(ctx, username)
+	user, events, err := g.Fetcher.FetchExternalContributions(ctx, username)
 	if err != nil {
 		return fmt.Errorf("fetching external contributions: %w", err)
 	}
@@ -39,6 +39,20 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 
 	events = scoreContributions(g.Scorer, events)
 	projects = scoreOwnedProjects(g.Scorer, projects)
+
+	// Semantic Pipeline
+	semanticEvents := logic.MapClassify(events)
+	statsView, repoContribs := logic.Aggregate(semanticEvents, projects)
+
+	// Map to legacy UserStats for older renderers
+	stats := domain.UserStats{
+		TotalPRs:           statsView.PRsOpened,
+		TotalReviews:       statsView.PRFeedback,
+		TotalIssues:        statsView.IssuesOpened,
+		TotalIssueComments: statsView.IssueComments,
+		TotalReposCount:    statsView.TotalReposContributedTo,
+		TotalStarsEarned:   statsView.StarsEarned,
+	}
 
 	generatedAt := time.Now()
 
@@ -79,10 +93,7 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 	}
 
 	if g.CardRenderer != nil {
-		// New semantic pipeline
-		semanticEvents := logic.MapClassify(events)
-		statsView, repoContribs := logic.Aggregate(semanticEvents, projects)
-
+		// Used pre-calculated views
 		cardSVG, err := g.CardRenderer.RenderCard(ctx, user, statsView, generatedAt, repoContribs, projects)
 		if err != nil {
 			return fmt.Errorf("rendering card: %w", err)

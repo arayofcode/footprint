@@ -25,11 +25,11 @@ func NewClient(gv4Client *githubv4.Client) *Client {
 	}
 }
 
-func (c *Client) FetchExternalContributions(ctx context.Context, username string) (domain.User, domain.UserStats, []domain.ContributionEvent, error) {
+func (c *Client) FetchExternalContributions(ctx context.Context, username string) (domain.User, []domain.ContributionEvent, error) {
 	user, err := c.fetchUser(ctx, username)
 
 	if err != nil {
-		return domain.User{}, domain.UserStats{}, nil, err
+		return domain.User{}, nil, err
 	}
 
 	// Fetch contributions using strategies
@@ -53,24 +53,11 @@ func (c *Client) FetchExternalContributions(ctx context.Context, username string
 	}
 
 	allEvents := make([]domain.ContributionEvent, 0, len(eventMap))
-	var stats domain.UserStats
-
 	for _, e := range eventMap {
 		allEvents = append(allEvents, e)
-		switch e.Type {
-		case domain.ContributionTypePR:
-			stats.TotalPRs++
-		case domain.ContributionTypeIssue:
-			stats.TotalIssues++
-		case domain.ContributionTypePRFeedback, domain.ContributionTypePRComment, domain.ContributionTypeReviewComment:
-			stats.TotalReviews++
-		case domain.ContributionTypeIssueComment:
-			stats.TotalIssueComments++
-		}
 	}
-	stats.TotalReposCount = len(uniqueRepos)
 
-	return user, stats, allEvents, nil
+	return user, allEvents, nil
 }
 
 func (c *Client) fetchUser(ctx context.Context, username string) (domain.User, error) {

@@ -6,7 +6,7 @@ import (
 )
 
 type EventFetcher interface {
-	FetchExternalContributions(ctx context.Context, username string) (User, UserStats, []ContributionEvent, error)
+	FetchExternalContributions(ctx context.Context, username string) (User, []ContributionEvent, error)
 }
 
 type ContributionStrategy interface {

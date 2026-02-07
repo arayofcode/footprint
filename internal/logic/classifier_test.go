@@ -19,7 +19,7 @@ func TestClassify(t *testing.T) {
 		},
 		{
 			name:     "PR Feedback (Review)",
-			input:    domain.ContributionEvent{Type: domain.ContributionTypePRFeedback},
+			input:    domain.ContributionEvent{Type: domain.ContributionTypePullRequestReview},
 			expected: domain.SemanticEventPrFeedback,
 		},
 		{

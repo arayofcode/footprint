@@ -9,14 +9,14 @@ import (
 type ContributionType string
 
 const (
-	ContributionTypePR                ContributionType = "PR"
-	ContributionTypePRComment         ContributionType = "PR_COMMENT"
-	ContributionTypeIssue             ContributionType = "ISSUE"
-	ContributionTypeIssueComment      ContributionType = "ISSUE_COMMENT"
-	ContributionTypePRFeedback        ContributionType = "PR_FEEDBACK"
-	ContributionTypeReviewComment     ContributionType = "REVIEW_COMMENT"
-	ContributionTypeDiscussion        ContributionType = "DISCUSSION"
-	ContributionTypeDiscussionComment ContributionType = "DISCUSSION_COMMENT"
+	ContributionTypePR                       ContributionType = "PR"
+	ContributionTypePRComment                ContributionType = "PR_COMMENT"
+	ContributionTypeIssue                    ContributionType = "ISSUE"
+	ContributionTypeIssueComment             ContributionType = "ISSUE_COMMENT"
+	ContributionTypePullRequestReview        ContributionType = "REVIEW" // Was PR_FEEDBACK
+	ContributionTypePullRequestReviewComment ContributionType = "REVIEW_COMMENT"
+	ContributionTypeDiscussion               ContributionType = "DISCUSSION"
+	ContributionTypeDiscussionComment        ContributionType = "DISCUSSION_COMMENT"
 )
 
 type ContributionEvent struct {
@@ -34,12 +34,9 @@ type ContributionEvent struct {
 	Snippet            string           `json:"snippet,omitempty"`
 	ReactionsCount     int              `json:"reactions_count,omitempty"`
 	Score              float64          `json:"score,omitempty"`
-
-	// Aggregated fields for repo-level summary
-	CommitCount int `json:"commit_count,omitempty"`
-	ReviewCount int `json:"review_count,omitempty"`
 }
 
+// Deprecated: Use StatsView instead.
 type UserStats struct {
 	TotalCommits       int
 	TotalPRs           int
