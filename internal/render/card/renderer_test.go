@@ -1,6 +1,7 @@
 package card
 
 import (
+	"bytes"
 	"context"
 	"strings"
 	"testing"
@@ -295,5 +296,87 @@ func TestRenderSection_ShowsEmptyMessage(t *testing.T) {
 	svg := renderSection(sec, layout, nil)
 	if !strings.Contains(svg, "Nothing here") {
 		t.Error("expected empty message to be rendered")
+	}
+}
+
+func TestRenderCard_IsDeterministic_WithSections(t *testing.T) {
+	user := domain.User{
+		Username: "ray",
+	}
+
+	stats := domain.StatsView{
+		PRsOpened:               3,
+		PRReviews:               2,
+		IssuesOpened:            1,
+		IssueComments:           4,
+		StarsEarned:             10,
+		TotalReposContributedTo: 2,
+	}
+
+	repos := []domain.RepoContribution{
+		{
+			Repo:         "a/b",
+			PRsOpened:    1,
+			PRReviews:    2,
+			IssuesOpened: 1,
+		},
+		{
+			Repo:          "c/d",
+			PRsOpened:     2,
+			PRReviews:     0,
+			IssueComments: 3,
+		},
+	}
+
+	projects := []domain.OwnedProject{
+		{
+			Repo:  "ray/alpha",
+			Stars: 5,
+		},
+		{
+			Repo:  "ray/beta",
+			Stars: 3,
+		},
+	}
+
+	assets := map[domain.AssetKey]string{
+		domain.UserAvatarKey("ray"):       "data:image/png;base64,USER",
+		domain.RepoAvatarKey("a/b"):       "data:image/png;base64,AB",
+		domain.RepoAvatarKey("c/d"):       "data:image/png;base64,CD",
+		domain.RepoAvatarKey("ray/alpha"): "data:image/png;base64,ALPHA",
+		domain.RepoAvatarKey("ray/beta"):  "data:image/png;base64,BETA",
+	}
+
+	renderer := Renderer{}
+	now := time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC)
+
+	svg1, err := renderer.RenderExtendedCard(
+		context.Background(),
+		user,
+		stats,
+		now,
+		repos,
+		projects,
+		assets,
+	)
+	if err != nil {
+		t.Fatalf("first render failed: %v", err)
+	}
+
+	svg2, err := renderer.RenderExtendedCard(
+		context.Background(),
+		user,
+		stats,
+		now,
+		repos,
+		projects,
+		assets,
+	)
+	if err != nil {
+		t.Fatalf("second render failed: %v", err)
+	}
+
+	if !bytes.Equal(svg1, svg2) {
+		t.Error("expected renderer output to be deterministic, but SVGs differed")
 	}
 }
