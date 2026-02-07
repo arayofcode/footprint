@@ -7,6 +7,7 @@ import (
 
 	"github.com/arayofcode/footprint/internal/domain"
 	"github.com/arayofcode/footprint/internal/github"
+	"github.com/arayofcode/footprint/internal/logic"
 )
 
 type Generator struct {
@@ -78,7 +79,11 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 	}
 
 	if g.CardRenderer != nil {
-		cardSVG, err := g.CardRenderer.RenderCard(ctx, user, stats, generatedAt, events, projects)
+		// New semantic pipeline
+		semanticEvents := logic.MapClassify(events)
+		statsView, repoContribs := logic.Aggregate(semanticEvents, projects)
+
+		cardSVG, err := g.CardRenderer.RenderCard(ctx, user, statsView, generatedAt, repoContribs, projects)
 		if err != nil {
 			return fmt.Errorf("rendering card: %w", err)
 		}
@@ -87,7 +92,7 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 		}
 
 		// Minimal card
-		minimalSVG, err := g.CardRenderer.RenderMinimalCard(ctx, user, stats, generatedAt, events, projects)
+		minimalSVG, err := g.CardRenderer.RenderMinimalCard(ctx, user, statsView, generatedAt, repoContribs, projects)
 		if err != nil {
 			return fmt.Errorf("rendering minimal card: %w", err)
 		}
@@ -96,7 +101,7 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 		}
 
 		// Extended card
-		extendedSVG, err := g.CardRenderer.RenderExtendedCard(ctx, user, stats, generatedAt, events, projects)
+		extendedSVG, err := g.CardRenderer.RenderExtendedCard(ctx, user, statsView, generatedAt, repoContribs, projects)
 		if err != nil {
 			return fmt.Errorf("rendering extended card: %w", err)
 		}
@@ -105,7 +110,7 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 		}
 
 		// Extended-minimal card
-		extMinimalSVG, err := g.CardRenderer.RenderExtendedMinimalCard(ctx, user, stats, generatedAt, events, projects)
+		extMinimalSVG, err := g.CardRenderer.RenderExtendedMinimalCard(ctx, user, statsView, generatedAt, repoContribs, projects)
 		if err != nil {
 			return fmt.Errorf("rendering extended-minimal card: %w", err)
 		}

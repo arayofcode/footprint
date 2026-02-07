@@ -11,19 +11,18 @@ import (
 
 func TestRenderCard_GeneratesSVGWithStats(t *testing.T) {
 	renderer := Renderer{}
-	events := []domain.ContributionEvent{
-		{Type: domain.ContributionTypePR, Repo: "a/b", Merged: true, Score: 5},
-		{Type: domain.ContributionTypeIssue, Repo: "a/b", Score: 2},
+	events := []domain.RepoContribution{
+		{Repo: "a/b", Score: 7},
 	}
 	projects := []domain.OwnedProject{
 		{Repo: "me/owned", Stars: 10, Forks: 2},
 	}
 	user := domain.User{Username: "ray", AvatarURL: "https://example.com/avatar.png"}
-	stats := domain.UserStats{
-		TotalPRs:           5,
-		TotalReviews:       3,
-		TotalIssues:        2,
-		TotalIssueComments: 10,
+	stats := domain.StatsView{
+		PRsOpened:     5,
+		PRFeedback:    3,
+		IssuesOpened:  2,
+		IssueComments: 10,
 	}
 
 	out, err := renderer.RenderCard(context.Background(), user, stats, time.Now(), events, projects)
@@ -78,11 +77,11 @@ func TestRenderCard_GeneratesSVGWithStats(t *testing.T) {
 func TestRenderMinimalCard_HidesZeroStats(t *testing.T) {
 	renderer := Renderer{}
 	user := domain.User{Username: "ray"}
-	stats := domain.UserStats{
-		TotalPRs:           5,
-		TotalReviews:       0, // Zero - should be hidden
-		TotalIssues:        2,
-		TotalIssueComments: 0, // Zero - should be hidden
+	stats := domain.StatsView{
+		PRsOpened:     5,
+		PRFeedback:    0, // Zero - should be hidden
+		IssuesOpened:  2,
+		IssueComments: 0, // Zero - should be hidden
 	}
 
 	out, err := renderer.RenderMinimalCard(context.Background(), user, stats, time.Now(), nil, nil)
@@ -111,14 +110,14 @@ func TestRenderMinimalCard_HidesZeroStats(t *testing.T) {
 
 func TestRenderExtendedCard_IncludesSections(t *testing.T) {
 	renderer := Renderer{}
-	events := []domain.ContributionEvent{
-		{Type: domain.ContributionTypePR, Repo: "external/repo", Merged: true, Score: 5, RepoOwnerAvatarURL: "https://example.com/avatar.png"},
+	events := []domain.RepoContribution{
+		{Repo: "external/repo", Score: 5, AvatarURL: "https://example.com/avatar.png"},
 	}
 	projects := []domain.OwnedProject{
 		{Repo: "myrepo", Stars: 10, Forks: 2, URL: "https://github.com/ray/myrepo"},
 	}
 	user := domain.User{Username: "ray"}
-	stats := domain.UserStats{TotalPRs: 5}
+	stats := domain.StatsView{PRsOpened: 5}
 
 	out, err := renderer.RenderExtendedCard(context.Background(), user, stats, time.Now(), events, projects)
 	if err != nil {
@@ -139,7 +138,7 @@ func TestRenderExtendedCard_IncludesSections(t *testing.T) {
 func TestRenderExtendedMinimalCard_HidesEmptySections(t *testing.T) {
 	renderer := Renderer{}
 	user := domain.User{Username: "ray"}
-	stats := domain.UserStats{TotalPRs: 5}
+	stats := domain.StatsView{PRsOpened: 5}
 
 	// No events and no projects - sections should be hidden
 	out, err := renderer.RenderExtendedMinimalCard(context.Background(), user, stats, time.Now(), nil, nil)
@@ -161,9 +160,9 @@ func TestRenderExtendedMinimalCard_HidesEmptySections(t *testing.T) {
 func TestRenderExtendedMinimalCard_ShiftsExternalToLeft(t *testing.T) {
 	renderer := Renderer{}
 	user := domain.User{Username: "ray"}
-	stats := domain.UserStats{TotalPRs: 5}
-	events := []domain.ContributionEvent{
-		{Type: domain.ContributionTypePR, Repo: "ext/repo", Merged: true, Score: 5},
+	stats := domain.StatsView{PRsOpened: 5}
+	events := []domain.RepoContribution{
+		{Repo: "ext/repo", Score: 5},
 	}
 
 	// No projects, but has events. Key Contributions should move to x=40.

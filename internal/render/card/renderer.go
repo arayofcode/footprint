@@ -28,30 +28,30 @@ type externalRepoStat struct {
 }
 
 // RenderCard: All stats (3x2), no sections
-func (r Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
-	return r.render(ctx, user, stats, generatedAt, events, projects, true, false, false)
+func (r Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject) ([]byte, error) {
+	return r.render(ctx, user, stats, generatedAt, contributions, projects, true, false, false)
 }
 
 // RenderMinimalCard: Non-zero stats only, no sections
-func (r Renderer) RenderMinimalCard(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
-	return r.render(ctx, user, stats, generatedAt, events, projects, false, false, false)
+func (r Renderer) RenderMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject) ([]byte, error) {
+	return r.render(ctx, user, stats, generatedAt, contributions, projects, false, false, false)
 }
 
 // RenderExtendedCard: All stats + both sections
-func (r Renderer) RenderExtendedCard(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
-	return r.render(ctx, user, stats, generatedAt, events, projects, true, true, false)
+func (r Renderer) RenderExtendedCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject) ([]byte, error) {
+	return r.render(ctx, user, stats, generatedAt, contributions, projects, true, true, false)
 }
 
 // RenderExtendedMinimalCard: Non-zero stats + sections only if content exists
-func (r Renderer) RenderExtendedMinimalCard(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
-	return r.render(ctx, user, stats, generatedAt, events, projects, false, true, true)
+func (r Renderer) RenderExtendedMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject) ([]byte, error) {
+	return r.render(ctx, user, stats, generatedAt, contributions, projects, false, true, true)
 }
 
 // render is the core rendering function
 // showAllStats: if false, hide zero-value stats
 // showSections: if true, show Top Repos and Key Contributions
 // minimalSections: if true, hide sections that have no content
-func (Renderer) render(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject, showAllStats bool, showSections bool, minimalSections bool) ([]byte, error) {
+func (Renderer) render(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, showAllStats bool, showSections bool, minimalSections bool) ([]byte, error) {
 	_ = ctx
 
 	// Build stats list
@@ -68,10 +68,10 @@ func (Renderer) render(ctx context.Context, user domain.User, stats domain.UserS
 	}
 
 	potentialStats := []statItem{
-		{"PRs Opened", formatCount(stats.TotalPRs), iconPR, stats.TotalPRs},
-		{"PR Feedback", formatCount(stats.TotalReviews), iconReview, stats.TotalReviews},
-		{"Issues Opened", formatCount(stats.TotalIssues), iconIssue, stats.TotalIssues},
-		{"Comments Made", formatCount(stats.TotalIssueComments), iconComment, stats.TotalIssueComments},
+		{"PRs Opened", formatCount(stats.PRsOpened), iconPR, stats.PRsOpened},
+		{"PR Feedback", formatCount(stats.PRFeedback), iconReview, stats.PRFeedback},
+		{"Issues Opened", formatCount(stats.IssuesOpened), iconIssue, stats.IssuesOpened},
+		{"Comments Made", formatCount(stats.IssueComments), iconComment, stats.IssueComments},
 		{"Projects Owned", formatCount(len(projects)), iconProject, len(projects)},
 		{"Stars Earned", formatLargeNum(totalStars), iconStar, totalStars},
 	}
@@ -80,34 +80,6 @@ func (Renderer) render(ctx context.Context, user domain.User, stats domain.UserS
 	for _, s := range potentialStats {
 		if showAllStats || s.raw > 0 {
 			activeStats = append(activeStats, s)
-		}
-	}
-
-	// Build external repo map for Key Contributions
-	externalRepoMap := make(map[string]*externalRepoStat)
-	for _, e := range events {
-		parts := strings.Split(e.Repo, "/")
-		if len(parts) < 2 || parts[0] == user.Username {
-			continue
-		}
-		if _, ok := externalRepoMap[e.Repo]; !ok {
-			repoURL := fmt.Sprintf("https://github.com/%s", e.Repo)
-			externalRepoMap[e.Repo] = &externalRepoStat{
-				name:      e.Repo,
-				url:       repoURL,
-				avatarURL: e.RepoOwnerAvatarURL,
-			}
-		}
-		externalRepoMap[e.Repo].score += e.Score
-		switch e.Type {
-		case domain.ContributionTypePR:
-			externalRepoMap[e.Repo].prCount++
-		case domain.ContributionTypePRFeedback, domain.ContributionTypePRComment, domain.ContributionTypeReviewComment:
-			externalRepoMap[e.Repo].feedbackCount++
-		case domain.ContributionTypeIssue:
-			externalRepoMap[e.Repo].issueCount++
-		case domain.ContributionTypeIssueComment:
-			externalRepoMap[e.Repo].issueCount++ // Wait, issue count or comment count? The original had commentCount.
 		}
 	}
 
@@ -128,17 +100,15 @@ func (Renderer) render(ctx context.Context, user domain.User, stats domain.UserS
 		}
 	}
 
-	var rankedExternal []*externalRepoStat
-	for _, r := range externalRepoMap {
-		rankedExternal = append(rankedExternal, r)
-	}
-	sort.Slice(rankedExternal, func(i, j int) bool {
-		if rankedExternal[i].score != rankedExternal[j].score {
-			return rankedExternal[i].score > rankedExternal[j].score
+	// Use pre-aggregated contributions
+	// Aggregation logic already filters owned projects over in logic/aggregator.go
+	topExternal := contributions
+	sort.Slice(topExternal, func(i, j int) bool {
+		if topExternal[i].Score != topExternal[j].Score {
+			return topExternal[i].Score > topExternal[j].Score
 		}
-		return rankedExternal[i].name < rankedExternal[j].name
+		return topExternal[i].Repo < topExternal[j].Repo
 	})
-	topExternal := rankedExternal
 	if len(topExternal) > 3 {
 		topExternal = topExternal[:3]
 	}
@@ -358,7 +328,7 @@ func formatOwnedLandscape(projects []domain.OwnedProject, isVertical bool) strin
 	return s
 }
 
-func formatExternalLandscape(repos []*externalRepoStat, username string, isVertical bool) string {
+func formatExternalLandscape(repos []domain.RepoContribution, username string, isVertical bool) string {
 	var s string
 	rowHeight := 55
 	cardWidth := 340
@@ -367,10 +337,10 @@ func formatExternalLandscape(repos []*externalRepoStat, username string, isVerti
 	}
 	for i, r := range repos {
 		y := 35 + (i * rowHeight)
-		repoAvatar := fetchAsDataURL(r.avatarURL)
+		repoAvatar := fetchAsDataURL(r.AvatarURL)
 
-		parts := strings.Split(r.name, "/")
-		repoName := r.name
+		parts := strings.Split(r.Repo, "/")
+		repoName := r.Repo
 		ownerName := ""
 		if len(parts) == 2 {
 			ownerName = parts[0]
@@ -384,21 +354,23 @@ func formatExternalLandscape(repos []*externalRepoStat, username string, isVerti
 			link  string
 		}
 		var badges []badge
-		if r.prCount > 0 {
-			link := fmt.Sprintf("https://github.com/%s/pulls?q=is%%3Apr+author%%3A%s", r.name, username)
-			badges = append(badges, badge{fmt.Sprintf("%d", r.prCount), iconPR, link})
+		if r.PRsOpened > 0 {
+			link := fmt.Sprintf("https://github.com/%s/pulls?q=is%%3Apr+author%%3A%s", r.Repo, username)
+			badges = append(badges, badge{fmt.Sprintf("%d", r.PRsOpened), iconPR, link})
 		}
-		if r.feedbackCount > 0 {
-			link := fmt.Sprintf("https://github.com/%s/pulls?q=is%%3Apr+reviewed-by%%3A%s", r.name, username)
-			badges = append(badges, badge{fmt.Sprintf("%d", r.feedbackCount), iconReview, link})
+		if r.PRFeedback > 0 {
+			link := fmt.Sprintf("https://github.com/%s/pulls?q=is%%3Apr+reviewed-by%%3A%s", r.Repo, username)
+			badges = append(badges, badge{fmt.Sprintf("%d", r.PRFeedback), iconReview, link})
 		}
-		if r.issueCount > 0 {
-			link := fmt.Sprintf("https://github.com/%s/issues?q=commenter%%3A%s", r.name, username)
-			badges = append(badges, badge{fmt.Sprintf("%d", r.issueCount), iconIssue, link})
+		if r.IssuesOpened > 0 || r.IssueComments > 0 {
+			link := fmt.Sprintf("https://github.com/%s/issues?q=commenter%%3A%s", r.Repo, username)
+			// Aggregated issue/comment count for badge
+			count := r.IssuesOpened + r.IssueComments
+			badges = append(badges, badge{fmt.Sprintf("%d", count), iconIssue, link})
 		}
 
 		// Generate SVG for repo row
-		repoLink := fmt.Sprintf("https://github.com/%s", r.name)
+		repoLink := fmt.Sprintf("https://github.com/%s", r.Repo)
 		s += fmt.Sprintf(`
     <g transform="translate(0, %d)">
       <rect width="%d" height="45" rx="10" fill="#1f2937" opacity="0.3" stroke="#374151" stroke-width="1"/>
