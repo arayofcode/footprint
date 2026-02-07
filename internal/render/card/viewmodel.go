@@ -4,6 +4,13 @@ import (
 	"github.com/arayofcode/footprint/internal/domain"
 )
 
+type RowKind int
+
+const (
+	RowOwnedProject RowKind = iota
+	RowExternalContribution
+)
+
 type CardViewModel struct {
 	Width      int
 	Height     int
@@ -31,13 +38,15 @@ type StatVM struct {
 }
 
 type SectionVM struct {
-	Title string
-	X     int
-	Y     int
-	Rows  []SectionRowVM
+	Title        string
+	EmptyMessage string // Message to show if Rows is empty. If "", section is hidden or just empty space? (Logic moved to VM/Layout)
+	X            int
+	Y            int
+	Rows         []SectionRowVM
 }
 
 type SectionRowVM struct {
+	Kind      RowKind
 	Title     string
 	Subtitle  string
 	Link      string

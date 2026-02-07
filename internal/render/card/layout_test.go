@@ -14,9 +14,11 @@ func TestDecideLayout(t *testing.T) {
 		{
 			name: "Minimal stats + no sections -> Vertical",
 			input: LayoutInput{
-				StatCount:       2,
-				HasOwnedSection: true,
-				ShowAllStats:    false,
+				StatCount:    2,
+				ShowAllStats: false,
+				Sections: []SectionLayoutInput{
+					{Rows: 1, IsEmpty: false},
+				},
 			},
 			wantVert: true,
 			wantW:    500,
@@ -24,9 +26,11 @@ func TestDecideLayout(t *testing.T) {
 		{
 			name: "Full stats -> Horizontal",
 			input: LayoutInput{
-				StatCount:       6,
-				HasOwnedSection: true,
-				ShowAllStats:    true,
+				StatCount:    6,
+				ShowAllStats: true,
+				Sections: []SectionLayoutInput{
+					{Rows: 3, IsEmpty: false},
+				},
 			},
 			wantVert: false,
 			wantW:    800,
@@ -34,10 +38,12 @@ func TestDecideLayout(t *testing.T) {
 		{
 			name: "Minimal stats + 2 sections -> Horizontal",
 			input: LayoutInput{
-				StatCount:          2,
-				HasOwnedSection:    true,
-				HasExternalSection: true,
-				ShowAllStats:       false,
+				StatCount:    2,
+				ShowAllStats: false,
+				Sections: []SectionLayoutInput{
+					{Rows: 2, IsEmpty: false},
+					{Rows: 2, IsEmpty: false},
+				},
 			},
 			wantVert: false,
 			wantW:    800,
@@ -45,9 +51,11 @@ func TestDecideLayout(t *testing.T) {
 		{
 			name: "4 stats minimal -> Horizontal 2x2",
 			input: LayoutInput{
-				StatCount:       4,
-				HasOwnedSection: true,
-				ShowAllStats:    false,
+				StatCount:    4,
+				ShowAllStats: false,
+				Sections: []SectionLayoutInput{
+					{Rows: 1, IsEmpty: false},
+				},
 			},
 			wantVert: false,
 			wantW:    800,

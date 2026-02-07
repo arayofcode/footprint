@@ -98,14 +98,28 @@ func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.T
 	}
 
 	// 3. Decide Layout
+	var layoutSections []SectionLayoutInput
+	if showSections {
+		// Section 1: Owned
+		if !minimalSections || hasOwned {
+			layoutSections = append(layoutSections, SectionLayoutInput{
+				Rows:    len(topOwned),
+				IsEmpty: !hasOwned,
+			})
+		}
+		// Section 2: External
+		if !minimalSections || hasExternal {
+			layoutSections = append(layoutSections, SectionLayoutInput{
+				Rows:    len(topExternal),
+				IsEmpty: !hasExternal,
+			})
+		}
+	}
+
 	layoutInput := LayoutInput{
-		StatCount:          statCount,
-		ShowAllStats:       showAllStats,
-		OwnedRows:          len(topOwned),
-		ExternalRows:       len(topExternal),
-		HasOwnedSection:    showSections && (!minimalSections || hasOwned),
-		HasExternalSection: showSections && (!minimalSections || hasExternal),
-		MinimalSections:    minimalSections,
+		StatCount:    statCount,
+		ShowAllStats: showAllStats,
+		Sections:     layoutSections,
 	}
 	layout := DecideLayout(layoutInput)
 
@@ -140,6 +154,7 @@ func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.T
 			var rows []SectionRowVM
 			for _, p := range topOwned {
 				rows = append(rows, SectionRowVM{
+					Kind:      RowOwnedProject,
 					Title:     truncate(p.Repo, 25),
 					Link:      p.URL,
 					AvatarKey: domain.RepoAvatarKey(p.Repo),
@@ -150,10 +165,11 @@ func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.T
 			}
 
 			sections = append(sections, SectionVM{
-				Title: "TOP PROJECTS CREATED",
-				X:     40,
-				Y:     currentY,
-				Rows:  rows,
+				Title:        "TOP PROJECTS CREATED",
+				EmptyMessage: "No projects created yet",
+				X:            40,
+				Y:            currentY,
+				Rows:         rows,
 			})
 
 			// Update Y for next section if vertical
@@ -204,6 +220,7 @@ func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.T
 				}
 
 				rows = append(rows, SectionRowVM{
+					Kind:      RowExternalContribution,
 					Title:     truncate(repoName, 15),
 					Subtitle:  truncate(ownerName, 20),
 					Link:      fmt.Sprintf("https://github.com/%s", r.Repo),
@@ -213,10 +230,11 @@ func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.T
 			}
 
 			sections = append(sections, SectionVM{
-				Title: "KEY CONTRIBUTIONS",
-				X:     xPos,
-				Y:     currentY, // In horizontal, same Y as first section
-				Rows:  rows,
+				Title:        "KEY CONTRIBUTIONS",
+				EmptyMessage: "No contributions yet",
+				X:            xPos,
+				Y:            currentY, // In horizontal, same Y as first section
+				Rows:         rows,
 			})
 		}
 	}
@@ -251,15 +269,12 @@ func renderSVG(vm CardViewModel, assetsMap map[domain.AssetKey]string) []byte {
 		if val, ok := assetsMap[key]; ok {
 			return val
 		}
-		// Fallback or empty? Semantic keys preserve the ID, so we can check if it's a URL-like thing or just rely on the map.
-		// If map missing, return empty.
+		// Fallback or empty? semantic keys preserve the ID
 		return ""
 	}
 
 	// Resolve User Avatar
 	userAvatar := resolveAsset(vm.User.AvatarKey)
-	// If missing, we don't have the original URL in VM anymore to use as fallback text...
-	// Strict mode: if missing in map, it's empty.
 
 	// Components
 	defs := renderDefs()
@@ -319,7 +334,11 @@ func renderSVG(vm CardViewModel, assetsMap map[domain.AssetKey]string) []byte {
 
 func renderSection(sec SectionVM, layout LayoutVM, assetResolver func(domain.AssetKey) string) string {
 	if len(sec.Rows) == 0 {
-		return `<text x="0" y="50" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#6b7280">No projects created yet</text>`
+		msg := sec.EmptyMessage
+		if msg == "" {
+			return ""
+		}
+		return fmt.Sprintf(`<text x="0" y="50" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#6b7280">%s</text>`, html.EscapeString(msg))
 	}
 
 	var sb strings.Builder
@@ -345,36 +364,19 @@ func renderSection(sec SectionVM, layout LayoutVM, assetResolver func(domain.Ass
 		badgesSVG := ""
 		if len(row.Badges) > 0 {
 			var bParts []string
-			// Original Owned: <g transform="translate(%d, 10.5)"> ... <text ...>%s</text> </g>
-			//   Where translate X was cardWidth-80.
-			// Original External: loop ranges badges, xOffset starts at -50, decrements.
-			//   Where translate X was cardWidth-5.
 
-			// We need to know if it's Owned (Star) or External (Badges).
-			// Our VM has a list of badges.
-			// If it's a Star badge (Owned repo), it was rendered differently:
-			// "renderSmallIconBox" + text.
-
-			// Let's standardise or check badge type?
-			// The original code had distinct layouts for Owned vs External rows basically.
-			// Owned: Badge is explicit specific layout.
-			// External: Loop through badges.
-
-			// If we want to use the same loop:
-			// Owned had: x=cardWidth-80.
-			// External had: x=cardWidth-5, then badges flow left.
-
-			// HACK/Heuristic: If 1 badge and Icon is Star -> Owned layout.
-			if len(row.Badges) == 1 && row.Badges[0].Icon == iconStar {
-				// Owned layout
+			switch row.Kind {
+			case RowOwnedProject:
+				// Owned layout: single badge, right aligned but specific
 				b := row.Badges[0]
 				bParts = append(bParts, fmt.Sprintf(`
            %s
            <text x="32" y="16.5" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#22c55e">%s</text>`, renderSmallIconBox(b.Icon), b.Count))
 
 				badgesSVG = fmt.Sprintf(`<g transform="translate(%d, 10.5)">%s</g>`, cardWidth-80, strings.Join(bParts, ""))
-			} else {
-				// External layout
+
+			case RowExternalContribution:
+				// External layout: multiple badges flowing left
 				currentX := -50
 				for _, b := range row.Badges {
 					bParts = append(bParts, fmt.Sprintf(`

@@ -11,6 +11,7 @@ Footprint is a GitHub Action and tool that discovers a user’s public open-sour
     - **Merged Bonus**: Merged Pull Requests receive a **1.5x bonus** to prioritize landing code.
     - **Popularity Multiplier**: Scores are scaled using `1 + log10(1 + stars + 2*forks)` to reward impact in widely-adopted projects.
     - **Diminishing Returns**: Comment scores decay per repository to encourage meaningful engagement over volume.
+    - **Multi-Metric Separation**: Strictly separates PRs Opened, PR Reviews, PR Comments (feedback), Issues Opened, and Issue Comments to prevent conflation.
     - **Repo-Level Aggregation**: Ranks repositories by your **Total Impact Score** across all contributions.
 - **Artifact Generation**:
     - `dist/summary.md`: Human-readable portfolio summary.
@@ -68,6 +69,13 @@ jobs:
       - name: Print Score
         run: echo "Calculated Score: ${{ steps.footprint.outputs.total_score }}"
 ```
+
+## Architecture Principles
+
+- **Semantic ViewModel**: The renderer receives data structures (`RowKind`, `Badges`) rather than raw URLs or domain inferences.
+- **Centralized Layout**: All geometric math (X, Y, height, gaps) is pre-calculated in a pure `DecideLayout` function.
+- **Zero Heuristics**: SVG generation logic is purely compositional and branching is based on explicit ViewModel flags.
+- **Purely Deterministic**: Given the same ViewModel and assets, the SVG output is byte-perfect identical every time.
 
 ## Roadmap & Areas for Improvement
 

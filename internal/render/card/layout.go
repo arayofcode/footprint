@@ -1,27 +1,20 @@
 package card
 
+type SectionLayoutInput struct {
+	Rows    int
+	IsEmpty bool
+}
+
 type LayoutInput struct {
-	StatCount          int
-	ShowAllStats       bool
-	OwnedRows          int
-	ExternalRows       int
-	HasOwnedSection    bool
-	HasExternalSection bool
-	MinimalSections    bool
+	StatCount    int
+	ShowAllStats bool
+	Sections     []SectionLayoutInput
 }
 
 // DecideLayout determines the card's structural properties based on input content.
 // Pure function: Input -> LayoutVM.
 func DecideLayout(input LayoutInput) LayoutVM {
-	// Logic from original renderer:
-	// isVertical := !showAllStats && len(activeStats) == 2 && numSections <= 1
-	numSections := 0
-	if input.HasOwnedSection {
-		numSections++
-	}
-	if input.HasExternalSection {
-		numSections++
-	}
+	numSections := len(input.Sections)
 	isVertical := !input.ShowAllStats && input.StatCount == 2 && numSections <= 1
 
 	width := 800
@@ -63,62 +56,34 @@ func DecideLayout(input LayoutInput) LayoutVM {
 	currentY := contentY
 	sectionGap := 0
 
-	if input.HasOwnedSection {
-		h := 0
-		if input.OwnedRows > 0 {
-			h = 40 + (input.OwnedRows * rowHeight)
-		} else {
-			h = 70 // Empty text height
-		}
-
-		if isVertical {
+	if isVertical {
+		for _, s := range input.Sections {
+			h := 0
+			if !s.IsEmpty {
+				h = 40 + (s.Rows * rowHeight)
+			} else {
+				h = 70 // Empty text height
+			}
 			currentY += h
-			if input.OwnedRows == 0 {
-				// Slight adjustment from original logic: if len(topOwned) == 0 { currentY += 30 }
-				// 70 + 30 = 100? No, original was:
-				// if len(topOwned) == 0 && !minimalSections { string... }
-				// if isVertical { currentY += ...; if len==0 { currentY += 30 }}
-				// My h=70 covers the base height, let's add the gap.
+			if s.IsEmpty {
 				currentY += 30
 			}
-		} else {
-			// Horizontal: We track max height of the row of sections
-			// But for horizontal, "currentY" is the start of the section row.
-			// We need to add the max section height to currentY at the end.
 		}
-	}
-
-	if input.HasExternalSection {
-		h := 40 + (input.ExternalRows * rowHeight)
-		if isVertical {
-			currentY += h
-		} else {
-			// Horizontal calculation
-			ownedH := 0
-			if input.HasOwnedSection {
-				if input.OwnedRows > 0 {
-					ownedH = 40 + (input.OwnedRows * rowHeight)
-				} else {
-					ownedH = 70
-				}
+	} else {
+		// Horizontal: Sections are side-by-side (max 2 supported in this specific layout style)
+		maxSectionH := 0
+		for _, s := range input.Sections {
+			h := 0
+			if !s.IsEmpty {
+				h = 40 + (s.Rows * rowHeight)
+			} else {
+				h = 70
 			}
-			maxH := ownedH
-			if h > maxH {
-				maxH = h
+			if h > maxSectionH {
+				maxSectionH = h
 			}
-			// If we haven't added height yet (because isVertical=false), add it now
-			// Note: this logic assumes Owned and External are the ONLY sections and are side-by-side in horizontal.
-			currentY += maxH
 		}
-	} else if !isVertical && input.HasOwnedSection {
-		// Only owned section in horizontal
-		ownedH := 0
-		if input.OwnedRows > 0 {
-			ownedH = 40 + (input.OwnedRows * rowHeight)
-		} else {
-			ownedH = 70
-		}
-		currentY += ownedH
+		currentY += maxSectionH
 	}
 
 	totalHeight := currentY + 50

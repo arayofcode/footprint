@@ -200,10 +200,14 @@ Each contribution’s impact score is calculated based on two metrics:
 ### Base Score
 Each activity has a different base score:
 
-| Pull Request |         10 |
-| PR Feedback  |          3 |
-| Issue        |          5 |
-| Comment      |          2 |
+| Pull Request      |          10 |
+| PR Review         |           5 |
+| PR Comment        |           2 |
+| Issue             |           5 |
+| Issue Comment     |           2 |
+
+> [!NOTE]
+> PR Review specifically refers to a submitted review (Approve/Request Changes/Comment), while PR Comment (Feedback) refers to individual file-level comments or general comments on a PR.
 
 ### Scoring Attributes
 Each activity can have several attributes (e.g., merged PR vs unmerged PR, comment referenced by a PR, etc.). These contribute to the final impact score by applying multipliers or bonuses.

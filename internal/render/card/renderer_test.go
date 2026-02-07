@@ -249,3 +249,51 @@ func TestRegression_Labels(t *testing.T) {
 		t.Error("SVG SHOULD contain label 'PRS REVIEWED'")
 	}
 }
+func TestRenderSection_DoesNotInferFromBadges(t *testing.T) {
+	// If RowKind is External, even with a Star icon it should use external layout
+	layout := LayoutVM{RowHeight: 55, Width: 800}
+	assets := map[domain.AssetKey]string{}
+	resolve := func(k domain.AssetKey) string { return assets[k] }
+
+	sec := SectionVM{
+		Title: "TEST",
+		Rows: []SectionRowVM{
+			{
+				Kind: RowExternalContribution,
+				Badges: []BadgeVM{
+					{Icon: iconStar, Count: "10"},
+				},
+			},
+		},
+	}
+
+	svg := renderSection(sec, layout, resolve)
+
+	// External layout uses currentX := -50 and translates by cardWidth-5 (340-5=335 or 420-5=415)
+	// Owned layout uses translate cardWidth-80 (340-80=260 or 420-80=340)
+
+	// Since cards are 340 wide in horizontal (default),
+	// Owned would be at 260.
+	// External would be at 335.
+
+	if strings.Contains(svg, `translate(260, 10.5)`) {
+		t.Error("expected external layout for RowExternalContribution, but got owned layout (translate 260)")
+	}
+	if !strings.Contains(svg, `translate(335, 10.5)`) {
+		t.Error("expected external layout (translate 335) for RowExternalContribution")
+	}
+}
+
+func TestRenderSection_ShowsEmptyMessage(t *testing.T) {
+	layout := LayoutVM{Width: 800}
+	sec := SectionVM{
+		Title:        "EMPTY",
+		EmptyMessage: "Nothing here",
+		Rows:         nil,
+	}
+
+	svg := renderSection(sec, layout, nil)
+	if !strings.Contains(svg, "Nothing here") {
+		t.Error("expected empty message to be rendered")
+	}
+}
