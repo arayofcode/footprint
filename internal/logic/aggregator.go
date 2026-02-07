@@ -22,8 +22,10 @@ func Aggregate(events []domain.SemanticEvent, projects []domain.OwnedProject) (d
 		switch e.Type {
 		case domain.SemanticEventPrOpened:
 			stats.PRsOpened++
-		case domain.SemanticEventPrFeedback:
-			stats.PRFeedback++
+		case domain.SemanticEventPrReview:
+			stats.PRReviews++
+		case domain.SemanticEventPrReviewComment:
+			stats.PRReviewComments++
 		case domain.SemanticEventIssueOpened:
 			stats.IssuesOpened++
 		case domain.SemanticEventIssueComment:
@@ -56,8 +58,10 @@ func Aggregate(events []domain.SemanticEvent, projects []domain.OwnedProject) (d
 		switch e.Type {
 		case domain.SemanticEventPrOpened:
 			contrib.PRsOpened++
-		case domain.SemanticEventPrFeedback:
-			contrib.PRFeedback++
+		case domain.SemanticEventPrReview:
+			contrib.PRReviews++
+		case domain.SemanticEventPrReviewComment:
+			contrib.PRReviewComments++
 		case domain.SemanticEventIssueOpened:
 			contrib.IssuesOpened++
 		case domain.SemanticEventIssueComment:

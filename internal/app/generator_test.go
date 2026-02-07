@@ -45,6 +45,15 @@ func (fakeScorer) ScoreContribution(event domain.ContributionEvent) domain.Contr
 	return event
 }
 
+func (fakeScorer) ScoreBatch(events []domain.ContributionEvent) []domain.ContributionEvent {
+	scored := make([]domain.ContributionEvent, len(events))
+	for i, e := range events {
+		e.Score = 42
+		scored[i] = e
+	}
+	return scored
+}
+
 func (fakeScorer) ScoreOwnedProject(project domain.OwnedProject) domain.OwnedProject {
 	project.Score = 99
 	return project

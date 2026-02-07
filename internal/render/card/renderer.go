@@ -69,7 +69,7 @@ func (Renderer) render(ctx context.Context, user domain.User, stats domain.Stats
 
 	potentialStats := []statItem{
 		{"PRs Opened", formatCount(stats.PRsOpened), iconPR, stats.PRsOpened},
-		{"PR Feedback", formatCount(stats.PRFeedback), iconReview, stats.PRFeedback},
+		{"PRs Reviewed", formatCount(stats.PRReviews), iconReview, stats.PRReviews},
 		{"Issues Opened", formatCount(stats.IssuesOpened), iconIssue, stats.IssuesOpened},
 		{"Comments Made", formatCount(stats.IssueComments), iconComment, stats.IssueComments},
 		{"Projects Owned", formatCount(len(projects)), iconProject, len(projects)},
@@ -358,14 +358,14 @@ func formatExternalLandscape(repos []domain.RepoContribution, username string, i
 			link := fmt.Sprintf("https://github.com/%s/pulls?q=is%%3Apr+author%%3A%s", r.Repo, username)
 			badges = append(badges, badge{fmt.Sprintf("%d", r.PRsOpened), iconPR, link})
 		}
-		if r.PRFeedback > 0 {
+		if r.PRReviews > 0 {
 			link := fmt.Sprintf("https://github.com/%s/pulls?q=is%%3Apr+reviewed-by%%3A%s", r.Repo, username)
-			badges = append(badges, badge{fmt.Sprintf("%d", r.PRFeedback), iconReview, link})
+			badges = append(badges, badge{fmt.Sprintf("%d", r.PRReviews), iconReview, link})
 		}
-		if r.IssuesOpened > 0 || r.IssueComments > 0 {
+		if r.IssuesOpened > 0 || r.IssueComments > 0 || r.PRReviewComments > 0 {
 			link := fmt.Sprintf("https://github.com/%s/issues?q=commenter%%3A%s", r.Repo, username)
 			// Aggregated issue/comment count for badge
-			count := r.IssuesOpened + r.IssueComments
+			count := r.IssuesOpened + r.IssueComments + r.PRReviewComments
 			badges = append(badges, badge{fmt.Sprintf("%d", count), iconIssue, link})
 		}
 

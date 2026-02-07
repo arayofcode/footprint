@@ -12,13 +12,15 @@ func Classify(e domain.ContributionEvent) domain.SemanticEvent {
 	switch e.Type {
 	case domain.ContributionTypePR:
 		semanticType = domain.SemanticEventPrOpened
-	case domain.ContributionTypePullRequestReview, domain.ContributionTypePullRequestReviewComment:
-		semanticType = domain.SemanticEventPrFeedback
+	case domain.ContributionTypeReview:
+		semanticType = domain.SemanticEventPrReview
+	case domain.ContributionTypeReviewComment:
+		semanticType = domain.SemanticEventPrReviewComment
 	case domain.ContributionTypeIssue:
 		semanticType = domain.SemanticEventIssueOpened
 	case domain.ContributionTypeIssueComment, domain.ContributionTypePRComment:
 		if strings.Contains(e.URL, "/pull/") {
-			semanticType = domain.SemanticEventPrFeedback
+			semanticType = domain.SemanticEventPrReviewComment
 		} else {
 			semanticType = domain.SemanticEventIssueComment
 		}

@@ -7,10 +7,11 @@ import (
 type SemanticEventType string
 
 const (
-	SemanticEventPrOpened     SemanticEventType = "PR_OPENED"
-	SemanticEventPrFeedback   SemanticEventType = "PR_FEEDBACK"
-	SemanticEventIssueOpened  SemanticEventType = "ISSUE_OPENED"
-	SemanticEventIssueComment SemanticEventType = "ISSUE_COMMENT"
+	SemanticEventPrOpened        SemanticEventType = "PR_OPENED"
+	SemanticEventPrReview        SemanticEventType = "PR_REVIEW"         // Formal reviews only
+	SemanticEventPrReviewComment SemanticEventType = "PR_REVIEW_COMMENT" // Inline comments
+	SemanticEventIssueOpened     SemanticEventType = "ISSUE_OPENED"
+	SemanticEventIssueComment    SemanticEventType = "ISSUE_COMMENT"
 )
 
 type SemanticEvent struct {
@@ -27,7 +28,8 @@ type SemanticEvent struct {
 
 type StatsView struct {
 	PRsOpened               int
-	PRFeedback              int
+	PRReviews               int
+	PRReviewComments        int
 	IssuesOpened            int
 	IssueComments           int
 	ProjectsOwned           int
@@ -36,12 +38,13 @@ type StatsView struct {
 }
 
 type RepoContribution struct {
-	Repo          string
-	RepoURL       string
-	AvatarURL     string
-	Score         float64
-	PRsOpened     int
-	PRFeedback    int
-	IssuesOpened  int
-	IssueComments int
+	Repo             string
+	RepoURL          string
+	AvatarURL        string
+	Score            float64
+	PRsOpened        int
+	PRReviews        int
+	PRReviewComments int
+	IssuesOpened     int
+	IssueComments    int
 }

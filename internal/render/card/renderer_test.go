@@ -20,7 +20,7 @@ func TestRenderCard_GeneratesSVGWithStats(t *testing.T) {
 	user := domain.User{Username: "ray", AvatarURL: "https://example.com/avatar.png"}
 	stats := domain.StatsView{
 		PRsOpened:     5,
-		PRFeedback:    3,
+		PRReviews:     3,
 		IssuesOpened:  2,
 		IssueComments: 10,
 	}
@@ -45,7 +45,7 @@ func TestRenderCard_GeneratesSVGWithStats(t *testing.T) {
 	// Check for new stats labels
 	expectedLabels := []string{
 		"PRS OPENED",
-		"PR FEEDBACK",
+		"PRS REVIEWED",
 		"ISSUES OPENED",
 		"COMMENTS MADE",
 		"PROJECTS OWNED",
@@ -79,7 +79,7 @@ func TestRenderMinimalCard_HidesZeroStats(t *testing.T) {
 	user := domain.User{Username: "ray"}
 	stats := domain.StatsView{
 		PRsOpened:     5,
-		PRFeedback:    0, // Zero - should be hidden
+		PRReviews:     0, // Zero - should be hidden
 		IssuesOpened:  2,
 		IssueComments: 0, // Zero - should be hidden
 	}

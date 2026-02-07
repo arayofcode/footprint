@@ -37,7 +37,7 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 		return fmt.Errorf("fetching owned projects: %w", err)
 	}
 
-	events = scoreContributions(g.Scorer, events)
+	events = g.Scorer.ScoreBatch(events)
 	projects = scoreOwnedProjects(g.Scorer, projects)
 
 	// Semantic Pipeline
@@ -46,10 +46,17 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 
 	// Map to legacy UserStats for older renderers
 	stats := domain.UserStats{
-		TotalPRs:           statsView.PRsOpened,
-		TotalReviews:       statsView.PRFeedback,
-		TotalIssues:        statsView.IssuesOpened,
-		TotalIssueComments: statsView.IssueComments,
+		TotalPRs:     statsView.PRsOpened,
+		TotalReviews: statsView.PRReviews,
+		TotalIssues:  statsView.IssuesOpened,
+		// Group PR review comments and issue comments into legacy TotalIssueComments?
+		// Or keep them separate? UserStats has TotalIssueComments.
+		// Let's sum them for now to maintain roughly similar volume metrics if that's what TotalIssueComments implied.
+		// Or maybe TotalReviews should include review comments? User requested "PRReviewed must count reviews only".
+		// So TotalReviews = PRReviews.
+		// TotalIssueComments = IssueComments (and ignore PRReviewComments in legacy stats? or add them?)
+		// Let's add them to TotalIssueComments to capture all "commentary".
+		TotalIssueComments: statsView.IssueComments + statsView.PRReviewComments,
 		TotalReposCount:    statsView.TotalReposContributedTo,
 		TotalStarsEarned:   statsView.StarsEarned,
 	}
@@ -131,14 +138,6 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 	}
 
 	return nil
-}
-
-func scoreContributions(calculator domain.ScoreCalculator, events []domain.ContributionEvent) []domain.ContributionEvent {
-	scored := make([]domain.ContributionEvent, 0, len(events))
-	for _, event := range events {
-		scored = append(scored, calculator.ScoreContribution(event))
-	}
-	return scored
 }
 
 func scoreOwnedProjects(calculator domain.ScoreCalculator, projects []domain.OwnedProject) []domain.OwnedProject {

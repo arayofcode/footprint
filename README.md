@@ -10,6 +10,7 @@ Footprint is a GitHub Action and tool that discovers a user’s public open-sour
 - **Impact & Quality**:
     - **Merged Bonus**: Merged Pull Requests receive a **1.5x bonus** to prioritize landing code.
     - **Popularity Multiplier**: Scores are scaled using `1 + log10(1 + stars + 2*forks)` to reward impact in widely-adopted projects.
+    - **Diminishing Returns**: Comment scores decay per repository to encourage meaningful engagement over volume.
     - **Repo-Level Aggregation**: Ranks repositories by your **Total Impact Score** across all contributions.
 - **Artifact Generation**:
     - `dist/summary.md`: Human-readable portfolio summary.

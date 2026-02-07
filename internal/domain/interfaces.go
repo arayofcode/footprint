@@ -20,6 +20,7 @@ type ProjectCatalog interface {
 
 type ScoreCalculator interface {
 	ScoreContribution(event ContributionEvent) ContributionEvent
+	ScoreBatch(events []ContributionEvent) []ContributionEvent
 	ScoreOwnedProject(project OwnedProject) OwnedProject
 }
 

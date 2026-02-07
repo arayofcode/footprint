@@ -7,13 +7,13 @@ import (
 )
 
 var baseContributionScores = map[domain.ContributionType]float64{
-	domain.ContributionTypePR:                       10.0,
-	domain.ContributionTypeIssue:                    5.0,
-	domain.ContributionTypeIssueComment:             2.0,
-	domain.ContributionTypePullRequestReview:        3.0,
-	domain.ContributionTypePullRequestReviewComment: 1.0,
-	domain.ContributionTypeDiscussion:               2.0,
-	domain.ContributionTypeDiscussionComment:        2.0,
+	domain.ContributionTypePR:                10.0,
+	domain.ContributionTypeIssue:             5.0,
+	domain.ContributionTypeIssueComment:      2.0,
+	domain.ContributionTypeReview:            3.0,
+	domain.ContributionTypeReviewComment:     1.0,
+	domain.ContributionTypeDiscussion:        2.0,
+	domain.ContributionTypeDiscussionComment: 2.0,
 }
 
 func baseScore(event domain.ContributionEvent) float64 {

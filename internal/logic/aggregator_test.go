@@ -13,7 +13,7 @@ func TestAggregate(t *testing.T) {
 
 	events := []domain.SemanticEvent{
 		{Type: domain.SemanticEventPrOpened, Repo: "ext/repo", Score: 5, AvatarURL: "avatar1"},
-		{Type: domain.SemanticEventPrFeedback, Repo: "ext/repo", Score: 3},
+		{Type: domain.SemanticEventPrReview, Repo: "ext/repo", Score: 3},
 		{Type: domain.SemanticEventIssueOpened, Repo: "other/repo", Score: 2},
 		{Type: domain.SemanticEventIssueComment, Repo: "me/owned", Score: 2}, // Should be excluded from contributions
 	}
@@ -30,8 +30,8 @@ func TestAggregate(t *testing.T) {
 	if stats.PRsOpened != 1 {
 		t.Errorf("expected 1 PR opened, got %d", stats.PRsOpened)
 	}
-	if stats.PRFeedback != 1 {
-		t.Errorf("expected 1 PR feedback, got %d", stats.PRFeedback)
+	if stats.PRReviews != 1 {
+		t.Errorf("expected 1 PR feedback, got %d", stats.PRReviews)
 	}
 	if stats.IssuesOpened != 1 {
 		t.Errorf("expected 1 issue opened, got %d", stats.IssuesOpened)

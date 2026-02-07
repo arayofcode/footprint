@@ -9,14 +9,14 @@ import (
 type ContributionType string
 
 const (
-	ContributionTypePR                       ContributionType = "PR"
-	ContributionTypePRComment                ContributionType = "PR_COMMENT"
-	ContributionTypeIssue                    ContributionType = "ISSUE"
-	ContributionTypeIssueComment             ContributionType = "ISSUE_COMMENT"
-	ContributionTypePullRequestReview        ContributionType = "REVIEW" // Was PR_FEEDBACK
-	ContributionTypePullRequestReviewComment ContributionType = "REVIEW_COMMENT"
-	ContributionTypeDiscussion               ContributionType = "DISCUSSION"
-	ContributionTypeDiscussionComment        ContributionType = "DISCUSSION_COMMENT"
+	ContributionTypePR                ContributionType = "PR"
+	ContributionTypePRComment         ContributionType = "PR_COMMENT"
+	ContributionTypeIssue             ContributionType = "ISSUE"
+	ContributionTypeIssueComment      ContributionType = "ISSUE_COMMENT"
+	ContributionTypeReview            ContributionType = "REVIEW" // Was PR_FEEDBACK
+	ContributionTypeReviewComment     ContributionType = "REVIEW_COMMENT"
+	ContributionTypeDiscussion        ContributionType = "DISCUSSION"
+	ContributionTypeDiscussionComment ContributionType = "DISCUSSION_COMMENT"
 )
 
 type ContributionEvent struct {

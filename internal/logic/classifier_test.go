@@ -18,9 +18,9 @@ func TestClassify(t *testing.T) {
 			expected: domain.SemanticEventPrOpened,
 		},
 		{
-			name:     "PR Feedback (Review)",
-			input:    domain.ContributionEvent{Type: domain.ContributionTypePullRequestReview},
-			expected: domain.SemanticEventPrFeedback,
+			name:     "PR Review",
+			input:    domain.ContributionEvent{Type: domain.ContributionTypeReview},
+			expected: domain.SemanticEventPrReview,
 		},
 		{
 			name:     "Issue Opened",
@@ -35,7 +35,7 @@ func TestClassify(t *testing.T) {
 		{
 			name:     "Issue Comment (Actually PR)",
 			input:    domain.ContributionEvent{Type: domain.ContributionTypeIssueComment, URL: "https://github.com/a/b/pull/1#comment-1"},
-			expected: domain.SemanticEventPrFeedback,
+			expected: domain.SemanticEventPrReviewComment,
 		},
 	}
 
