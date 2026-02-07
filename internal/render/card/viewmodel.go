@@ -39,9 +39,7 @@ type StatVM struct {
 
 type SectionVM struct {
 	Title        string
-	EmptyMessage string // Message to show if Rows is empty. If "", section is hidden or just empty space? (Logic moved to VM/Layout)
-	X            int
-	Y            int
+	EmptyMessage string // Message to show if Rows is empty.
 	Rows         []SectionRowVM
 }
 
@@ -75,4 +73,10 @@ type LayoutVM struct {
 	SectionGap  int
 	ContentY    int
 	StatRows    int
+	Sections    []SectionLayoutVM
+}
+
+type SectionLayoutVM struct {
+	X int
+	Y int
 }

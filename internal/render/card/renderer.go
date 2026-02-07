@@ -87,38 +87,39 @@ func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.T
 	hasExternal := len(topExternal) > 0
 
 	statCount := len(activeStats)
-	sectionCount := 0
-	if showSections {
-		if !minimalSections || hasOwned {
-			sectionCount++
-		}
-		if !minimalSections || hasExternal {
-			sectionCount++
-		}
-	}
+
+	// Determine Placement (Unified logic)
+	// View model just sets the default intent (Horizontal) and Auto mode
+	mode := LayoutAuto
 
 	// 3. Decide Layout
 	var layoutSections []SectionLayoutInput
+	colIdx := 0
 	if showSections {
-		// Section 1: Owned
 		if !minimalSections || hasOwned {
 			layoutSections = append(layoutSections, SectionLayoutInput{
-				Rows:    len(topOwned),
-				IsEmpty: !hasOwned,
+				Rows:      len(topOwned),
+				IsEmpty:   !hasOwned,
+				Placement: StackHorizontal,
+				Column:    colIdx,
 			})
+			colIdx++
 		}
-		// Section 2: External
 		if !minimalSections || hasExternal {
 			layoutSections = append(layoutSections, SectionLayoutInput{
-				Rows:    len(topExternal),
-				IsEmpty: !hasExternal,
+				Rows:      len(topExternal),
+				IsEmpty:   !hasExternal,
+				Placement: StackHorizontal,
+				Column:    colIdx,
 			})
+			colIdx++
 		}
 	}
 
 	layoutInput := LayoutInput{
 		StatCount:    statCount,
 		ShowAllStats: showAllStats,
+		Mode:         mode,
 		Sections:     layoutSections,
 	}
 	layout := DecideLayout(layoutInput)
@@ -146,8 +147,6 @@ func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.T
 
 	// 5. Build Sections
 	var sections []SectionVM
-	currentY := layout.ContentY
-
 	if showSections {
 		// Owned Section
 		if !minimalSections || hasOwned {
@@ -163,37 +162,15 @@ func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.T
 					},
 				})
 			}
-
 			sections = append(sections, SectionVM{
 				Title:        "TOP PROJECTS CREATED",
 				EmptyMessage: "No projects created yet",
-				X:            40,
-				Y:            currentY,
 				Rows:         rows,
 			})
-
-			// Update Y for next section if vertical
-			if layout.IsVertical {
-				h := 0
-				if len(rows) > 0 {
-					h = 40 + (len(rows) * layout.RowHeight)
-				} else {
-					h = 70 // Empty state
-				}
-				currentY += h
-				if len(rows) == 0 {
-					currentY += 30
-				}
-			}
 		}
 
 		// External Section
 		if !minimalSections || hasExternal {
-			xPos := 420
-			if layout.IsVertical || (minimalSections && !hasOwned) {
-				xPos = 40
-			}
-
 			var rows []SectionRowVM
 			for _, r := range topExternal {
 				parts := strings.Split(r.Repo, "/")
@@ -228,12 +205,9 @@ func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.T
 					Badges:    badges,
 				})
 			}
-
 			sections = append(sections, SectionVM{
 				Title:        "KEY CONTRIBUTIONS",
 				EmptyMessage: "No contributions yet",
-				X:            xPos,
-				Y:            currentY, // In horizontal, same Y as first section
 				Rows:         rows,
 			})
 		}
@@ -264,19 +238,14 @@ func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.T
 
 // renderSVG composes the final SVG string from ViewModel
 func renderSVG(vm CardViewModel, assetsMap map[domain.AssetKey]string) []byte {
-	// Wrapper to resolve assets with fallback
 	resolveAsset := func(key domain.AssetKey) string {
 		if val, ok := assetsMap[key]; ok {
 			return val
 		}
-		// Fallback or empty? semantic keys preserve the ID
 		return ""
 	}
 
-	// Resolve User Avatar
 	userAvatar := resolveAsset(vm.User.AvatarKey)
-
-	// Components
 	defs := renderDefs()
 	bg := fmt.Sprintf(`<rect width="%d" height="%d" rx="16" fill="#1a1a1a" />`, vm.Width, vm.Height)
 	header := renderHeader(vm.User, userAvatar)
@@ -288,19 +257,21 @@ func renderSVG(vm CardViewModel, assetsMap map[domain.AssetKey]string) []byte {
 	}
 	if len(statBoxes) > 0 {
 		statsContent = fmt.Sprintf(`
-  <g transform="translate(40, 90)">
+  <g transform="translate(40, %d)">
     %s
-  </g>`, strings.Join(statBoxes, "\n    "))
+  </g>`, HeaderMargin, strings.Join(statBoxes, "\n    "))
 	}
 
 	sectionsContent := ""
-	for _, sec := range vm.Sections {
+	for i, sec := range vm.Sections {
+		// ZIP: Semantic Section with Layout Geometry
+		loc := vm.Layout.Sections[i]
 		body := renderSection(sec, vm.Layout, resolveAsset)
 		sectionsContent += fmt.Sprintf(`
   <g transform="translate(%d, %d)">
     <text x="0" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#9ca3af" letter-spacing="1">%s</text>
     %s
-  </g>`, sec.X, sec.Y, sec.Title, body)
+  </g>`, loc.X, loc.Y, sec.Title, body)
 	}
 
 	footer := renderFooter(vm.Footer, vm.Width)
@@ -343,16 +314,15 @@ func renderSection(sec SectionVM, layout LayoutVM, assetResolver func(domain.Ass
 
 	var sb strings.Builder
 	rowHeight := layout.RowHeight
-	cardWidth := 340
+	cardWidth := SectionWidth
 	if layout.IsVertical {
-		cardWidth = 420
+		cardWidth = VerticalSectionWidth
 	}
 
 	for i, row := range sec.Rows {
 		y := 35 + (i * rowHeight)
 		avatar := assetResolver(row.AvatarKey)
 
-		// Subtitle rendering if present
 		subtitleSVG := ""
 		titleY := 28
 		if row.Subtitle != "" {
@@ -360,23 +330,17 @@ func renderSection(sec SectionVM, layout LayoutVM, assetResolver func(domain.Ass
 			subtitleSVG = fmt.Sprintf(`<text x="42" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#9ca3af">%s</text>`, html.EscapeString(row.Subtitle))
 		}
 
-		// Badges
 		badgesSVG := ""
 		if len(row.Badges) > 0 {
 			var bParts []string
-
 			switch row.Kind {
 			case RowOwnedProject:
-				// Owned layout: single badge, right aligned but specific
 				b := row.Badges[0]
 				bParts = append(bParts, fmt.Sprintf(`
            %s
            <text x="32" y="16.5" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#22c55e">%s</text>`, renderSmallIconBox(b.Icon), b.Count))
-
 				badgesSVG = fmt.Sprintf(`<g transform="translate(%d, 10.5)">%s</g>`, cardWidth-80, strings.Join(bParts, ""))
-
 			case RowExternalContribution:
-				// External layout: multiple badges flowing left
 				currentX := -50
 				for _, b := range row.Badges {
 					bParts = append(bParts, fmt.Sprintf(`

@@ -72,8 +72,8 @@ jobs:
 
 ## Architecture Principles
 
-- **Semantic ViewModel**: The renderer receives data structures (`RowKind`, `Badges`) rather than raw URLs or domain inferences.
-- **Centralized Layout**: All geometric math (X, Y, height, gaps) is pre-calculated in a pure `DecideLayout` function.
+- **Semantic ViewModel**: The renderer receives data structures (`RowKind`, `Badges`) rather than raw URLs or domain inferences. ViewModels contain no geometry (X/Y) or layout-specific logic.
+- **Centralized Layout**: All geometric math (X, Y, height, gaps) is pre-calculated in a pure `DecideLayout` function. `LayoutVM` exclusively owns all coordinates.
 - **Zero Heuristics**: SVG generation logic is purely compositional and branching is based on explicit ViewModel flags.
 - **Purely Deterministic**: Given the same ViewModel and assets, the SVG output is byte-perfect identical every time.
 
