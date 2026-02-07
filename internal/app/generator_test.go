@@ -106,7 +106,7 @@ type fakeCardRenderer struct {
 	err    error
 }
 
-func (f *fakeCardRenderer) RenderCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[string]string) ([]byte, error) {
+func (f *fakeCardRenderer) RenderCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[domain.AssetKey]string) ([]byte, error) {
 	f.called = true
 	if f.err != nil {
 		return nil, f.err
@@ -114,21 +114,21 @@ func (f *fakeCardRenderer) RenderCard(ctx context.Context, user domain.User, sta
 	return []byte("card"), nil
 }
 
-func (f *fakeCardRenderer) RenderMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[string]string) ([]byte, error) {
+func (f *fakeCardRenderer) RenderMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[domain.AssetKey]string) ([]byte, error) {
 	if f.err != nil {
 		return nil, f.err
 	}
 	return []byte("minimal-card"), nil
 }
 
-func (f *fakeCardRenderer) RenderExtendedCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[string]string) ([]byte, error) {
+func (f *fakeCardRenderer) RenderExtendedCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[domain.AssetKey]string) ([]byte, error) {
 	if f.err != nil {
 		return nil, f.err
 	}
 	return []byte("extended-card"), nil
 }
 
-func (f *fakeCardRenderer) RenderExtendedMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[string]string) ([]byte, error) {
+func (f *fakeCardRenderer) RenderExtendedMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[domain.AssetKey]string) ([]byte, error) {
 	if f.err != nil {
 		return nil, f.err
 	}

@@ -1,5 +1,9 @@
 package card
 
+import (
+	"github.com/arayofcode/footprint/internal/domain"
+)
+
 type CardViewModel struct {
 	Width      int
 	Height     int
@@ -7,12 +11,13 @@ type CardViewModel struct {
 	Stats      []StatVM
 	Sections   []SectionVM
 	Footer     FooterVM
-	IsVertical bool
+	Layout     LayoutVM // Embedding full layout details for renderer access
+	IsVertical bool     // Kept for top-level convenience (or can use Layout.IsVertical)
 }
 
 type UserVM struct {
 	Username  string
-	AvatarURL string // Data URL
+	AvatarKey domain.AssetKey
 }
 
 type StatVM struct {
@@ -26,10 +31,24 @@ type StatVM struct {
 }
 
 type SectionVM struct {
-	Title   string
-	X       int
-	Y       int
-	Content string // Pre-rendered SVG content for the section body (rows)
+	Title string
+	X     int
+	Y     int
+	Rows  []SectionRowVM
+}
+
+type SectionRowVM struct {
+	Title     string
+	Subtitle  string
+	Link      string
+	AvatarKey domain.AssetKey
+	Badges    []BadgeVM
+}
+
+type BadgeVM struct {
+	Icon  string
+	Count string
+	Link  string
 }
 
 type FooterVM struct {
@@ -43,6 +62,8 @@ type LayoutVM struct {
 	Height      int
 	IsVertical  bool
 	StatSpacing int
+	RowHeight   int
+	SectionGap  int
+	ContentY    int
 	StatRows    int
-	ContentY    int // Y position where sections start
 }

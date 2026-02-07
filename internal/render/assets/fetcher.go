@@ -12,20 +12,21 @@ import (
 )
 
 // FetchAssets retrieves all necessary images (avatars) and returns them as a map of Data URLs.
-// Keys are the URLs, Values are the Data URLs.
-func FetchAssets(user domain.User, repos []domain.RepoContribution, projects []domain.OwnedProject) map[string]string {
-	assets := make(map[string]string)
+func FetchAssets(user domain.User, repos []domain.RepoContribution, projects []domain.OwnedProject) map[domain.AssetKey]string {
+	assets := make(map[domain.AssetKey]string)
 
 	// Fetch User Avatar
 	if user.AvatarURL != "" {
-		assets[user.AvatarURL] = fetchAsDataURL(user.AvatarURL)
+		key := domain.UserAvatarKey(user.Username)
+		assets[key] = fetchAsDataURL(user.AvatarURL)
 	}
 
 	// Fetch Repo Avatars
 	for _, r := range repos {
 		if r.AvatarURL != "" {
-			if _, ok := assets[r.AvatarURL]; !ok {
-				assets[r.AvatarURL] = fetchAsDataURL(r.AvatarURL)
+			key := domain.RepoAvatarKey(r.Repo)
+			if _, ok := assets[key]; !ok {
+				assets[key] = fetchAsDataURL(r.AvatarURL)
 			}
 		}
 	}
@@ -33,8 +34,9 @@ func FetchAssets(user domain.User, repos []domain.RepoContribution, projects []d
 	// Fetch Project Avatars
 	for _, p := range projects {
 		if p.AvatarURL != "" {
-			if _, ok := assets[p.AvatarURL]; !ok {
-				assets[p.AvatarURL] = fetchAsDataURL(p.AvatarURL)
+			key := domain.RepoAvatarKey(p.Repo)
+			if _, ok := assets[key]; !ok {
+				assets[key] = fetchAsDataURL(p.AvatarURL)
 			}
 		}
 	}

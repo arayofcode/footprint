@@ -100,11 +100,11 @@ func TestRenderMinimalCard_HidesZeroStats(t *testing.T) {
 	}
 
 	// Should NOT contain zero-value labels
-	if strings.Contains(svg, "PR REVIEWS") {
-		t.Error("expected SVG to hide zero-value 'PR REVIEWS'")
+	if strings.Contains(svg, "PRS REVIEWED") {
+		t.Error("expected SVG to hide zero-value 'PRS REVIEWED'")
 	}
-	if strings.Contains(svg, "ISSUE COMMENTS") {
-		t.Error("expected SVG to hide zero-value 'ISSUE COMMENTS'")
+	if strings.Contains(svg, "COMMENTS MADE") {
+		t.Error("expected SVG to hide zero-value 'COMMENTS MADE'")
 	}
 }
 
@@ -211,8 +211,8 @@ func TestRenderCard_IsDeterministic(t *testing.T) {
 		{Repo: "c/d", Score: 5},
 	}
 	// Mock assets ensuring stable input
-	assets := map[string]string{
-		"https://example.com/avatar.png": "data:image/png;base64,AAAA",
+	assets := map[domain.AssetKey]string{
+		domain.UserAvatarKey("ray"): "data:image/png;base64,AAAA",
 	}
 	now := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)
 

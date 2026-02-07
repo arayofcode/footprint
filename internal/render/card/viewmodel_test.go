@@ -18,12 +18,9 @@ func TestBuildCardViewModel(t *testing.T) {
 		StarsEarned:   100,
 	}
 	generatedAt := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)
-	assets := map[string]string{
-		"https://example.com/avatar.png": "data:image/png;base64,...",
-	}
 
 	t.Run("Labels match expected display names", func(t *testing.T) {
-		vm := buildViewModel(user, stats, generatedAt, nil, nil, assets, true, false, false)
+		vm := buildViewModel(user, stats, generatedAt, nil, nil, true, false, false)
 		expected := map[string]bool{
 			"PRs Opened":     false,
 			"PRs Reviewed":   false,
@@ -49,7 +46,7 @@ func TestBuildCardViewModel(t *testing.T) {
 	})
 
 	t.Run("Zero-value stats excluded when showAllStats=false", func(t *testing.T) {
-		vm := buildViewModel(user, stats, generatedAt, nil, nil, assets, false, false, false)
+		vm := buildViewModel(user, stats, generatedAt, nil, nil, false, false, false)
 
 		for _, s := range vm.Stats {
 			if s.Raw == 0 {
@@ -63,16 +60,17 @@ func TestBuildCardViewModel(t *testing.T) {
 	})
 
 	t.Run("Sections omitted when empty and minimalSections=true", func(t *testing.T) {
-		vm := buildViewModel(user, stats, generatedAt, nil, nil, assets, false, true, true)
+		vm := buildViewModel(user, stats, generatedAt, nil, nil, false, true, true)
 		if len(vm.Sections) != 0 {
 			t.Errorf("Expected 0 sections, got %d", len(vm.Sections))
 		}
 	})
 
-	t.Run("User Avatar used from assets", func(t *testing.T) {
-		vm := buildViewModel(user, stats, generatedAt, nil, nil, assets, true, false, false)
-		if vm.User.AvatarURL != assets[user.AvatarURL] {
-			t.Errorf("Expected avatar URL to be from assets map")
+	t.Run("User Avatar Key matches", func(t *testing.T) {
+		vm := buildViewModel(user, stats, generatedAt, nil, nil, true, false, false)
+		expectedKey := domain.UserAvatarKey(user.Username)
+		if vm.User.AvatarKey != expectedKey {
+			t.Errorf("Expected avatar key %v, got %v", expectedKey, vm.User.AvatarKey)
 		}
 	})
 }
