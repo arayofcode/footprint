@@ -38,12 +38,13 @@ func (r Renderer) RenderExtendedMinimalCard(ctx context.Context, user domain.Use
 }
 
 func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, showAllStats bool, showSections bool, minimalSections bool) CardViewModel {
+	codeReview := stats.PRReviewComments + stats.PRReviews
 	// 1. Build Stats
 	potentialStats := []StatVM{
 		{Label: "PRs Opened", Value: formatCount(stats.PRsOpened), Icon: iconPR, Raw: stats.PRsOpened},
-		{Label: "PRs Reviewed", Value: formatCount(stats.PRReviews), Icon: iconReview, Raw: stats.PRReviews},
+		{Label: "Code Reviews", Value: formatCount(codeReview), Icon: iconReview, Raw: codeReview},
 		{Label: "Issues Opened", Value: formatCount(stats.IssuesOpened), Icon: iconIssue, Raw: stats.IssuesOpened},
-		{Label: "Comments Made", Value: formatCount(stats.IssueComments), Icon: iconComment, Raw: stats.IssueComments},
+		{Label: "Issue Comments", Value: formatCount(stats.IssueComments), Icon: iconComment, Raw: stats.IssueComments},
 		{Label: "Projects Owned", Value: formatCount(len(projects)), Icon: iconProject, Raw: len(projects)},
 		{Label: "Stars Earned", Value: formatLargeNum(stats.StarsEarned), Icon: iconStar, Raw: stats.StarsEarned},
 	}

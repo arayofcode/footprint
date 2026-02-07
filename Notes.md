@@ -68,7 +68,7 @@ These are repositories that the user owns and that meet a minimal popularity thr
 
 * **External Contributions ("Contribution Score")**
     * Activities in repositories the user does **not** own.
-    * **Calculated Scores**: PRs authored, PR Feedback (Reviews/Comments), Issues opened, and Comments.
+    * **Calculated Scores**: PRs authored, Code Review (Reviews/Comments), Issues opened, and Comments.
     * **Merged detection**: Merged Pull Requests receive a **1.5x score boost**.
     * **Top External Impact**: Grouped and ranked by **Total Impact Score**.
 

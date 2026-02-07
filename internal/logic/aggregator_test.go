@@ -31,7 +31,7 @@ func TestAggregate(t *testing.T) {
 		t.Errorf("expected 1 PR opened, got %d", stats.PRsOpened)
 	}
 	if stats.PRReviews != 1 {
-		t.Errorf("expected 1 PR feedback, got %d", stats.PRReviews)
+		t.Errorf("expected 1 PR Review, got %d", stats.PRReviews)
 	}
 	if stats.IssuesOpened != 1 {
 		t.Errorf("expected 1 issue opened, got %d", stats.IssuesOpened)

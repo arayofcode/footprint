@@ -48,16 +48,9 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 	// Map to legacy UserStats for older renderers
 	stats := domain.UserStats{
 		TotalPRs:     statsView.PRsOpened,
-		TotalReviews: statsView.PRReviews,
+		TotalReviews: statsView.PRReviews + statsView.PRReviewComments,
 		TotalIssues:  statsView.IssuesOpened,
-		// Group PR review comments and issue comments into legacy TotalIssueComments?
-		// Or keep them separate? UserStats has TotalIssueComments.
-		// Let's sum them for now to maintain roughly similar volume metrics if that's what TotalIssueComments implied.
-		// Or maybe TotalReviews should include review comments? User requested "PRReviewed must count reviews only".
-		// So TotalReviews = PRReviews.
-		// TotalIssueComments = IssueComments (and ignore PRReviewComments in legacy stats? or add them?)
-		// Let's add them to TotalIssueComments to capture all "commentary".
-		TotalIssueComments: statsView.IssueComments + statsView.PRReviewComments,
+		TotalIssueComments: statsView.IssueComments,
 		TotalReposCount:    statsView.TotalReposContributedTo,
 		TotalStarsEarned:   statsView.StarsEarned,
 	}

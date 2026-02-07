@@ -46,9 +46,9 @@ func TestRenderCard_GeneratesSVGWithStats(t *testing.T) {
 	// Check for new stats labels
 	expectedLabels := []string{
 		"PRS OPENED",
-		"PRS REVIEWED",
+		"CODE REVIEWS",
 		"ISSUES OPENED",
-		"COMMENTS MADE",
+		"ISSUE COMMENTS",
 		"PROJECTS OWNED",
 		"STARS EARNED",
 	}
@@ -101,11 +101,11 @@ func TestRenderMinimalCard_HidesZeroStats(t *testing.T) {
 	}
 
 	// Should NOT contain zero-value labels
-	if strings.Contains(svg, "PRS REVIEWED") {
-		t.Error("expected SVG to hide zero-value 'PRS REVIEWED'")
+	if strings.Contains(svg, "CODE REVIEWS") {
+		t.Error("expected SVG to hide zero-value 'CODE REVIEWS'")
 	}
-	if strings.Contains(svg, "COMMENTS MADE") {
-		t.Error("expected SVG to hide zero-value 'COMMENTS MADE'")
+	if strings.Contains(svg, "ISSUE COMMENTS") {
+		t.Error("expected SVG to hide zero-value 'ISSUE COMMENTS'")
 	}
 }
 
@@ -235,19 +235,31 @@ func TestRenderCard_IsDeterministic(t *testing.T) {
 func TestRegression_Labels(t *testing.T) {
 	renderer := Renderer{}
 	user := domain.User{Username: "ray"}
-	stats := domain.StatsView{PRReviews: 5}
-
-	out, err := renderer.RenderCard(context.Background(), user, stats, time.Now(), nil, nil, nil)
-	if err != nil {
-		t.Fatalf("expected no error, got %v", err)
+	type testcase struct {
+		stats         domain.StatsView
+		reviewVisible bool
 	}
-	svg := string(out)
-
-	if strings.Contains(svg, "PR FEEDBACK") {
-		t.Error("SVG should NOT contain legacy label 'PR FEEDBACK'")
+	testcases := []testcase{
+		{domain.StatsView{PRReviews: 5}, true},
+		{domain.StatsView{PRReviewComments: 2}, true},
+		{domain.StatsView{}, false},
+		{domain.StatsView{PRReviews: 1, PRReviewComments: 1}, true},
 	}
-	if !strings.Contains(svg, "PRS REVIEWED") {
-		t.Error("SVG SHOULD contain label 'PRS REVIEWED'")
+
+	for _, c := range testcases {
+		out, err := renderer.RenderMinimalCard(context.Background(), user, c.stats, time.Now(), nil, nil, nil)
+		if err != nil {
+			t.Fatalf("expected no error, got %v", err)
+		}
+		svg := string(out)
+
+		if c.reviewVisible && !strings.Contains(svg, "CODE REVIEWS") {
+			t.Error("SVG SHOULD contain label 'CODE REVIEWS'")
+		}
+		
+		if !c.reviewVisible && strings.Contains(svg, "CODE REVIEWS") {
+			t.Errorf("SVG SHOULD not contain label 'CODE REVIEWS': %+v", c)
+		}
 	}
 }
 func TestRenderSection_DoesNotInferFromBadges(t *testing.T) {

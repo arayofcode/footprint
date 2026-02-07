@@ -23,9 +23,9 @@ func TestBuildCardViewModel(t *testing.T) {
 		vm := buildViewModel(user, stats, generatedAt, nil, nil, true, false, false)
 		expected := map[string]bool{
 			"PRs Opened":     false,
-			"PRs Reviewed":   false,
+			"Code Reviews":   false,
 			"Issues Opened":  false,
-			"Comments Made":  false,
+			"Issue Comments":  false,
 			"Projects Owned": false,
 			"Stars Earned":   false,
 		}
