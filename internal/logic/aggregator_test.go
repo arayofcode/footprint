@@ -63,3 +63,40 @@ func TestAggregate(t *testing.T) {
 		}
 	}
 }
+
+func TestAggregate_DoesNotMixContributionTypes(t *testing.T) {
+	events := []domain.SemanticEvent{
+		{Type: domain.SemanticEventIssueComment, Repo: "a", Score: 1},
+		{Type: domain.SemanticEventPrReviewComment, Repo: "a", Score: 1},
+		{Type: domain.SemanticEventPrReview, Repo: "a", Score: 1},
+	}
+	projects := []domain.OwnedProject{}
+
+	stats, contribs := Aggregate(events, projects)
+
+	// verify stats
+	if stats.IssueComments != 1 {
+		t.Errorf("Stats: Expected 1 IssueComment, got %d", stats.IssueComments)
+	}
+	if stats.PRReviewComments != 1 {
+		t.Errorf("Stats: Expected 1 PRReviewComment, got %d", stats.PRReviewComments)
+	}
+	if stats.PRReviews != 1 {
+		t.Errorf("Stats: Expected 1 PRReview, got %d", stats.PRReviews)
+	}
+
+	// verify contribs
+	if len(contribs) != 1 {
+		t.Fatalf("Expected 1 contribution, got %d", len(contribs))
+	}
+	c := contribs[0]
+	if c.IssueComments != 1 {
+		t.Errorf("Contrib: Expected 1 IssueComment, got %d", c.IssueComments)
+	}
+	if c.PRReviewComments != 1 {
+		t.Errorf("Contrib: Expected 1 PRReviewComment, got %d", c.PRReviewComments)
+	}
+	if c.PRReviews != 1 {
+		t.Errorf("Contrib: Expected 1 PRReview, got %d", c.PRReviews)
+	}
+}
