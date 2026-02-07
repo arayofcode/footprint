@@ -25,7 +25,7 @@ func TestRenderCard_GeneratesSVGWithStats(t *testing.T) {
 		IssueComments: 10,
 	}
 
-	out, err := renderer.RenderCard(context.Background(), user, stats, time.Now(), events, projects)
+	out, err := renderer.RenderCard(context.Background(), user, stats, time.Now(), events, projects, nil)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -84,7 +84,7 @@ func TestRenderMinimalCard_HidesZeroStats(t *testing.T) {
 		IssueComments: 0, // Zero - should be hidden
 	}
 
-	out, err := renderer.RenderMinimalCard(context.Background(), user, stats, time.Now(), nil, nil)
+	out, err := renderer.RenderMinimalCard(context.Background(), user, stats, time.Now(), nil, nil, nil)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -119,7 +119,7 @@ func TestRenderExtendedCard_IncludesSections(t *testing.T) {
 	user := domain.User{Username: "ray"}
 	stats := domain.StatsView{PRsOpened: 5}
 
-	out, err := renderer.RenderExtendedCard(context.Background(), user, stats, time.Now(), events, projects)
+	out, err := renderer.RenderExtendedCard(context.Background(), user, stats, time.Now(), events, projects, nil)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -141,7 +141,7 @@ func TestRenderExtendedMinimalCard_HidesEmptySections(t *testing.T) {
 	stats := domain.StatsView{PRsOpened: 5}
 
 	// No events and no projects - sections should be hidden
-	out, err := renderer.RenderExtendedMinimalCard(context.Background(), user, stats, time.Now(), nil, nil)
+	out, err := renderer.RenderExtendedMinimalCard(context.Background(), user, stats, time.Now(), nil, nil, nil)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -166,7 +166,7 @@ func TestRenderExtendedMinimalCard_ShiftsExternalToLeft(t *testing.T) {
 	}
 
 	// No projects, but has events. Key Contributions should move to x=40.
-	out, err := renderer.RenderExtendedMinimalCard(context.Background(), user, stats, time.Now(), events, nil)
+	out, err := renderer.RenderExtendedMinimalCard(context.Background(), user, stats, time.Now(), events, nil, nil)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -179,5 +179,73 @@ func TestRenderExtendedMinimalCard_ShiftsExternalToLeft(t *testing.T) {
 	}
 	if !strings.Contains(svg, "KEY CONTRIBUTIONS") {
 		t.Error("expected SVG to contain 'KEY CONTRIBUTIONS'")
+	}
+}
+
+func TestRenderCard_SVGContainsCoreSections(t *testing.T) {
+	renderer := Renderer{}
+	user := domain.User{Username: "ray"}
+	stats := domain.StatsView{PRsOpened: 5}
+
+	out, err := renderer.RenderCard(context.Background(), user, stats, time.Now(), nil, nil, nil)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+
+	svg := string(out)
+
+	if !strings.Contains(svg, "<svg") {
+		t.Error("expected SVG root")
+	}
+	if !strings.Contains(svg, "PRS OPENED") {
+		t.Error("expected stat label PRS OPENED")
+	}
+}
+
+func TestRenderCard_IsDeterministic(t *testing.T) {
+	renderer := Renderer{}
+	user := domain.User{Username: "ray", AvatarURL: "https://example.com/avatar.png"}
+	stats := domain.StatsView{PRsOpened: 5, IssuesOpened: 2}
+	events := []domain.RepoContribution{
+		{Repo: "a/b", Score: 10},
+		{Repo: "c/d", Score: 5},
+	}
+	// Mock assets ensuring stable input
+	assets := map[string]string{
+		"https://example.com/avatar.png": "data:image/png;base64,AAAA",
+	}
+	now := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)
+
+	out1, err := renderer.RenderCard(context.Background(), user, stats, now, events, nil, assets)
+	if err != nil {
+		t.Fatalf("first render failed: %v", err)
+	}
+
+	out2, err := renderer.RenderCard(context.Background(), user, stats, now, events, nil, assets)
+	if err != nil {
+		t.Fatalf("second render failed: %v", err)
+	}
+
+	if string(out1) != string(out2) {
+		t.Error("RenderCard output is not deterministic")
+	}
+}
+
+func TestRegression_Labels(t *testing.T) {
+	renderer := Renderer{}
+	user := domain.User{Username: "ray"}
+	stats := domain.StatsView{PRReviews: 5}
+
+	out, err := renderer.RenderCard(context.Background(), user, stats, time.Now(), nil, nil, nil)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+	svg := string(out)
+
+	if strings.Contains(svg, "PR FEEDBACK") {
+		t.Error("SVG should NOT contain legacy label 'PR FEEDBACK'")
+	}
+	if !strings.Contains(svg, "PRS REVIEWED") {
+		t.Error("SVG SHOULD contain label 'PRS REVIEWED'")
 	}
 }

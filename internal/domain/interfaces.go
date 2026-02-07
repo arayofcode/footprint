@@ -43,10 +43,10 @@ type SummaryRenderer interface {
 }
 
 type CardRenderer interface {
-	RenderCard(ctx context.Context, user User, stats StatsView, generatedAt time.Time, contributions []RepoContribution, projects []OwnedProject) ([]byte, error)
-	RenderMinimalCard(ctx context.Context, user User, stats StatsView, generatedAt time.Time, contributions []RepoContribution, projects []OwnedProject) ([]byte, error)
-	RenderExtendedCard(ctx context.Context, user User, stats StatsView, generatedAt time.Time, contributions []RepoContribution, projects []OwnedProject) ([]byte, error)
-	RenderExtendedMinimalCard(ctx context.Context, user User, stats StatsView, generatedAt time.Time, contributions []RepoContribution, projects []OwnedProject) ([]byte, error)
+	RenderCard(ctx context.Context, user User, stats StatsView, generatedAt time.Time, contributions []RepoContribution, projects []OwnedProject, assets map[string]string) ([]byte, error)
+	RenderMinimalCard(ctx context.Context, user User, stats StatsView, generatedAt time.Time, contributions []RepoContribution, projects []OwnedProject, assets map[string]string) ([]byte, error)
+	RenderExtendedCard(ctx context.Context, user User, stats StatsView, generatedAt time.Time, contributions []RepoContribution, projects []OwnedProject, assets map[string]string) ([]byte, error)
+	RenderExtendedMinimalCard(ctx context.Context, user User, stats StatsView, generatedAt time.Time, contributions []RepoContribution, projects []OwnedProject, assets map[string]string) ([]byte, error)
 }
 
 type OutputWriter interface {

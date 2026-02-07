@@ -2,11 +2,8 @@ package card
 
 import (
 	"context"
-	"encoding/base64"
 	"fmt"
 	"html"
-	"io"
-	"net/http"
 	"sort"
 	"strings"
 	"time"
@@ -16,79 +13,53 @@ import (
 
 type Renderer struct{}
 
-// externalRepoStat tracks contributions to external repos
-type externalRepoStat struct {
-	name          string
-	url           string
-	avatarURL     string
-	score         float64
-	prCount       int
-	issueCount    int
-	feedbackCount int
-}
-
-// RenderCard: All stats (3x2), no sections
-func (r Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject) ([]byte, error) {
-	return r.render(ctx, user, stats, generatedAt, contributions, projects, true, false, false)
+// RenderCard: All stats, no sections
+func (r Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[string]string) ([]byte, error) {
+	vm := buildViewModel(user, stats, generatedAt, contributions, projects, assets, true, false, false)
+	return renderSVG(vm), nil
 }
 
 // RenderMinimalCard: Non-zero stats only, no sections
-func (r Renderer) RenderMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject) ([]byte, error) {
-	return r.render(ctx, user, stats, generatedAt, contributions, projects, false, false, false)
+func (r Renderer) RenderMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[string]string) ([]byte, error) {
+	vm := buildViewModel(user, stats, generatedAt, contributions, projects, assets, false, false, false)
+	return renderSVG(vm), nil
 }
 
 // RenderExtendedCard: All stats + both sections
-func (r Renderer) RenderExtendedCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject) ([]byte, error) {
-	return r.render(ctx, user, stats, generatedAt, contributions, projects, true, true, false)
+func (r Renderer) RenderExtendedCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[string]string) ([]byte, error) {
+	vm := buildViewModel(user, stats, generatedAt, contributions, projects, assets, true, true, false)
+	return renderSVG(vm), nil
 }
 
 // RenderExtendedMinimalCard: Non-zero stats + sections only if content exists
-func (r Renderer) RenderExtendedMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject) ([]byte, error) {
-	return r.render(ctx, user, stats, generatedAt, contributions, projects, false, true, true)
+func (r Renderer) RenderExtendedMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[string]string) ([]byte, error) {
+	vm := buildViewModel(user, stats, generatedAt, contributions, projects, assets, false, true, true)
+	return renderSVG(vm), nil
 }
 
-// render is the core rendering function
-// showAllStats: if false, hide zero-value stats
-// showSections: if true, show Top Repos and Key Contributions
-// minimalSections: if true, hide sections that have no content
-func (Renderer) render(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, showAllStats bool, showSections bool, minimalSections bool) ([]byte, error) {
-	_ = ctx
-
-	// Build stats list
-	type statItem struct {
-		label string
-		value string
-		icon  string
-		raw   int
+func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[string]string, showAllStats bool, showSections bool, minimalSections bool) CardViewModel {
+	// 1. Build Stats
+	potentialStats := []StatVM{
+		{Label: "PRs Opened", Value: formatCount(stats.PRsOpened), Icon: iconPR, Raw: stats.PRsOpened},
+		{Label: "PRs Reviewed", Value: formatCount(stats.PRReviews), Icon: iconReview, Raw: stats.PRReviews},
+		{Label: "Issues Opened", Value: formatCount(stats.IssuesOpened), Icon: iconIssue, Raw: stats.IssuesOpened},
+		{Label: "Comments Made", Value: formatCount(stats.IssueComments), Icon: iconComment, Raw: stats.IssueComments},
+		{Label: "Projects Owned", Value: formatCount(len(projects)), Icon: iconProject, Raw: len(projects)},
+		{Label: "Stars Earned", Value: formatLargeNum(stats.StarsEarned), Icon: iconStar, Raw: stats.StarsEarned},
 	}
 
-	totalStars := 0
-	for _, p := range projects {
-		totalStars += p.Stars
-	}
-
-	potentialStats := []statItem{
-		{"PRs Opened", formatCount(stats.PRsOpened), iconPR, stats.PRsOpened},
-		{"PRs Reviewed", formatCount(stats.PRReviews), iconReview, stats.PRReviews},
-		{"Issues Opened", formatCount(stats.IssuesOpened), iconIssue, stats.IssuesOpened},
-		{"Comments Made", formatCount(stats.IssueComments), iconComment, stats.IssueComments},
-		{"Projects Owned", formatCount(len(projects)), iconProject, len(projects)},
-		{"Stars Earned", formatLargeNum(totalStars), iconStar, totalStars},
-	}
-
-	var activeStats []statItem
+	var activeStats []StatVM
 	for _, s := range potentialStats {
-		if showAllStats || s.raw > 0 {
+		if showAllStats || s.Raw > 0 {
+			s.Color = "#22c55e"
 			activeStats = append(activeStats, s)
 		}
 	}
 
-	// Determine if we should use vertical layout (500px)
-	// Vertical triggered if minimal (hide zero stats) AND <= 3 stats AND <= 1 section
-	ownedSection := ""
-	externalSection := ""
+	// 2. Prepare Sections Data
 	topOwned := projects
 	if showSections {
+		// Sort by Stars desc, then Repo asc
 		sort.Slice(projects, func(i, j int) bool {
 			if projects[i].Stars != projects[j].Stars {
 				return projects[i].Stars > projects[j].Stars
@@ -100,9 +71,8 @@ func (Renderer) render(ctx context.Context, user domain.User, stats domain.Stats
 		}
 	}
 
-	// Use pre-aggregated contributions
-	// Aggregation logic already filters owned projects over in logic/aggregator.go
 	topExternal := contributions
+	// Sort by Score desc, then Repo asc
 	sort.Slice(topExternal, func(i, j int) bool {
 		if topExternal[i].Score != topExternal[j].Score {
 			return topExternal[i].Score > topExternal[j].Score
@@ -113,36 +83,36 @@ func (Renderer) render(ctx context.Context, user domain.User, stats domain.Stats
 		topExternal = topExternal[:3]
 	}
 
-	showOwnedHeading := showSections && (!minimalSections || len(topOwned) > 0)
-	showExternalHeading := showSections && (!minimalSections || len(topExternal) > 0)
+	hasOwned := len(topOwned) > 0
+	hasExternal := len(topExternal) > 0
 
-	numSections := 0
-	if showOwnedHeading {
-		numSections++
-	}
-	if showExternalHeading {
-		numSections++
-	}
-
-	isVertical := !showAllStats && len(activeStats) == 2 && numSections <= 1
-	cardWidth := 800
-	if isVertical {
-		cardWidth = 500
+	statCount := len(activeStats)
+	sectionCount := 0
+	if showSections {
+		if !minimalSections || hasOwned {
+			sectionCount++
+		}
+		if !minimalSections || hasExternal {
+			sectionCount++
+		}
 	}
 
-	// Stats grid layout
-	var statBoxes []string
-	statSpacing := 90
-	if isVertical {
-		statSpacing = 80
+	// 3. Decide Layout
+	layoutInput := LayoutInput{
+		StatCount:       statCount,
+		SectionCount:    sectionCount,
+		ShowAllStats:    showAllStats,
+		MinimalSections: minimalSections,
 	}
-	for i, s := range activeStats {
+	layout := DecideLayout(layoutInput)
+
+	// 4. Position Stats
+	for i := range activeStats {
 		var x, y int
-		if isVertical {
+		if layout.IsVertical {
 			x = 0
-			y = i * statSpacing
-		} else if !showAllStats && len(activeStats) == 4 {
-			// 2x2 Matrix for 4 stats
+			y = i * layout.StatSpacing
+		} else if !showAllStats && statCount == 4 {
 			col := i % 2
 			row := i / 2
 			x = col * 350
@@ -153,97 +123,191 @@ func (Renderer) render(ctx context.Context, user domain.User, stats domain.Stats
 			x = col * 250
 			y = row * 90
 		}
-		statBoxes = append(statBoxes, renderStatBox(x, y, s.label, s.value, s.icon, "#22c55e"))
+		activeStats[i].X = x
+		activeStats[i].Y = y
 	}
 
-	gridHeight := 0
-	if len(activeStats) > 0 {
-		var rows int
-		if isVertical {
-			rows = len(activeStats)
-		} else if !showAllStats && len(activeStats) == 4 {
-			rows = 2
-		} else {
-			rows = (len(activeStats) + 2) / 3
+	// 5. Build Sections
+	var sections []SectionVM
+	currentY := layout.ContentY
+
+	if showSections {
+		// Owned Section
+		if !minimalSections || hasOwned {
+			body := formatOwnedLandscape(topOwned, layout.IsVertical, assets)
+			if !hasOwned && !minimalSections {
+				body = `<text x="0" y="50" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#6b7280">No projects created yet</text>`
+			}
+
+			sections = append(sections, SectionVM{
+				Title:   "TOP PROJECTS CREATED",
+				X:       40,
+				Y:       currentY,
+				Content: body,
+			})
+
+			// Increment Y
+			rowHeight := 55
+			if layout.IsVertical {
+				rowHeight = 65
+				sectionH := 40 + (len(topOwned) * rowHeight)
+				if !hasOwned {
+					sectionH = 70 // approximate for empty text
+				}
+				currentY += sectionH
+			} else {
+				// For horizontal, we don't increment Y between side-by-side sections,
+				// but we need to know the max height for total height calculation logic which is mostly handled by layout or here.
+				// However, the original logic had specific per-column behavior.
+				// Horizontal layout: Owned on Left (x=40), External on Right (x=420) usually.
+				// If only one section exists in Horizontal, it might be at x=40.
+			}
 		}
-		gridHeight = ((rows - 1) * statSpacing) + 70
+
+		// External Section
+		if !minimalSections || hasExternal {
+			xPos := 420
+			// If vertical, everything is at x=40.
+			// If horizontal but no owned section (and not showing empty owned), shift to x=40.
+			if layout.IsVertical || (minimalSections && !hasOwned) {
+				xPos = 40
+			}
+
+			body := formatExternalLandscape(topExternal, user.Username, layout.IsVertical, assets)
+			sections = append(sections, SectionVM{
+				Title:   "KEY CONTRIBUTIONS",
+				X:       xPos,
+				Y:       currentY, // In horizontal, this Y is same as owned section start usually
+				Content: body,
+			})
+
+			if layout.IsVertical {
+				rowHeight := 65
+				currentY += 40 + (len(topExternal) * rowHeight)
+			}
+		}
+
+		// Calculate total height based on largest section for horizontal
+		if !layout.IsVertical {
+			rowHeight := 55
+			h1 := 0
+			if !minimalSections || hasOwned {
+				if hasOwned {
+					h1 = 40 + (len(topOwned) * rowHeight)
+				} else {
+					h1 = 70
+				}
+			}
+			h2 := 0
+			if !minimalSections || hasExternal {
+				h2 = 40 + (len(topExternal) * rowHeight)
+			}
+			maxH := h1
+			if h2 > h1 {
+				maxH = h2
+			}
+			if maxH > 0 {
+				currentY += maxH
+			}
+		}
 	}
 
-	statSection := fmt.Sprintf(`
+	// Finalize total height
+	totalHeight := currentY + 50
+	layout.Height = totalHeight
+
+	footer := FooterVM{
+		Y:           totalHeight - 25,
+		GeneratedAt: generatedAt.Format("02 Jan 2006"),
+	}
+	if !layout.IsVertical {
+		footer.Attribution = `<a xlink:href="https://github.com/arayofcode/footprint" target="_blank"><text x="400" y="0" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#22c55e" style="cursor: pointer;">Generated by Footprint</text></a>`
+	}
+
+	// Assets lookup
+	avatar := ""
+	if user.AvatarURL != "" {
+		if val, ok := assets[user.AvatarURL]; ok {
+			avatar = val
+		} else {
+			avatar = html.EscapeString(user.AvatarURL)
+		}
+	}
+
+	return CardViewModel{
+		Width:      layout.Width,
+		Height:     layout.Height,
+		IsVertical: layout.IsVertical,
+		User: UserVM{
+			Username:  user.Username,
+			AvatarURL: avatar,
+		},
+		Stats:    activeStats,
+		Sections: sections,
+		Footer:   footer,
+	}
+}
+
+// renderSVG composes the final SVG string from ViewModel
+func renderSVG(vm CardViewModel) []byte {
+	// Components
+	defs := renderDefs()
+	bg := fmt.Sprintf(`<rect width="%d" height="%d" rx="16" fill="#1a1a1a" />`, vm.Width, vm.Height)
+	header := renderHeader(vm.User)
+
+	statsContent := ""
+	var statBoxes []string
+	for _, s := range vm.Stats {
+		statBoxes = append(statBoxes, renderStatBox(s.X, s.Y, s.Label, s.Value, s.Icon, s.Color))
+	}
+	if len(statBoxes) > 0 {
+		statsContent = fmt.Sprintf(`
   <g transform="translate(40, 90)">
     %s
   </g>`, strings.Join(statBoxes, "\n    "))
+	}
 
-	currentY := 90 + gridHeight + 20 // Reduced from 30
-
-	if showSections {
-		sectionHeight := 0
-		rowHeight := 55
-		if isVertical {
-			rowHeight = 65
-		}
-		if showOwnedHeading {
-			contentHTML := formatOwnedLandscape(topOwned, isVertical)
-			if len(topOwned) == 0 && !minimalSections {
-				contentHTML = `<text x="0" y="50" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#6b7280">No projects created yet</text>`
-			}
-			ownedSection = fmt.Sprintf(`
-  <g transform="translate(40, %d)">
-    <text x="0" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#9ca3af" letter-spacing="1">TOP PROJECTS CREATED</text>
-    %s
-  </g>`, currentY, contentHTML)
-			if isVertical {
-				currentY += 40 + (len(topOwned) * rowHeight)
-				if len(topOwned) == 0 {
-					currentY += 30
-				}
-			} else {
-				if len(topOwned) > 0 {
-					sectionHeight = 40 + (len(topOwned) * rowHeight)
-				} else {
-					sectionHeight = 70
-				}
-			}
-		}
-
-		if showExternalHeading {
-			xPos := 420
-			if isVertical || !showOwnedHeading {
-				xPos = 40
-			}
-			externalSection = fmt.Sprintf(`
+	sectionsContent := ""
+	for _, sec := range vm.Sections {
+		sectionsContent += fmt.Sprintf(`
   <g transform="translate(%d, %d)">
-    <text x="0" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#9ca3af" letter-spacing="1">KEY CONTRIBUTIONS</text>
+    <text x="0" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#9ca3af" letter-spacing="1">%s</text>
     %s
-  </g>`, xPos, currentY, formatExternalLandscape(topExternal, user.Username, isVertical))
-			if isVertical {
-				currentY += 40 + (len(topExternal) * rowHeight)
-			} else {
-				extHeight := 40 + (len(topExternal) * rowHeight)
-				if extHeight > sectionHeight {
-					sectionHeight = extHeight
-				}
-			}
-		}
-		if !isVertical && sectionHeight > 0 {
-			currentY += sectionHeight
-		}
+  </g>`, sec.X, sec.Y, sec.Title, sec.Content)
 	}
 
-	totalHeight := currentY + 50
-	footerY := totalHeight - 25
-
-	attributionHTML := ""
-	if !isVertical {
-		attributionHTML = `<a xlink:href="https://github.com/arayofcode/footprint" target="_blank"><text x="400" y="0" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#22c55e" style="cursor: pointer;">Generated by Footprint</text></a>`
-	}
-
-	userAvatarBase64 := fetchAsDataURL(user.AvatarURL)
+	footer := renderFooter(vm.Footer, vm.Width)
 
 	svg := fmt.Sprintf(`<?xml version="1.0" encoding="UTF-8"?>
 <svg width="%d" height="%d" viewBox="0 0 %d %d" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <defs>
-    <filter id="glow" x="-50%%" y="-50%%" width="200%%" height="200%%">
+  %s
+  
+  <!-- Background -->
+  %s
+  
+  <!-- Header -->
+  %s
+  
+%s
+  %s
+  %s
+</svg>
+`,
+		vm.Width, vm.Height, vm.Width, vm.Height,
+		defs,
+		bg,
+		header,
+		statsContent,
+		sectionsContent,
+		footer,
+	)
+
+	return []byte(svg)
+}
+
+func renderDefs() string {
+	return `<defs>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
       <feMerge>
         <feMergeNode in="coloredBlur"/>
@@ -256,58 +320,49 @@ func (Renderer) render(ctx context.Context, user domain.User, stats domain.Stats
     <clipPath id="repo-clip">
        <circle cx="12" cy="12" r="12" />
     </clipPath>
-  </defs>
-  
-  <!-- Background -->
-  <rect width="%d" height="%d" rx="16" fill="#1a1a1a" />
-  
-  <!-- Header -->
+  </defs>`
+}
+
+func renderHeader(user UserVM) string {
+	return fmt.Sprintf(`
   <a xlink:href="https://github.com/%s" target="_blank">
     <g>
       <image href="%s" x="40" y="25" width="40" height="40" clip-path="url(#avatar-clip)" />
       <circle cx="60" cy="45" r="20" fill="none" stroke="#22c55e" stroke-width="2"/>
       <text x="95" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="600" fill="white">%s</text>
     </g>
-  </a>
-  
-%s
-  %s
-  %s
-  
+  </a>`, user.Username, user.AvatarURL, user.Username)
+}
+
+func renderFooter(footer FooterVM, width int) string {
+	return fmt.Sprintf(`
   <g transform="translate(40, %d)">
     <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#6b7280">Range: All-time</text>
     %s
     <text x="%d" y="0" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#6b7280">Last Updated %s</text>
-  </g>
-</svg>
-`,
-		cardWidth, totalHeight, cardWidth, totalHeight,
-		cardWidth, totalHeight,
-		user.Username,
-		userAvatarBase64,
-		user.Username,
-		statSection,
-		ownedSection,
-		externalSection,
-		footerY,
-		attributionHTML,
-		cardWidth-80,
-		generatedAt.Format("02 Jan 2006"),
-	)
-
-	return []byte(svg), nil
+  </g>`, footer.Y, footer.Attribution, width-80, footer.GeneratedAt)
 }
 
-func formatOwnedLandscape(projects []domain.OwnedProject, isVertical bool) string {
+// formatOwnedLandscape generates SVG string for owned projects (Legacy-ish, used by VM builder)
+// In a pure world, this would also return a struct, but string composition is fine for internal parts if passed to VM.
+func formatOwnedLandscape(projects []domain.OwnedProject, isVertical bool, assets map[string]string) string {
 	var s string
 	rowHeight := 55
-	cardWidth := 340 // Inside section width
+	cardWidth := 340
 	if isVertical {
 		cardWidth = 420
 	}
 	for i, p := range projects {
 		y := 35 + (i * rowHeight)
-		repoAvatar := fetchAsDataURL(p.AvatarURL)
+
+		repoAvatar := ""
+		if p.AvatarURL != "" {
+			if val, ok := assets[p.AvatarURL]; ok {
+				repoAvatar = val
+			} else {
+				repoAvatar = html.EscapeString(p.AvatarURL)
+			}
+		}
 
 		s += fmt.Sprintf(`
     <a xlink:href="%s" target="_blank">
@@ -328,7 +383,7 @@ func formatOwnedLandscape(projects []domain.OwnedProject, isVertical bool) strin
 	return s
 }
 
-func formatExternalLandscape(repos []domain.RepoContribution, username string, isVertical bool) string {
+func formatExternalLandscape(repos []domain.RepoContribution, username string, isVertical bool, assets map[string]string) string {
 	var s string
 	rowHeight := 55
 	cardWidth := 340
@@ -337,7 +392,15 @@ func formatExternalLandscape(repos []domain.RepoContribution, username string, i
 	}
 	for i, r := range repos {
 		y := 35 + (i * rowHeight)
-		repoAvatar := fetchAsDataURL(r.AvatarURL)
+
+		repoAvatar := ""
+		if r.AvatarURL != "" {
+			if val, ok := assets[r.AvatarURL]; ok {
+				repoAvatar = val
+			} else {
+				repoAvatar = html.EscapeString(r.AvatarURL)
+			}
+		}
 
 		parts := strings.Split(r.Repo, "/")
 		repoName := r.Repo
@@ -421,31 +484,6 @@ func truncate(s string, limit int) string {
 		return s
 	}
 	return s[:limit-3] + "..."
-}
-
-func fetchAsDataURL(url string) string {
-	if url == "" {
-		return ""
-	}
-	client := &http.Client{Timeout: 5 * time.Second}
-	resp, err := client.Get(url)
-	if err != nil {
-		return html.EscapeString(url)
-	}
-	defer resp.Body.Close() //nolint:errcheck
-	if resp.StatusCode != http.StatusOK {
-		return html.EscapeString(url)
-	}
-	data, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return html.EscapeString(url)
-	}
-	contentType := resp.Header.Get("Content-Type")
-	if contentType == "" {
-		contentType = "image/png"
-	}
-	encoded := base64.StdEncoding.EncodeToString(data)
-	return fmt.Sprintf("data:%s;base64,%s", contentType, encoded)
 }
 
 func renderSmallIconBox(icon string) string {

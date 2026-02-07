@@ -270,6 +270,12 @@ footprint/
     scoring/
       scoring.go
     render/
+      assets/
+        fetcher.go
+      card/
+        renderer.go
+        viewmodel.go
+        layout.go
       report.go
       summary.md
   dist/ (generated)

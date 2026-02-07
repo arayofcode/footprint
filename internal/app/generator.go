@@ -8,6 +8,7 @@ import (
 	"github.com/arayofcode/footprint/internal/domain"
 	"github.com/arayofcode/footprint/internal/github"
 	"github.com/arayofcode/footprint/internal/logic"
+	"github.com/arayofcode/footprint/internal/render/assets"
 )
 
 type Generator struct {
@@ -100,8 +101,11 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 	}
 
 	if g.CardRenderer != nil {
+		// Fetch assets (avatars)
+		assetMap := assets.FetchAssets(user, repoContribs, projects)
+
 		// Used pre-calculated views
-		cardSVG, err := g.CardRenderer.RenderCard(ctx, user, statsView, generatedAt, repoContribs, projects)
+		cardSVG, err := g.CardRenderer.RenderCard(ctx, user, statsView, generatedAt, repoContribs, projects, assetMap)
 		if err != nil {
 			return fmt.Errorf("rendering card: %w", err)
 		}
@@ -110,7 +114,7 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 		}
 
 		// Minimal card
-		minimalSVG, err := g.CardRenderer.RenderMinimalCard(ctx, user, statsView, generatedAt, repoContribs, projects)
+		minimalSVG, err := g.CardRenderer.RenderMinimalCard(ctx, user, statsView, generatedAt, repoContribs, projects, assetMap)
 		if err != nil {
 			return fmt.Errorf("rendering minimal card: %w", err)
 		}
@@ -119,7 +123,7 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 		}
 
 		// Extended card
-		extendedSVG, err := g.CardRenderer.RenderExtendedCard(ctx, user, statsView, generatedAt, repoContribs, projects)
+		extendedSVG, err := g.CardRenderer.RenderExtendedCard(ctx, user, statsView, generatedAt, repoContribs, projects, assetMap)
 		if err != nil {
 			return fmt.Errorf("rendering extended card: %w", err)
 		}
@@ -128,7 +132,7 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 		}
 
 		// Extended-minimal card
-		extMinimalSVG, err := g.CardRenderer.RenderExtendedMinimalCard(ctx, user, statsView, generatedAt, repoContribs, projects)
+		extMinimalSVG, err := g.CardRenderer.RenderExtendedMinimalCard(ctx, user, statsView, generatedAt, repoContribs, projects, assetMap)
 		if err != nil {
 			return fmt.Errorf("rendering extended-minimal card: %w", err)
 		}
