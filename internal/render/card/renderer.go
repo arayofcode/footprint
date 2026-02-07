@@ -269,9 +269,14 @@ func renderSVG(vm CardViewModel, assetsMap map[domain.AssetKey]string) []byte {
 		body := renderSection(sec, vm.Layout, resolveAsset)
 		sectionsContent += fmt.Sprintf(`
   <g transform="translate(%d, %d)">
-    <text x="0" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#9ca3af" letter-spacing="1">%s</text>
     %s
-  </g>`, loc.X, loc.Y, sec.Title, body)
+    %s
+  </g>`,
+			loc.X,
+			loc.Y,
+			renderSectionHeader(sec.Title),
+			body,
+		)
 	}
 
 	footer := renderFooter(vm.Footer, vm.Width)
@@ -305,11 +310,7 @@ func renderSVG(vm CardViewModel, assetsMap map[domain.AssetKey]string) []byte {
 
 func renderSection(sec SectionVM, layout LayoutVM, assetResolver func(domain.AssetKey) string) string {
 	if len(sec.Rows) == 0 {
-		msg := sec.EmptyMessage
-		if msg == "" {
-			return ""
-		}
-		return fmt.Sprintf(`<text x="0" y="50" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#6b7280">%s</text>`, html.EscapeString(msg))
+		return renderEmptyState(sec.EmptyMessage)
 	}
 
 	var sb strings.Builder
@@ -332,27 +333,11 @@ func renderSection(sec SectionVM, layout LayoutVM, assetResolver func(domain.Ass
 
 		badgesSVG := ""
 		if len(row.Badges) > 0 {
-			var bParts []string
 			switch row.Kind {
 			case RowOwnedProject:
-				b := row.Badges[0]
-				bParts = append(bParts, fmt.Sprintf(`
-           %s
-           <text x="32" y="16.5" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#22c55e">%s</text>`, renderSmallIconBox(b.Icon), b.Count))
-				badgesSVG = fmt.Sprintf(`<g transform="translate(%d, 10.5)">%s</g>`, cardWidth-80, strings.Join(bParts, ""))
+				badgesSVG = renderOwnedBadges(row.Badges[0], cardWidth)
 			case RowExternalContribution:
-				currentX := -50
-				for _, b := range row.Badges {
-					bParts = append(bParts, fmt.Sprintf(`
-      <a xlink:href="%s" target="_blank">
-        <g transform="translate(%d, 0)">
-           %s
-           <text x="28" y="16.5" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#22c55e">%s</text>
-        </g>
-      </a>`, html.EscapeString(b.Link), currentX, renderSmallIconBox(b.Icon), b.Count))
-					currentX -= 50
-				}
-				badgesSVG = fmt.Sprintf(`<g transform="translate(%d, 10.5)">%s</g>`, cardWidth-5, strings.Join(bParts, ""))
+				badgesSVG = renderExternalBadges(row.Badges, cardWidth)
 			}
 		}
 
@@ -469,3 +454,64 @@ const (
 	iconProject = `<path d="M3 2.75A2.75 2.75 0 0 1 5.75 0h14.5a.75.75 0 0 1 .75.75v20.5a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h5.25v-4H6A1.5 1.5 0 0 0 4.5 18v.75c0 .716.43 1.334 1.05 1.605a.75.75 0 0 1-.6 1.374A3.251 3.251 0 0 1 3 18.75ZM19.5 1.5H5.75c-.69 0-1.25.56-1.25 1.25v12.651A2.989 2.989 0 0 1 6 15h13.5Z"></path><path d="M7 18.25a.25.25 0 0 1 .25-.25h5a.25.25 0 0 1 .25.25v5.01a.25.25 0 0 1-.397.201l-2.206-1.604a.25.25 0 0 0-.294 0L7.397 23.46a.25.25 0 0 1-.397-.2v-5.01Z"></path>`
 	iconStar    = `<path d="M12 .25a.75.75 0 0 1 .673.418l3.058 6.197 6.839.994a.75.75 0 0 1 .415 1.279l-4.948 4.823 1.168 6.811a.751.751 0 0 1-1.088.791L12 18.347l-6.117 3.216a.75.75 0 0 1-1.088-.79l1.168-6.812-4.948-4.823a.75.75 0 0 1 .416-1.28l6.838-.993L11.328.668A.75.75 0 0 1 12 .25Zm0 2.445L9.44 7.882a.75.75 0 0 1-.565.41l-5.725.832 4.143 4.038a.748.748 0 0 1 .215.664l-.978 5.702 5.121-2.692a.75.75 0 0 1 .698 0l5.12 2.692-.977-5.702a.748.748 0 0 1 .215-.664l4.143-4.038-5.725-.831a.75.75 0 0 1-.565-.41L12 2.694Z"></path>`
 )
+
+// ---- Visual primitives ----
+func renderSectionHeader(title string) string {
+	return fmt.Sprintf(
+		`<text x="0" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#9ca3af" letter-spacing="1">%s</text>`,
+		html.EscapeString(title),
+	)
+}
+
+func renderEmptyState(message string) string {
+	if message == "" {
+		return ""
+	}
+	return fmt.Sprintf(
+		`<text x="0" y="50" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#6b7280">%s</text>`,
+		html.EscapeString(message),
+	)
+}
+
+func renderOwnedBadges(badge BadgeVM, cardWidth int) string {
+	return fmt.Sprintf(`
+	<g transform="translate(%d, 10.5)">
+		%s
+		<text x="32" y="16.5"
+			font-family="system-ui, -apple-system, sans-serif"
+			font-size="14"
+			font-weight="600"
+			fill="#22c55e">%s</text>
+	</g>`,
+		cardWidth-80,
+		renderSmallIconBox(badge.Icon),
+		badge.Count,
+	)
+}
+
+func renderExternalBadges(badges []BadgeVM, cardWidth int) string {
+	var sb strings.Builder
+	currentX := -50
+
+	for _, b := range badges {
+		sb.WriteString(fmt.Sprintf(`
+		<a xlink:href="%s" target="_blank">
+			<g transform="translate(%d, 0)">
+				%s
+				<text x="28" y="16.5"
+					font-family="system-ui, -apple-system, sans-serif"
+					font-size="11"
+					font-weight="700"
+					fill="#22c55e">%s</text>
+			</g>
+		</a>`,
+			html.EscapeString(b.Link),
+			currentX,
+			renderSmallIconBox(b.Icon),
+			b.Count,
+		))
+		currentX -= 50
+	}
+
+	return fmt.Sprintf(`<g transform="translate(%d, 10.5)">%s</g>`, cardWidth-5, sb.String())
+}
