@@ -1,6 +1,6 @@
 # OSS Footprint: @arayofcode
 
-*Generated on February 3, 2026*
+*Generated on February 8, 2026*
 
 ## Impact Snapshot
 
@@ -17,7 +17,7 @@
 
 ### [mvt-project/mvt](https://github.com/mvt-project/mvt/pulls?q=is%3Apr+author%3Aarayofcode)
 
-*Total Impact: **104.0** · 2 PR(s)*
+*Total Impact: **97.3** · 2 PR(s)*
 
 - 💬 **[Error: mvt-android download-apks --output](https://github.com/mvt-project/mvt/issues/51#issuecomment-885251738)** (Jul 22, 2021) · ❤️ 1
 - 💬 **[Updated Documentation](https://github.com/mvt-project/mvt/pull/24#issuecomment-884525803)** (Jul 21, 2021)
@@ -47,7 +47,7 @@
 
 ### [zed-industries/zed](https://github.com/zed-industries/zed/pulls?q=is%3Apr+author%3Aarayofcode)
 
-*Total Impact: **44.0** · 0 PR(s)*
+*Total Impact: **37.3** · 0 PR(s)*
 
 - 💬 **[git: Stage and unstage buttons both enabled at same time in git diff view](https://github.com/zed-industries/zed/issues/26881#issuecomment-2730390960)** (Mar 17, 2025)
 - 💬 **[git: Stage and unstage buttons both enabled at same time in git diff view](https://github.com/zed-industries/zed/issues/26881#issuecomment-2730048473)** (Mar 17, 2025)
