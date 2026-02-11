@@ -25,7 +25,7 @@ func TestBuildCardViewModel(t *testing.T) {
 			"PRs Opened":     false,
 			"Code Reviews":   false,
 			"Issues Opened":  false,
-			"Issue Comments":  false,
+			"Issue Comments": false,
 			"Projects Owned": false,
 			"Stars Earned":   false,
 		}

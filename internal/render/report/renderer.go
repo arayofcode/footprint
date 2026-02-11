@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"sort"
-	"strings"
 	"time"
 
 	"github.com/arayofcode/footprint/internal/domain"
@@ -14,81 +13,72 @@ import (
 type Renderer struct{}
 
 type Report struct {
-	GeneratedAt    time.Time                  `json:"generatedAt"`
-	Username       string                     `json:"username"`
-	Stats          domain.UserStats           `json:"stats"`
-	TotalEvents    int                        `json:"totalEvents"`
-	EventsByType   map[string]int             `json:"eventsByType"`
-	Events         []domain.ContributionEvent `json:"events"`
-	OwnedProjects  []domain.OwnedProject      `json:"ownedProjects"`
-	TopRepos       []RepoImpact               `json:"topRepos"`
-	ExternalPRsURL string                     `json:"externalPRsUrl"`
+	GeneratedAt    time.Time                   `json:"generatedAt"`
+	Username       string                      `json:"username"`
+	Stats          domain.StatsView            `json:"stats"`
+	TotalEvents    int                         `json:"totalEvents"`
+	EventsByType   map[string]int              `json:"eventsByType"`
+	Events         []domain.Contribution       `json:"events"`
+	OwnedProjects  []domain.OwnedProjectImpact `json:"ownedProjects"`
+	TopRepos       []RepoImpact                `json:"topRepos"`
+	ExternalPRsURL string                      `json:"externalPRsUrl"`
 }
 
 type RepoImpact struct {
 	Repo        string  `json:"repo"`
+	RepoURL     string  `json:"repoURL"`
 	ImpactScore float64 `json:"impactScore"`
 	PRCount     int     `json:"prCount"`
 }
 
-func (Renderer) RenderReport(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
+func (Renderer) RenderReport(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, projects []domain.RepoContribution, ownedProjects []domain.OwnedProjectImpact) ([]byte, error) {
 	_ = ctx
 
 	eventsByType := make(map[string]int)
-	repoImpactMap := make(map[string]*RepoImpact)
-	var externalEvents []domain.ContributionEvent
-
-	for _, event := range events {
-		// Only truly external
-		parts := strings.Split(event.Repo, "/")
-		if len(parts) < 2 || parts[0] == user.Username {
-			continue
-		}
-
-		externalEvents = append(externalEvents, event)
-		eventsByType[string(event.Type)]++
-
-		if _, ok := repoImpactMap[event.Repo]; !ok {
-			repoImpactMap[event.Repo] = &RepoImpact{Repo: event.Repo}
-		}
-		repoImpactMap[event.Repo].ImpactScore += event.Score
-		if event.Type == domain.ContributionTypePR {
-			repoImpactMap[event.Repo].PRCount++
-		}
-	}
-
+	var allFinalEvents []domain.Contribution
 	var topRepos []RepoImpact
-	for _, ri := range repoImpactMap {
-		topRepos = append(topRepos, *ri)
+
+	for _, p := range projects {
+		repoURL := "https://github.com/" + p.Repo
+		topRepos = append(topRepos, RepoImpact{
+			Repo:        p.Repo,
+			RepoURL:     repoURL,
+			ImpactScore: p.Score,
+			PRCount:     p.PRsOpened,
+		})
+
+		for _, e := range p.Events {
+			allFinalEvents = append(allFinalEvents, e)
+			eventsByType[string(e.Type)]++
+		}
 	}
+
+	// Sort topRepos by ImpactScore
 	sort.Slice(topRepos, func(i, j int) bool {
 		return topRepos[i].ImpactScore > topRepos[j].ImpactScore
 	})
 
-	// Sort projects
-	sort.Slice(projects, func(i, j int) bool {
-		if projects[i].Stars != projects[j].Stars {
-			return projects[i].Stars > projects[j].Stars
+	// Sort ownedProjects by final Score
+	sort.Slice(ownedProjects, func(i, j int) bool {
+		if ownedProjects[i].Score != ownedProjects[j].Score {
+			return ownedProjects[i].Score > ownedProjects[j].Score
 		}
-		return projects[i].Forks > projects[j].Forks
+		return ownedProjects[i].Repo < ownedProjects[j].Repo
 	})
 
-	// Sort events by impact score
-	sort.Slice(externalEvents, func(i, j int) bool {
-		if externalEvents[i].Score != externalEvents[j].Score {
-			return externalEvents[i].Score > externalEvents[j].Score
-		}
-		return externalEvents[i].CreatedAt.After(externalEvents[j].CreatedAt)
+	// Sort events by date (desc)
+	sort.Slice(allFinalEvents, func(i, j int) bool {
+		return allFinalEvents[i].CreatedAt.After(allFinalEvents[j].CreatedAt)
 	})
 
 	report := Report{
 		GeneratedAt:    generatedAt,
 		Username:       user.Username,
 		Stats:          stats,
-		TotalEvents:    len(externalEvents),
+		TotalEvents:    len(allFinalEvents),
 		EventsByType:   eventsByType,
-		Events:         externalEvents,
-		OwnedProjects:  projects,
+		Events:         allFinalEvents,
+		OwnedProjects:  ownedProjects,
 		TopRepos:       topRepos,
 		ExternalPRsURL: fmt.Sprintf("https://github.com/pulls?q=is:pr+author:%s+-user:%s", user.Username, user.Username),
 	}

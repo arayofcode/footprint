@@ -14,30 +14,30 @@ import (
 type Renderer struct{}
 
 // RenderCard: All stats, no sections
-func (r Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[domain.AssetKey]string) ([]byte, error) {
+func (r Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProjectImpact, assets map[domain.AssetKey]string) ([]byte, error) {
 	vm := buildViewModel(user, stats, generatedAt, contributions, projects, true, false, false)
 	return renderSVG(vm, assets), nil
 }
 
 // RenderMinimalCard: Non-zero stats only, no sections
-func (r Renderer) RenderMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[domain.AssetKey]string) ([]byte, error) {
+func (r Renderer) RenderMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProjectImpact, assets map[domain.AssetKey]string) ([]byte, error) {
 	vm := buildViewModel(user, stats, generatedAt, contributions, projects, false, false, false)
 	return renderSVG(vm, assets), nil
 }
 
 // RenderExtendedCard: All stats + both sections
-func (r Renderer) RenderExtendedCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[domain.AssetKey]string) ([]byte, error) {
+func (r Renderer) RenderExtendedCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProjectImpact, assets map[domain.AssetKey]string) ([]byte, error) {
 	vm := buildViewModel(user, stats, generatedAt, contributions, projects, true, true, false)
 	return renderSVG(vm, assets), nil
 }
 
 // RenderExtendedMinimalCard: Non-zero stats + sections only if content exists
-func (r Renderer) RenderExtendedMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[domain.AssetKey]string) ([]byte, error) {
+func (r Renderer) RenderExtendedMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProjectImpact, assets map[domain.AssetKey]string) ([]byte, error) {
 	vm := buildViewModel(user, stats, generatedAt, contributions, projects, false, true, true)
 	return renderSVG(vm, assets), nil
 }
 
-func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, showAllStats bool, showSections bool, minimalSections bool) CardViewModel {
+func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProjectImpact, showAllStats bool, showSections bool, minimalSections bool) CardViewModel {
 	codeReview := stats.PRReviewComments + stats.PRReviews
 	// 1. Build Stats
 	potentialStats := []StatVM{
@@ -60,10 +60,10 @@ func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.T
 	// 2. Prepare Sections Data
 	topOwned := projects
 	if showSections {
-		// Sort by Stars desc, then Repo asc
+		// Sort by Score desc (finalized weighted impact)
 		sort.Slice(projects, func(i, j int) bool {
-			if projects[i].Stars != projects[j].Stars {
-				return projects[i].Stars > projects[j].Stars
+			if projects[i].Score != projects[j].Score {
+				return projects[i].Score > projects[j].Score
 			}
 			return projects[i].Repo < projects[j].Repo
 		})

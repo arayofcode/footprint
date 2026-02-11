@@ -21,7 +21,7 @@ type ProjectCatalog interface {
 type ScoreCalculator interface {
 	ScoreContribution(event ContributionEvent) ContributionEvent
 	ScoreBatch(events []ContributionEvent) []ContributionEvent
-	ScoreOwnedProject(project OwnedProject) OwnedProject
+	EnrichOwnedProject(project OwnedProject) EnrichedProject
 }
 
 type User struct {
@@ -35,18 +35,18 @@ type User struct {
 }
 
 type ReportRenderer interface {
-	RenderReport(ctx context.Context, user User, stats UserStats, generatedAt time.Time, events []ContributionEvent, projects []OwnedProject) ([]byte, error)
+	RenderReport(ctx context.Context, user User, stats StatsView, generatedAt time.Time, projects []RepoContribution, ownedProjects []OwnedProjectImpact) ([]byte, error)
 }
 
 type SummaryRenderer interface {
-	RenderSummary(ctx context.Context, user User, stats UserStats, generatedAt time.Time, events []ContributionEvent, projects []OwnedProject) ([]byte, error)
+	RenderSummary(ctx context.Context, user User, stats StatsView, generatedAt time.Time, projects []RepoContribution, ownedProjects []OwnedProjectImpact) ([]byte, error)
 }
 
 type CardRenderer interface {
-	RenderCard(ctx context.Context, user User, stats StatsView, generatedAt time.Time, contributions []RepoContribution, projects []OwnedProject, assets map[AssetKey]string) ([]byte, error)
-	RenderMinimalCard(ctx context.Context, user User, stats StatsView, generatedAt time.Time, contributions []RepoContribution, projects []OwnedProject, assets map[AssetKey]string) ([]byte, error)
-	RenderExtendedCard(ctx context.Context, user User, stats StatsView, generatedAt time.Time, contributions []RepoContribution, projects []OwnedProject, assets map[AssetKey]string) ([]byte, error)
-	RenderExtendedMinimalCard(ctx context.Context, user User, stats StatsView, generatedAt time.Time, contributions []RepoContribution, projects []OwnedProject, assets map[AssetKey]string) ([]byte, error)
+	RenderCard(ctx context.Context, user User, stats StatsView, generatedAt time.Time, contributions []RepoContribution, projects []OwnedProjectImpact, assets map[AssetKey]string) ([]byte, error)
+	RenderMinimalCard(ctx context.Context, user User, stats StatsView, generatedAt time.Time, contributions []RepoContribution, projects []OwnedProjectImpact, assets map[AssetKey]string) ([]byte, error)
+	RenderExtendedCard(ctx context.Context, user User, stats StatsView, generatedAt time.Time, contributions []RepoContribution, projects []OwnedProjectImpact, assets map[AssetKey]string) ([]byte, error)
+	RenderExtendedMinimalCard(ctx context.Context, user User, stats StatsView, generatedAt time.Time, contributions []RepoContribution, projects []OwnedProjectImpact, assets map[AssetKey]string) ([]byte, error)
 }
 
 type OutputWriter interface {

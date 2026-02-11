@@ -15,8 +15,8 @@ func TestRenderCard_GeneratesSVGWithStats(t *testing.T) {
 	events := []domain.RepoContribution{
 		{Repo: "a/b", Score: 7},
 	}
-	projects := []domain.OwnedProject{
-		{Repo: "me/owned", Stars: 10, Forks: 2},
+	projects := []domain.OwnedProjectImpact{
+		{Repo: "me/owned", Stars: 10, Forks: 2, Score: 5.0},
 	}
 	user := domain.User{Username: "ray", AvatarURL: "https://example.com/avatar.png"}
 	stats := domain.StatsView{
@@ -114,8 +114,8 @@ func TestRenderExtendedCard_IncludesSections(t *testing.T) {
 	events := []domain.RepoContribution{
 		{Repo: "external/repo", Score: 5, AvatarURL: "https://example.com/avatar.png"},
 	}
-	projects := []domain.OwnedProject{
-		{Repo: "myrepo", Stars: 10, Forks: 2, URL: "https://github.com/ray/myrepo"},
+	projects := []domain.OwnedProjectImpact{
+		{Repo: "myrepo", Stars: 10, Forks: 2, URL: "https://github.com/ray/myrepo", Score: 8.0},
 	}
 	user := domain.User{Username: "ray"}
 	stats := domain.StatsView{PRsOpened: 5}
@@ -256,7 +256,7 @@ func TestRegression_Labels(t *testing.T) {
 		if c.reviewVisible && !strings.Contains(svg, "CODE REVIEWS") {
 			t.Error("SVG SHOULD contain label 'CODE REVIEWS'")
 		}
-		
+
 		if !c.reviewVisible && strings.Contains(svg, "CODE REVIEWS") {
 			t.Errorf("SVG SHOULD not contain label 'CODE REVIEWS': %+v", c)
 		}
@@ -340,14 +340,16 @@ func TestRenderCard_IsDeterministic_WithSections(t *testing.T) {
 		},
 	}
 
-	projects := []domain.OwnedProject{
+	projects := []domain.OwnedProjectImpact{
 		{
 			Repo:  "ray/alpha",
 			Stars: 5,
+			Score: 10.0,
 		},
 		{
 			Repo:  "ray/beta",
 			Stars: 3,
+			Score: 5.0,
 		},
 	}
 

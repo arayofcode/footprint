@@ -12,107 +12,60 @@ import (
 
 type Renderer struct{}
 
-func (Renderer) RenderSummary(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
+func (Renderer) RenderSummary(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, projects []domain.RepoContribution, ownedProjects []domain.OwnedProjectImpact) ([]byte, error) {
 	_ = ctx
-
-	// 1. Filter out self-owned repo events and calculate accurate external stats
-	var externalEvents []domain.ContributionEvent
-	externalRepos := make(map[string]bool)
-	mergedPRs := 0
-	for _, e := range events {
-		parts := strings.Split(e.Repo, "/")
-		if len(parts) < 2 || parts[0] == user.Username {
-			continue
-		}
-		externalEvents = append(externalEvents, e)
-		externalRepos[e.Repo] = true
-		if e.Type == domain.ContributionTypePR && e.Merged {
-			mergedPRs++
-		}
-	}
 
 	var sb strings.Builder
 
 	fmt.Fprintf(&sb, "# OSS Footprint: @%s\n\n", user.Username)
 	fmt.Fprintf(&sb, "*Generated on %s*\n\n", generatedAt.Format("January 2, 2006"))
 
-	// Calculate total stars from owned projects
-	totalStars := 0
-	for _, p := range projects {
-		totalStars += p.Stars
-	}
-
 	sb.WriteString("## Impact Snapshot\n\n")
-	fmt.Fprintf(&sb, "- 🔀 **%d** PRs Opened\n", stats.TotalPRs)
-	fmt.Fprintf(&sb, "- 📋 **%d** PR Reviews\n", stats.TotalReviews)
-	fmt.Fprintf(&sb, "- 🐛 **%d** Issues Opened\n", stats.TotalIssues)
-	fmt.Fprintf(&sb, "- 💬 **%d** Issue Comments\n", stats.TotalIssueComments)
-	fmt.Fprintf(&sb, "- 📦 **%d** Projects Owned\n", len(projects))
-	fmt.Fprintf(&sb, "- ⭐ **%s** Stars Earned\n\n", formatLargeNum(totalStars))
+	fmt.Fprintf(&sb, "- 🔀 **%d** PRs Opened\n", stats.PRsOpened)
+	fmt.Fprintf(&sb, "- 📋 **%d** PR Reviews\n", stats.PRReviews+stats.PRReviewComments)
+	fmt.Fprintf(&sb, "- 🐛 **%d** Issues Opened\n", stats.IssuesOpened)
+	fmt.Fprintf(&sb, "- 💬 **%d** Issue Comments\n", stats.IssueComments)
+	fmt.Fprintf(&sb, "- 📦 **%d** Projects Owned\n", stats.ProjectsOwned)
+	fmt.Fprintf(&sb, "- ⭐ **%s** Stars Earned\n\n", formatLargeNum(stats.StarsEarned))
 	fmt.Fprintf(&sb, "[View all external PRs authored by @%s](https://github.com/pulls?q=is%%3Apr+author%%3A%s+-user%%3A%s)\n\n", user.Username, user.Username, user.Username)
 
-	if len(projects) > 0 {
+	if len(ownedProjects) > 0 {
 		sb.WriteString("## Owned Projects\n\n")
-		sort.Slice(projects, func(i, j int) bool {
-			if projects[i].Stars != projects[j].Stars {
-				return projects[i].Stars > projects[j].Stars
+		sort.Slice(ownedProjects, func(i, j int) bool {
+			if ownedProjects[i].Score != ownedProjects[j].Score {
+				return ownedProjects[i].Score > ownedProjects[j].Score
 			}
-			return projects[i].Forks > projects[j].Forks
+			return ownedProjects[i].Repo < ownedProjects[j].Repo
 		})
-		for _, project := range projects {
+		for _, project := range ownedProjects {
 			fmt.Fprintf(&sb, "- [`%s`](%s) · ⭐ %s · 🍴 %s\n", project.Repo, project.URL, formatLargeNum(project.Stars), formatLargeNum(project.Forks))
 		}
 		sb.WriteString("\n")
 	}
 
-	repoGroups := groupByRepo(externalEvents)
-
 	sb.WriteString("## Top Repositories\n\n")
-	type repoSummary struct {
-		repo        string
-		impactScore float64
-		prCount     int
-		total       int
-	}
-	var repos []repoSummary
-	for repo, repoEvents := range repoGroups {
-		score := 0.0
-		prs := 0
-		for _, e := range repoEvents {
-			score += e.Score
-			if e.Type == domain.ContributionTypePR {
-				prs++
-			}
-		}
-		repos = append(repos, repoSummary{
-			repo:        repo,
-			impactScore: score,
-			prCount:     prs,
-			total:       len(repoEvents),
-		})
-	}
 
-	// Sort by Impact Score
-	sort.Slice(repos, func(i, j int) bool {
-		if repos[i].impactScore != repos[j].impactScore {
-			return repos[i].impactScore > repos[j].impactScore
+	// Sort projects (external contributions) by Score desc
+	sort.Slice(projects, func(i, j int) bool {
+		if projects[i].Score != projects[j].Score {
+			return projects[i].Score > projects[j].Score
 		}
-		return repos[i].repo < repos[j].repo
+		return projects[i].Repo < projects[j].Repo
 	})
 
-	for _, rs := range repos {
-		repo := rs.repo
-		repoEvents := repoGroups[repo]
-
+	for _, p := range projects {
+		repo := p.Repo
 		fmt.Fprintf(&sb, "### [%s](https://github.com/%s/pulls?q=is%%3Apr+author%%3A%s)\n\n", repo, repo, user.Username)
-		fmt.Fprintf(&sb, "*Total Impact: **%.1f** · %d PR(s)*\n\n", rs.impactScore, rs.prCount)
+		fmt.Fprintf(&sb, "*Total Impact: **%.1f** · %d PR(s)*\n\n", p.Score, p.PRsOpened)
 
-		sort.Slice(repoEvents, func(i, j int) bool {
-			return repoEvents[i].CreatedAt.After(repoEvents[j].CreatedAt)
+		// Finalized events are already chronological or can be sorted here
+		events := p.Events
+		sort.Slice(events, func(i, j int) bool {
+			return events[i].CreatedAt.After(events[j].CreatedAt)
 		})
 
-		for _, event := range repoEvents {
-			sb.WriteString(formatEvent(event))
+		for _, event := range events {
+			sb.WriteString(formatOutputEvent(event))
 		}
 		sb.WriteString("\n")
 	}
@@ -120,39 +73,24 @@ func (Renderer) RenderSummary(ctx context.Context, user domain.User, stats domai
 	return []byte(sb.String()), nil
 }
 
-func formatLargeNum(n int) string {
-	if n >= 1000 {
-		return fmt.Sprintf("%.1fk", float64(n)/1000.0)
-	}
-	return fmt.Sprintf("%d", n)
-}
-
-func groupByRepo(events []domain.ContributionEvent) map[string][]domain.ContributionEvent {
-	groups := make(map[string][]domain.ContributionEvent)
-	for _, event := range events {
-		groups[event.Repo] = append(groups[event.Repo], event)
-	}
-	return groups
-}
-
-func formatEvent(event domain.ContributionEvent) string {
+func formatOutputEvent(event domain.Contribution) string {
 	date := event.CreatedAt.Format("Jan 2, 2006")
 
 	var icon string
 	switch event.Type {
-	case domain.ContributionTypePR:
+	case domain.ContributionPR:
 		icon = "🔀"
-	case domain.ContributionTypeIssue:
-		icon = "🐛"
-	case domain.ContributionTypeIssueComment:
-		icon = "💬"
-	case domain.ContributionTypeReview:
+	case domain.ContributionPRReview:
 		icon = "👀"
-	case domain.ContributionTypeReviewComment:
+	case domain.ContributionPRReviewComment:
 		icon = "💭"
-	case domain.ContributionTypeDiscussion:
+	case domain.ContributionIssue:
+		icon = "🐛"
+	case domain.ContributionIssueComment:
+		icon = "💬"
+	case domain.ContributionDiscussion:
 		icon = "💡"
-	case domain.ContributionTypeDiscussionComment:
+	case domain.ContributionDiscussionComment:
 		icon = "🗨️"
 	default:
 		icon = "📝"
@@ -170,4 +108,11 @@ func formatEvent(event domain.ContributionEvent) string {
 
 	line += "\n"
 	return line
+}
+
+func formatLargeNum(n int) string {
+	if n >= 1000 {
+		return fmt.Sprintf("%.1fk", float64(n)/1000.0)
+	}
+	return fmt.Sprintf("%d", n)
 }

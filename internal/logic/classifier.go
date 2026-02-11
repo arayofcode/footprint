@@ -30,15 +30,17 @@ func Classify(e domain.ContributionEvent) domain.SemanticEvent {
 	}
 
 	return domain.SemanticEvent{
-		ID:        e.ID,
-		Type:      semanticType,
-		Repo:      e.Repo,
-		AvatarURL: e.RepoOwnerAvatarURL,
-		URL:       e.URL,
-		Title:     e.Title,
-		CreatedAt: e.CreatedAt,
-		Score:     e.Score,
-		Merged:    e.Merged,
+		ID:             e.ID,
+		Type:           semanticType,
+		Repo:           e.Repo,
+		AvatarURL:      e.RepoOwnerAvatarURL,
+		URL:            e.URL,
+		Title:          e.Title,
+		CreatedAt:      e.CreatedAt,
+		BaseScore:      e.BaseScore,
+		PopularityRaw:  e.PopularityRaw,
+		Merged:         e.Merged,
+		ReactionsCount: e.ReactionsCount,
 	}
 }
 

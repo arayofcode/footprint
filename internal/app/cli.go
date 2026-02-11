@@ -21,7 +21,6 @@ type CLIConfig struct {
 
 	MinStars  int
 	OutputDir string
-	Clamp     float64
 	Timeout   time.Duration
 
 	EnableCard bool
@@ -52,11 +51,6 @@ func RunCLI(ctx context.Context, cfg CLIConfig) error {
 		outputDir = "dist"
 	}
 
-	clamp := cfg.Clamp
-	if clamp <= 0 {
-		clamp = scoring.DefaultClamp
-	}
-
 	timeout := cfg.Timeout
 	if timeout <= 0 {
 		timeout = 60 * time.Second
@@ -75,7 +69,7 @@ func RunCLI(ctx context.Context, cfg CLIConfig) error {
 	gen := &Generator{
 		Fetcher:         client,
 		Projects:        client,
-		Scorer:          scoring.NewCalculator(clamp),
+		Scorer:          scoring.NewCalculator(),
 		ReportRenderer:  report.Renderer{},
 		SummaryRenderer: summary.Renderer{},
 		Writer:          writer,

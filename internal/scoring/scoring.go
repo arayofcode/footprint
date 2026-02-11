@@ -5,20 +5,15 @@ import (
 )
 
 const (
-	DefaultClamp   = 10.0
 	MergedPRBonus  = 1.5
 	OwnershipScore = 2500.0
 )
 
 type Calculator struct {
-	Clamp float64
 }
 
-func NewCalculator(clamp float64) *Calculator {
-	if clamp <= 0 {
-		clamp = DefaultClamp
-	}
-	return &Calculator{Clamp: clamp}
+func NewCalculator() *Calculator {
+	return &Calculator{}
 }
 
 func (c *Calculator) ScoreBatch(events []domain.ContributionEvent) []domain.ContributionEvent {
@@ -70,7 +65,7 @@ func (c *Calculator) ScoreBatch(events []domain.ContributionEvent) []domain.Cont
 
 		if isDecayable(e.Type) {
 			decay := 1.0 / (1.0 + 0.5*float64(count)) // 1, 0.66, 0.5, 0.4...
-			e.Score *= decay
+			e.BaseScore *= decay
 		}
 	}
 	return scored

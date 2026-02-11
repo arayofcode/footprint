@@ -7,15 +7,8 @@ import (
 	"github.com/arayofcode/footprint/internal/domain"
 )
 
-func TestNewCalculator_DefaultClamp(t *testing.T) {
-	calculator := NewCalculator(0)
-	if calculator.Clamp != DefaultClamp {
-		t.Fatalf("expected default clamp %v, got %v", DefaultClamp, calculator.Clamp)
-	}
-}
-
 func TestScoreContribution_UsesBaseScoreAndPopularity(t *testing.T) {
-	calculator := NewCalculator(0)
+	calculator := NewCalculator()
 	event := domain.ContributionEvent{
 		Type:  domain.ContributionTypePR,
 		Stars: 100,
@@ -24,18 +17,15 @@ func TestScoreContribution_UsesBaseScoreAndPopularity(t *testing.T) {
 
 	scored := calculator.ScoreContribution(event)
 
-	base := 10.0
-	multiplier := 1 + math.Log10(1+float64(event.Stars)+2*float64(event.Forks))
-	if multiplier > DefaultClamp {
-		multiplier = DefaultClamp
-	}
-	expected := base * multiplier
+	expectedBase := 10.0
+	expectedPopularity := 1 + math.Log10(1+float64(event.Stars)+2*float64(event.Forks))
 
-	assertFloatApprox(t, expected, scored.Score, 1e-9)
+	assertFloatApprox(t, expectedBase, scored.BaseScore, 1e-9)
+	assertFloatApprox(t, expectedPopularity, scored.PopularityRaw, 1e-9)
 }
 
 func TestScoreContribution_MergedPRGetsBonus(t *testing.T) {
-	calculator := NewCalculator(0)
+	calculator := NewCalculator()
 
 	merged := domain.ContributionEvent{
 		Type:   domain.ContributionTypePR,
@@ -54,27 +44,31 @@ func TestScoreContribution_MergedPRGetsBonus(t *testing.T) {
 	scoredMerged := calculator.ScoreContribution(merged)
 	scoredUnmerged := calculator.ScoreContribution(unmerged)
 
-	if scoredMerged.Score <= scoredUnmerged.Score {
-		t.Fatalf("expected merged PR score to exceed unmerged score, got merged=%v unmerged=%v", scoredMerged.Score, scoredUnmerged.Score)
+	// Merged bonus (1.5x) should be in BaseScore
+	expectedBonusRatio := 1.5
+	if math.Abs(scoredMerged.BaseScore/scoredUnmerged.BaseScore-expectedBonusRatio) > 1e-9 {
+		t.Fatalf("expected merged base score to be 1.5x higher, got merged=%v unmerged=%v", scoredMerged.BaseScore, scoredUnmerged.BaseScore)
+	}
+
+	// Popularity should be identical
+	if scoredMerged.PopularityRaw != scoredUnmerged.PopularityRaw {
+		t.Fatalf("expected same popularity, got merged=%v unmerged=%v", scoredMerged.PopularityRaw, scoredUnmerged.PopularityRaw)
 	}
 }
 
-func TestScoreOwnedProject_UsesPopularityMultiplier(t *testing.T) {
-	calculator := NewCalculator(4.0)
+func TestEnrichOwnedProject_PopulatesBaseAndPopularity(t *testing.T) {
+	calculator := NewCalculator()
 	project := domain.OwnedProject{
 		Stars: 100,
 		Forks: 50,
 	}
 
-	scored := calculator.ScoreOwnedProject(project)
+	enriched := calculator.EnrichOwnedProject(project)
 
-	expected := 1 + math.Log10(1+float64(project.Stars)+2*float64(project.Forks))
-	if expected > calculator.Clamp {
-		expected = calculator.Clamp
-	}
-	expected *= OwnershipScore
+	expectedPopularity := 1 + math.Log10(1+float64(project.Stars)+2*float64(project.Forks))
 
-	assertFloatApprox(t, expected, scored.Score, 1e-9)
+	assertFloatApprox(t, OwnershipScore, enriched.BaseScore, 1e-9)
+	assertFloatApprox(t, expectedPopularity, enriched.PopularityRaw, 1e-9)
 }
 
 func assertFloatApprox(t *testing.T, expected, actual, tolerance float64) {

@@ -12,7 +12,7 @@ import (
 )
 
 // FetchAssets retrieves all necessary images (avatars) and returns them as a map of Data URLs.
-func FetchAssets(user domain.User, repos []domain.RepoContribution, projects []domain.OwnedProject) map[domain.AssetKey]string {
+func FetchAssets(user domain.User, repos []domain.RepoContribution, projects []domain.OwnedProjectImpact) map[domain.AssetKey]string {
 	assets := make(map[domain.AssetKey]string)
 
 	// Fetch User Avatar

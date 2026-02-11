@@ -25,13 +25,11 @@ func baseScore(event domain.ContributionEvent) float64 {
 }
 
 func (c *Calculator) ScoreContribution(event domain.ContributionEvent) domain.ContributionEvent {
-	base := baseScore(event)
-	multiplier := event.PopularityMultiplier(c.Clamp)
-
+	event.BaseScore = baseScore(event)
+	// Add merged bonus for created PRs
 	if event.Type == domain.ContributionTypePR && event.Merged {
-		base = base * MergedPRBonus
+		event.BaseScore *= MergedPRBonus
 	}
-
-	event.Score = base * multiplier
+	event.PopularityRaw = event.PopularityMultiplier()
 	return event
 }

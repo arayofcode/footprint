@@ -39,30 +39,30 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 	}
 
 	events = g.Scorer.ScoreBatch(events)
-	projects = scoreOwnedProjects(g.Scorer, projects)
+	enrichedProjects := enrichOwnedProjects(g.Scorer, projects)
 
 	// Semantic Pipeline
 	semanticEvents := logic.MapClassify(events)
-	statsView, repoContribs := logic.Aggregate(semanticEvents, projects)
+	statsView, repoContribs, projectImpacts := logic.Aggregate(semanticEvents, enrichedProjects)
 
-	// Map to legacy UserStats for older renderers
-	stats := domain.UserStats{
-		TotalPRs:     statsView.PRsOpened,
-		TotalReviews: statsView.PRReviews + statsView.PRReviewComments,
-		TotalIssues:  statsView.IssuesOpened,
-		TotalIssueComments: statsView.IssueComments,
-		TotalReposCount:    statsView.TotalReposContributedTo,
-		TotalStarsEarned:   statsView.StarsEarned,
+	// Projection adapter: Attach finalized contributions to repo summaries
+	finalizedEvents := domain.MapEventsToContributions(semanticEvents)
+	repoEvents := make(map[string][]domain.Contribution)
+	for _, fe := range finalizedEvents {
+		repoEvents[fe.Repo] = append(repoEvents[fe.Repo], fe)
+	}
+	for i := range repoContribs {
+		repoContribs[i].Events = repoEvents[repoContribs[i].Repo]
 	}
 
 	generatedAt := time.Now()
 
-	reportJSON, err := g.ReportRenderer.RenderReport(ctx, user, stats, generatedAt, events, projects)
+	reportJSON, err := g.ReportRenderer.RenderReport(ctx, user, statsView, generatedAt, repoContribs, projectImpacts)
 	if err != nil {
 		return fmt.Errorf("rendering report: %w", err)
 	}
 
-	summaryMD, err := g.SummaryRenderer.RenderSummary(ctx, user, stats, generatedAt, events, projects)
+	summaryMD, err := g.SummaryRenderer.RenderSummary(ctx, user, statsView, generatedAt, repoContribs, projectImpacts)
 	if err != nil {
 		return fmt.Errorf("rendering summary: %w", err)
 	}
@@ -81,24 +81,24 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 		}
 
 		totalScore := 0.0
-		for _, e := range events {
-			totalScore += e.Score
+		for _, r := range repoContribs {
+			totalScore += r.Score
 		}
-		for _, p := range projects {
+		for _, p := range projectImpacts {
 			totalScore += p.Score
 		}
 
-		g.Actions.SetOutput("total_contributions", fmt.Sprintf("%d", len(events)))    //nolint:errcheck
-		g.Actions.SetOutput("owned_projects_count", fmt.Sprintf("%d", len(projects))) //nolint:errcheck
-		g.Actions.SetOutput("total_score", fmt.Sprintf("%.2f", totalScore))           //nolint:errcheck
+		g.Actions.SetOutput("total_contributions", fmt.Sprintf("%d", len(events)))
+		g.Actions.SetOutput("owned_projects_count", fmt.Sprintf("%d", len(projectImpacts)))
+		g.Actions.SetOutput("total_score", fmt.Sprintf("%.2f", totalScore))
 	}
 
 	if g.CardRenderer != nil {
 		// Fetch assets (avatars)
-		assetMap := assets.FetchAssets(user, repoContribs, projects)
+		assetMap := assets.FetchAssets(user, repoContribs, projectImpacts)
 
-		// Used pre-calculated views
-		cardSVG, err := g.CardRenderer.RenderCard(ctx, user, statsView, generatedAt, repoContribs, projects, assetMap)
+		// Render cards with finalized impact
+		cardSVG, err := g.CardRenderer.RenderCard(ctx, user, statsView, generatedAt, repoContribs, projectImpacts, assetMap)
 		if err != nil {
 			return fmt.Errorf("rendering card: %w", err)
 		}
@@ -107,7 +107,7 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 		}
 
 		// Minimal card
-		minimalSVG, err := g.CardRenderer.RenderMinimalCard(ctx, user, statsView, generatedAt, repoContribs, projects, assetMap)
+		minimalSVG, err := g.CardRenderer.RenderMinimalCard(ctx, user, statsView, generatedAt, repoContribs, projectImpacts, assetMap)
 		if err != nil {
 			return fmt.Errorf("rendering minimal card: %w", err)
 		}
@@ -116,7 +116,7 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 		}
 
 		// Extended card
-		extendedSVG, err := g.CardRenderer.RenderExtendedCard(ctx, user, statsView, generatedAt, repoContribs, projects, assetMap)
+		extendedSVG, err := g.CardRenderer.RenderExtendedCard(ctx, user, statsView, generatedAt, repoContribs, projectImpacts, assetMap)
 		if err != nil {
 			return fmt.Errorf("rendering extended card: %w", err)
 		}
@@ -125,7 +125,7 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 		}
 
 		// Extended-minimal card
-		extMinimalSVG, err := g.CardRenderer.RenderExtendedMinimalCard(ctx, user, statsView, generatedAt, repoContribs, projects, assetMap)
+		extMinimalSVG, err := g.CardRenderer.RenderExtendedMinimalCard(ctx, user, statsView, generatedAt, repoContribs, projectImpacts, assetMap)
 		if err != nil {
 			return fmt.Errorf("rendering extended-minimal card: %w", err)
 		}
@@ -137,10 +137,10 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 	return nil
 }
 
-func scoreOwnedProjects(calculator domain.ScoreCalculator, projects []domain.OwnedProject) []domain.OwnedProject {
-	scored := make([]domain.OwnedProject, 0, len(projects))
+func enrichOwnedProjects(calculator domain.ScoreCalculator, projects []domain.OwnedProject) []domain.EnrichedProject {
+	enriched := make([]domain.EnrichedProject, 0, len(projects))
 	for _, project := range projects {
-		scored = append(scored, calculator.ScoreOwnedProject(project))
+		enriched = append(enriched, calculator.EnrichOwnedProject(project))
 	}
-	return scored
+	return enriched
 }

@@ -70,7 +70,7 @@ These are repositories that the user owns and that meet a minimal popularity thr
     * Activities in repositories the user does **not** own.
     * **Calculated Scores**: PRs authored, Code Review (Reviews/Comments), Issues opened, and Comments.
     * **Merged detection**: Merged Pull Requests receive a **1.5x score boost**.
-    * **Top External Impact**: Grouped and ranked by **Total Impact Score**.
+    * **Top External Impact**: Grouped and ranked by **Total Impact Score**. Popularity is applied at repository-level (capped at 4.0) to prioritize high-impact contributions over low-signal volume.
 
 ---
 
@@ -98,7 +98,6 @@ Optional flags:
 * `-username` (defaults to `GITHUB_ACTOR`)
 * `-min-stars` (owned project threshold)
 * `-output` (output directory)
-* `-clamp` (popularity multiplier cap)
 * `-timeout` (GitHub API timeout)
 * `-card` (enable/disable SVG card output)
 
@@ -215,16 +214,11 @@ Each activity can have several attributes (e.g., merged PR vs unmerged PR, comme
 ### Repo Popularity Multiplier
 
 ```text
-impact_score = base_score * popularity_multiplier
-
-popularity_multiplier = 1 + log10(1 + repo_stars + 2*repo_forks)
+repo_base_score = sum(event_base_scores)
+final_score = repo_base_score * min(4.0, max_popularity_raw)
 ```
 
-The log multiplier ensures that the impact score increases sublinearly with the number of stars and forks, and ensures a small contribution in a popular repo doesn't get disproportionately high impact score.
-
-**Why `2*forks`:** Forks signal adoption and contributor intent (fork → modify → PR). Fork counts are usually significantly lower than stars, so weighting them higher ensures forks matter noticeably without overpowering stars.
-
-`popularity_multiplier = min(4.0, 1 + log10(1 + repo_stars + 2*repo_forks))`
+The log multiplier ensures that the impact score increases sublinearly with the number of stars and forks. The multiplier is determined by the most popular event within a repository and is applied once to the aggregated base score of that repository, capped at 4.0.
 
 ### Future: Reaction / Reference Multiplier
 

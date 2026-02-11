@@ -11,17 +11,23 @@ import (
 
 func TestRenderSummary_IncludesHeaderAndTotals(t *testing.T) {
 	renderer := Renderer{}
-	events := []domain.ContributionEvent{
-		{Type: domain.ContributionTypePR, Repo: "a/b", Merged: true},
-		{Type: domain.ContributionTypeIssue, Repo: "a/b"},
+	projects := []domain.RepoContribution{
+		{
+			Repo:      "a/b",
+			Score:     10.0,
+			PRsOpened: 1,
+			Events: []domain.Contribution{
+				{Type: domain.ContributionPR, Repo: "a/b", Merged: true, CreatedAt: time.Now()},
+			},
+		},
 	}
-	projects := []domain.OwnedProject{
+	ownedProjects := []domain.OwnedProjectImpact{
 		{Repo: "me/owned", URL: "https://github.com/me/owned", Stars: 10, Forks: 2, Score: 3.5},
 	}
 	generatedAt := time.Date(2025, 2, 1, 0, 0, 0, 0, time.UTC)
 	user := domain.User{Username: "ray"}
 
-	out, err := renderer.RenderSummary(context.Background(), user, domain.UserStats{TotalPRs: 1, TotalReposCount: 1, TotalIssues: 1}, generatedAt, events, projects)
+	out, err := renderer.RenderSummary(context.Background(), user, domain.StatsView{PRsOpened: 1, ProjectsOwned: 1, IssuesOpened: 1}, generatedAt, projects, ownedProjects)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -38,27 +44,32 @@ func TestRenderSummary_IncludesHeaderAndTotals(t *testing.T) {
 
 func TestRenderSummary_FormatsRepositorySection(t *testing.T) {
 	renderer := Renderer{}
-	events := []domain.ContributionEvent{
+	projects := []domain.RepoContribution{
 		{
-			Type:      domain.ContributionTypePR,
 			Repo:      "a/b",
-			URL:       "https://github.com/a/b/pull/1",
-			Title:     "Fix bug",
-			CreatedAt: time.Date(2024, 1, 2, 0, 0, 0, 0, time.UTC),
-			Score:     12.5,
-		},
-		{
-			Type:      domain.ContributionTypeIssue,
-			Repo:      "a/b",
-			URL:       "https://github.com/a/b/issues/2",
-			Title:     "File issue",
-			CreatedAt: time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC),
-			Score:     4.2,
+			Score:     16.7,
+			PRsOpened: 1,
+			Events: []domain.Contribution{
+				{
+					Type:      domain.ContributionPR,
+					Repo:      "a/b",
+					URL:       "https://github.com/a/b/pull/1",
+					Title:     "Fix bug",
+					CreatedAt: time.Date(2024, 1, 2, 0, 0, 0, 0, time.UTC),
+				},
+				{
+					Type:      domain.ContributionIssue,
+					Repo:      "a/b",
+					URL:       "https://github.com/a/b/issues/2",
+					Title:     "File issue",
+					CreatedAt: time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC),
+				},
+			},
 		},
 	}
 	user := domain.User{Username: "ray"}
 
-	out, err := renderer.RenderSummary(context.Background(), user, domain.UserStats{}, time.Now(), events, nil)
+	out, err := renderer.RenderSummary(context.Background(), user, domain.StatsView{}, time.Now(), projects, nil)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -73,21 +84,26 @@ func TestRenderSummary_FormatsRepositorySection(t *testing.T) {
 
 func TestRenderSummary_IncludesReactionsAndMergedFlags(t *testing.T) {
 	renderer := Renderer{}
-	events := []domain.ContributionEvent{
+	projects := []domain.RepoContribution{
 		{
-			Type:           domain.ContributionTypePR,
-			Repo:           "a/b",
-			URL:            "https://github.com/a/b/pull/1",
-			Title:          "Add feature",
-			CreatedAt:      time.Now(),
-			Score:          20,
-			ReactionsCount: 3,
-			Merged:         true,
+			Repo:  "a/b",
+			Score: 20.0,
+			Events: []domain.Contribution{
+				{
+					Type:           domain.ContributionPR,
+					Repo:           "a/b",
+					URL:            "https://github.com/a/b/pull/1",
+					Title:          "Add feature",
+					CreatedAt:      time.Now(),
+					ReactionsCount: 3,
+					Merged:         true,
+				},
+			},
 		},
 	}
 	user := domain.User{Username: "ray"}
 
-	out, err := renderer.RenderSummary(context.Background(), user, domain.UserStats{}, time.Now(), events, nil)
+	out, err := renderer.RenderSummary(context.Background(), user, domain.StatsView{}, time.Now(), projects, nil)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}

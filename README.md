@@ -9,10 +9,10 @@ Footprint is a GitHub Action and tool that discovers a user’s public open-sour
     - **Highlighting**: Top external contributions (ranked by impact) + owned repo highlights (ranked by stars).
 - **Impact & Quality**:
     - **Merged Bonus**: Merged Pull Requests receive a **1.5x bonus** to prioritize landing code.
-    - **Popularity Multiplier**: Scores are scaled using `1 + log10(1 + stars + 2*forks)` to reward impact in widely-adopted projects.
+    - **Repo-Level Popularity Multiplier**: Scores are scaled using `1 + log10(1 + stars + 2*forks)` to reward impact in widely-adopted projects. This multiplier is applied **once per repository** and capped at 4.0, preventing star-heavy repos from dominating via sheer volume of low-impact events.
     - **Diminishing Returns**: Comment scores decay per repository to encourage meaningful engagement over volume.
     - **Multi-Metric Separation**: Strictly separates PRs Opened, PR Reviews, PR Comments, Issues Opened, and Issue Comments to prevent conflation.
-    - **Repo-Level Aggregation**: Ranks repositories by your **Total Impact Score** across all contributions.
+    - **Minimal Card Expansion**: In minimal layouts, if one section (Owned or External) is empty, the other expands to show up to 6 items. To utilize space effectively, these items "shift to the right" into a **2x3 grid**, occupying the remaining horizontal space.
 - **Artifact Generation**:
     - `dist/summary.md`: Human-readable portfolio summary.
     - `dist/report.json`: JSON version of your footprint.
@@ -33,7 +33,6 @@ Optional flags:
 -username <github_username>
 -min-stars <n>
 -output <dir>
--clamp <multiplier_cap>
 ```
 
 Environment variables:

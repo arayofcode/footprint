@@ -33,7 +33,8 @@ type ContributionEvent struct {
 	Answer             bool             `json:"is_answer,omitempty"`
 	Snippet            string           `json:"snippet,omitempty"`
 	ReactionsCount     int              `json:"reactions_count,omitempty"`
-	Score              float64          `json:"score,omitempty"`
+	BaseScore          float64          `json:"base_score,omitempty"`
+	PopularityRaw      float64          `json:"popularity_raw,omitempty"`
 }
 
 // Deprecated: Use StatsView instead.
@@ -48,12 +49,17 @@ type UserStats struct {
 }
 
 type OwnedProject struct {
-	Repo      string  `json:"repo"`
-	URL       string  `json:"url"`
-	AvatarURL string  `json:"avatar_url"`
-	Stars     int     `json:"stars"`
-	Forks     int     `json:"forks"`
-	Score     float64 `json:"score,omitempty"`
+	Repo      string `json:"repo"`
+	URL       string `json:"url"`
+	AvatarURL string `json:"avatar_url"`
+	Stars     int    `json:"stars"`
+	Forks     int    `json:"forks"`
+}
+
+type EnrichedProject struct {
+	OwnedProject
+	BaseScore     float64
+	PopularityRaw float64
 }
 
 func (e ContributionEvent) StableID() string {
@@ -66,18 +72,14 @@ func (e ContributionEvent) StableID() string {
 	return ""
 }
 
-func (e ContributionEvent) PopularityMultiplier(clamp float64) float64 {
-	return popularityMultiplier(e.Stars, e.Forks, clamp)
+func (e ContributionEvent) PopularityMultiplier() float64 {
+	return popularityMultiplier(e.Stars, e.Forks)
 }
 
-func (p OwnedProject) PopularityMultiplier(clamp float64) float64 {
-	return popularityMultiplier(p.Stars, p.Forks, clamp)
+func (p OwnedProject) PopularityMultiplier() float64 {
+	return popularityMultiplier(p.Stars, p.Forks)
 }
 
-func popularityMultiplier(stars, forks int, clamp float64) float64 {
-	multiplier := 1 + math.Log10(1+float64(stars)+2*float64(forks))
-	if clamp > 0 && multiplier > clamp {
-		return clamp
-	}
-	return multiplier
+func popularityMultiplier(stars, forks int) float64 {
+	return 1 + math.Log10(1+float64(stars)+2*float64(forks))
 }

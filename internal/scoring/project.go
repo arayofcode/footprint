@@ -4,8 +4,10 @@ import (
 	"github.com/arayofcode/footprint/internal/domain"
 )
 
-func (c *Calculator) ScoreOwnedProject(project domain.OwnedProject) domain.OwnedProject {
-	// Weighted ownership impact based on project popularity
-	project.Score = OwnershipScore * project.PopularityMultiplier(c.Clamp)
-	return project
+func (c *Calculator) EnrichOwnedProject(project domain.OwnedProject) domain.EnrichedProject {
+	return domain.EnrichedProject{
+		OwnedProject:  project,
+		BaseScore:     OwnershipScore,
+		PopularityRaw: project.PopularityMultiplier(),
+	}
 }

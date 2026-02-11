@@ -41,39 +41,42 @@ func (f fakeProjects) FetchOwnedProjects(ctx context.Context, username string, m
 type fakeScorer struct{}
 
 func (fakeScorer) ScoreContribution(event domain.ContributionEvent) domain.ContributionEvent {
-	event.Score = 42
+	event.BaseScore = 42
 	return event
 }
 
 func (fakeScorer) ScoreBatch(events []domain.ContributionEvent) []domain.ContributionEvent {
 	scored := make([]domain.ContributionEvent, len(events))
 	for i, e := range events {
-		e.Score = 42
+		e.BaseScore = 42
 		scored[i] = e
 	}
 	return scored
 }
 
-func (fakeScorer) ScoreOwnedProject(project domain.OwnedProject) domain.OwnedProject {
-	project.Score = 99
-	return project
+func (fakeScorer) EnrichOwnedProject(project domain.OwnedProject) domain.EnrichedProject {
+	return domain.EnrichedProject{
+		OwnedProject:  project,
+		BaseScore:     2500,
+		PopularityRaw: 1.0,
+	}
 }
 
 type fakeReportRenderer struct {
 	user        domain.User
-	stats       domain.UserStats
+	stats       domain.StatsView
 	generatedAt time.Time
-	events      []domain.ContributionEvent
-	projects    []domain.OwnedProject
+	projects    []domain.RepoContribution
+	owned       []domain.OwnedProjectImpact
 	err         error
 }
 
-func (f *fakeReportRenderer) RenderReport(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
+func (f *fakeReportRenderer) RenderReport(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, projects []domain.RepoContribution, owned []domain.OwnedProjectImpact) ([]byte, error) {
 	f.user = user
 	f.stats = stats
 	f.generatedAt = generatedAt
-	f.events = events
 	f.projects = projects
+	f.owned = owned
 	if f.err != nil {
 		return nil, f.err
 	}
@@ -82,19 +85,19 @@ func (f *fakeReportRenderer) RenderReport(ctx context.Context, user domain.User,
 
 type fakeSummaryRenderer struct {
 	user        domain.User
-	stats       domain.UserStats
+	stats       domain.StatsView
 	generatedAt time.Time
-	events      []domain.ContributionEvent
-	projects    []domain.OwnedProject
+	projects    []domain.RepoContribution
+	owned       []domain.OwnedProjectImpact
 	err         error
 }
 
-func (f *fakeSummaryRenderer) RenderSummary(ctx context.Context, user domain.User, stats domain.UserStats, generatedAt time.Time, events []domain.ContributionEvent, projects []domain.OwnedProject) ([]byte, error) {
+func (f *fakeSummaryRenderer) RenderSummary(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, projects []domain.RepoContribution, owned []domain.OwnedProjectImpact) ([]byte, error) {
 	f.user = user
 	f.stats = stats
 	f.generatedAt = generatedAt
-	f.events = events
 	f.projects = projects
+	f.owned = owned
 	if f.err != nil {
 		return nil, f.err
 	}
@@ -106,7 +109,7 @@ type fakeCardRenderer struct {
 	err    error
 }
 
-func (f *fakeCardRenderer) RenderCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[domain.AssetKey]string) ([]byte, error) {
+func (f *fakeCardRenderer) RenderCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProjectImpact, assets map[domain.AssetKey]string) ([]byte, error) {
 	f.called = true
 	if f.err != nil {
 		return nil, f.err
@@ -114,21 +117,21 @@ func (f *fakeCardRenderer) RenderCard(ctx context.Context, user domain.User, sta
 	return []byte("card"), nil
 }
 
-func (f *fakeCardRenderer) RenderMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[domain.AssetKey]string) ([]byte, error) {
+func (f *fakeCardRenderer) RenderMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProjectImpact, assets map[domain.AssetKey]string) ([]byte, error) {
 	if f.err != nil {
 		return nil, f.err
 	}
 	return []byte("minimal-card"), nil
 }
 
-func (f *fakeCardRenderer) RenderExtendedCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[domain.AssetKey]string) ([]byte, error) {
+func (f *fakeCardRenderer) RenderExtendedCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProjectImpact, assets map[domain.AssetKey]string) ([]byte, error) {
 	if f.err != nil {
 		return nil, f.err
 	}
 	return []byte("extended-card"), nil
 }
 
-func (f *fakeCardRenderer) RenderExtendedMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProject, assets map[domain.AssetKey]string) ([]byte, error) {
+func (f *fakeCardRenderer) RenderExtendedMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProjectImpact, assets map[domain.AssetKey]string) ([]byte, error) {
 	if f.err != nil {
 		return nil, f.err
 	}
@@ -194,11 +197,11 @@ func TestGeneratorRun_Success_NoCard(t *testing.T) {
 	if reportRenderer.generatedAt.IsZero() {
 		t.Fatalf("expected report renderer generatedAt to be set")
 	}
-	if len(reportRenderer.events) != 1 || reportRenderer.events[0].Score != 42 {
-		t.Fatalf("expected scored events to be passed to report renderer")
-	}
-	if len(reportRenderer.projects) != 1 || reportRenderer.projects[0].Score != 99 {
+	if len(reportRenderer.projects) != 1 || reportRenderer.projects[0].Score == 0 {
 		t.Fatalf("expected scored projects to be passed to report renderer")
+	}
+	if len(reportRenderer.owned) != 1 || reportRenderer.owned[0].Score != 2500 {
+		t.Fatalf("expected scored owned projects to be passed to report renderer")
 	}
 
 	if summaryRenderer.user.Username != "ray" {
