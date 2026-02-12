@@ -1,9 +1,9 @@
-name: footprint
+name: Generate Footprint
 
 on:
-  workflow_dispatch:
   schedule:
     - cron: "0 0 * * 0"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -20,7 +20,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          # Optional: override defaults if needed
           min_stars: 5
           card: true
-          # Note: branch and storage are now handled automatically by the action!

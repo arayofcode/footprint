@@ -1,6 +1,7 @@
 .env
 .DS_Store
 .config/
-dist/
-/footprint
 .zed/
+dist/
+Notes.md
+/footprint

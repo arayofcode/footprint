@@ -17,7 +17,9 @@ Footprint is a GitHub Action and tool that discovers a user’s public open-sour
     - `dist/summary.md`: Human-readable portfolio summary.
     - `dist/report.json`: JSON version of your footprint.
     - `dist/card.svg`: Dynamic, interactive SVG card clickable stats, taking you to exact contributions.
+    - `dist/card-minimal.svg`: Minified version of card, showcasing only non-zero statistics.
     - `card-extended.svg`: Rich dashboard view including top projects and external contribution highlights.
+    - `card-extended-minimal.svg`: Minified version of the dashboard view.
 
 ## Usage
 
@@ -49,16 +51,19 @@ Add this to your `username/username` repository (or any repo) as a workflow:
 name: Generate Footprint
 on:
   schedule:
-    - cron: '0 0 * * 0' # Weekly
+    - cron: "0 0 * * 0" # Weekly
   workflow_dispatch:
 
+permissions:
+  contents: write # for pushing artifacts to output branch
+
 jobs:
-  footprint:
+  generate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Generate Footprint
-        id: footprint
         uses: arayofcode/footprint@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,4 +1,4 @@
-name: "summarize-oss-contributions"
+name: "Footprint"
 description: "Generate a summary of your OSS contributions on GitHub, sorted by impact."
 author: "arayofcode"
 
@@ -26,10 +26,6 @@ inputs:
     description: "Minimum stars for owned projects"
     required: false
     default: "5"
-  clamp:
-    description: "Clamp for popularity multiplier"
-    required: false
-    default: "4"
   card:
     description: "Generate SVG card"
     required: false
