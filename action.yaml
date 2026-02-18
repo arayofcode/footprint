@@ -53,7 +53,5 @@ runs:
     - "${{ inputs.output_dir }}"
     - "-min-stars"
     - "${{ inputs.min_stars }}"
-    - "-clamp"
-    - "${{ inputs.clamp }}"
     - "-card"
     - "${{ inputs.card }}"

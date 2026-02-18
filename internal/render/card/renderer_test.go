@@ -394,3 +394,55 @@ func TestRenderCard_IsDeterministic_WithSections(t *testing.T) {
 		t.Error("expected renderer output to be deterministic, but SVGs differed")
 	}
 }
+
+func TestRenderExtendedCard_BadgeLogicAndURLs(t *testing.T) {
+	renderer := Renderer{}
+	user := domain.User{Username: "ray"}
+	stats := domain.StatsView{PRsOpened: 1, PRReviews: 1, PRReviewComments: 1, IssueComments: 1}
+
+	// Repo with varied activity.
+	// PRReviewComments should join PRReviews in the 'Review' badge.
+	// IssueComments should stay in 'Issue' badge.
+	repos := []domain.RepoContribution{
+		{
+			Repo:             "org/repo",
+			PRsOpened:        1,
+			PRReviews:        1,
+			PRReviewComments: 1,
+			IssueComments:    1,
+		},
+	}
+
+	out, err := renderer.RenderExtendedCard(context.Background(), user, stats, time.Now(), repos, nil, nil)
+	if err != nil {
+		t.Fatalf("render failed: %v", err)
+	}
+
+	svg := string(out)
+
+	// 1. Check Review Badge Count (1 PRReview + 1 PRReviewComment = 2)
+	// We look for the review icon followed by the count 2
+	if !strings.Contains(svg, iconReview) || !strings.Contains(svg, ">2<") {
+		t.Error("expected Review badge to show count 2 (combined review + comment)")
+	}
+
+	// 2. Check Issue Badge Count (1 IssueComment = 1)
+	if !strings.Contains(svg, iconIssue) || !strings.Contains(svg, ">1<") {
+		t.Error("expected Issue badge to show count 1")
+	}
+
+	// 3. Check URLs
+	expectedPRURL := "https://github.com/org/repo/pulls?q=is%3Apr+author%3Aray"
+	expectedReviewURL := "https://github.com/org/repo/pulls?q=is%3Apr+involves%3Aray"
+	expectedIssueURL := "https://github.com/org/repo/issues?q=is%3Aissue+involves%3Aray"
+
+	if !strings.Contains(svg, expectedPRURL) {
+		t.Errorf("expected PR URL %q", expectedPRURL)
+	}
+	if !strings.Contains(svg, expectedReviewURL) {
+		t.Errorf("expected Review URL %q", expectedReviewURL)
+	}
+	if !strings.Contains(svg, expectedIssueURL) {
+		t.Errorf("expected Issue URL %q", expectedIssueURL)
+	}
+}

@@ -10,16 +10,42 @@ Footprint is a GitHub Action and tool that discovers a user’s public open-sour
 - **Impact & Quality**:
     - **Merged Bonus**: Merged Pull Requests receive a **1.5x bonus** to prioritize landing code.
     - **Repo-Level Popularity Multiplier**: Scores are scaled using `1 + log10(1 + stars + 2*forks)` to reward impact in widely-adopted projects. This multiplier is applied **once per repository** and capped at 4.0, preventing star-heavy repos from dominating via sheer volume of low-impact events.
-    - **Diminishing Returns**: Comment scores decay per repository to encourage meaningful engagement over volume.
+    - **Diminishing Returns**: Comment/Issue scores decay per repository using a `1.0 / (1.0 + 0.5 * count)` formula. This ensures that while consistent engagement is valued, repetitive low-effort activity has reduced impact compared to diverse, high-value contributions.
     - **Multi-Metric Separation**: Strictly separates PRs Opened, PR Reviews, PR Comments, Issues Opened, and Issue Comments to prevent conflation.
     - **Minimal Card Expansion**: In minimal layouts, if one section (Owned or External) is empty, the other expands to show up to 6 items. To utilize space effectively, these items "shift to the right" into a **2x3 grid**, occupying the remaining horizontal space.
+- **Card Variants**:
+    - **Standard**: All core statistics.
+      ![Standard Card](/docs/images/card-standard.svg)
+    - **Minimal**: Non-zero statistics only.
+      ![Minimal Card](/docs/images/card-minimal.svg)
+    - **Extended**: Rich dashboard including top projects and contribution highlights.
+      ![Extended Card](/docs/images/card-extended.svg)
+    - **Extended Minimal**: Minified dashboard view.
+      ![Extended Minimal Card](/docs/images/card-extended-minimal.svg)
+
 - **Artifact Generation**:
-    - `dist/summary.md`: Human-readable portfolio summary.
-    - `dist/report.json`: JSON version of your footprint.
-    - `dist/card.svg`: Dynamic, interactive SVG card clickable stats, taking you to exact contributions.
-    - `dist/card-minimal.svg`: Minified version of card, showcasing only non-zero statistics.
-    - `card-extended.svg`: Rich dashboard view including top projects and external contribution highlights.
-    - `card-extended-minimal.svg`: Minified version of the dashboard view.
+    - `summary.md`: Human-readable impact summary.
+    - `report.json`: Machine-readable scoring data.
+    - `card.svg` (+ variants): Interactive SVG visualizations.
+
+## SVG Embedding
+
+To showcase your footprint on your GitHub profile, embed the generated cards using Markdown or HTML:
+
+### Markdown
+```markdown
+![Footprint Card](https://raw.githubusercontent.com/<username>/<repo>/output/card.svg)
+```
+
+### HTML (for links)
+```html
+<a href="https://github.com/<username>/<repo>">
+  <img src="https://raw.githubusercontent.com/<username>/<repo>/output/card.svg" alt="Footprint" width="800" />
+</a>
+```
+
+> [!TIP]
+> Use the `output` branch (or similar) to host these artifacts for clean embedding.
 
 ## Usage
 
@@ -39,6 +65,7 @@ Optional flags:
 
 Environment variables:
 
+```bash
 - `GITHUB_TOKEN` (required)
 - `GITHUB_ACTOR` (used when `-username` is not provided)
 
@@ -64,14 +91,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Generate Footprint
-        uses: arayofcode/footprint@main
+        uses: arayofcode/footprint@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      # The footprint summary will now appear in your Action Run UI!
-      # You can also use the outputs:
-      - name: Print Score
-        run: echo "Calculated Score: ${{ steps.footprint.outputs.total_score }}"
+        with:
+          min_stars: 5
+          card: true
 ```
 
 ## Architecture Principles

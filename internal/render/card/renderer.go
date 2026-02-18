@@ -187,14 +187,20 @@ func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.T
 					link := fmt.Sprintf("https://github.com/%s/pulls?q=is%%3Apr+author%%3A%s", r.Repo, user.Username)
 					badges = append(badges, BadgeVM{Count: fmt.Sprintf("%d", r.PRsOpened), Icon: iconPR, Link: link})
 				}
-				if r.PRReviews > 0 {
-					link := fmt.Sprintf("https://github.com/%s/pulls?q=is%%3Apr+reviewed-by%%3A%s", r.Repo, user.Username)
-					badges = append(badges, BadgeVM{Count: fmt.Sprintf("%d", r.PRReviews), Icon: iconReview, Link: link})
+				reviewCount := r.PRReviews + r.PRReviewComments
+				if reviewCount > 0 {
+					link := fmt.Sprintf("https://github.com/%s/pulls?q=is%%3Apr+involves%%3A%s", r.Repo, user.Username)
+					badges = append(badges, BadgeVM{Count: fmt.Sprintf("%d", reviewCount), Icon: iconReview, Link: link})
 				}
-				if r.IssuesOpened > 0 || r.IssueComments > 0 || r.PRReviewComments > 0 {
-					link := fmt.Sprintf("https://github.com/%s/issues?q=commenter%%3A%s", r.Repo, user.Username)
-					count := r.IssuesOpened + r.IssueComments + r.PRReviewComments
-					badges = append(badges, BadgeVM{Count: fmt.Sprintf("%d", count), Icon: iconIssue, Link: link})
+				issueCount := r.IssuesOpened + r.IssueComments
+				if issueCount > 0 {
+					link := fmt.Sprintf("https://github.com/%s/issues?q=is%%3Aissue+involves%%3A%s", r.Repo, user.Username)
+					badges = append(badges, BadgeVM{Count: fmt.Sprintf("%d", issueCount), Icon: iconIssue, Link: link})
+				}
+				discCount := r.DiscussionsOpened + r.DiscussionComments
+				if discCount > 0 {
+					link := fmt.Sprintf("https://github.com/%s/discussions?q=involves%%3A%s", r.Repo, user.Username)
+					badges = append(badges, BadgeVM{Count: fmt.Sprintf("%d", discCount), Icon: iconComment, Link: link})
 				}
 
 				rows = append(rows, SectionRowVM{

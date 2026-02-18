@@ -41,31 +41,21 @@ func (c *Calculator) ScoreBatch(events []domain.ContributionEvent) []domain.Cont
 	// actually I should check imports in scoring.go.
 
 	for i := range scored {
-		e := &scored[i]
-
-		repo := e.Repo
+		repo := scored[i].Repo
 		if _, ok := counts[repo]; !ok {
 			counts[repo] = make(map[domain.ContributionType]int)
 		}
 
 		// Increment count for this type in this repo
-		// We only decay comments
-		count := counts[repo][e.Type]
-		counts[repo][e.Type]++
+		count := counts[repo][scored[i].Type]
+		counts[repo][scored[i].Type]++
 
-		// Base score from single event scoring
-		// We can reuse ScoreContribution but we need to inject the decay multiplier.
-		// ScoreContribution calculates base * popularity * merged.
-		// We want (base * decay) * popularity * merged.
-		// So effectively we can calculate standard score, then apply decay multiplier.
+		// Standard score calculation
+		scored[i] = c.ScoreContribution(scored[i])
 
-		c.ScoreContribution(*e) // This mutates e.Score
-		// Wait, ScoreContribution signature is (event) event, so it returns a copy?
-		*e = c.ScoreContribution(*e)
-
-		if isDecayable(e.Type) {
+		if isDecayable(scored[i].Type) {
 			decay := 1.0 / (1.0 + 0.5*float64(count)) // 1, 0.66, 0.5, 0.4...
-			e.BaseScore *= decay
+			scored[i].BaseScore *= decay
 		}
 	}
 	return scored
