@@ -1,13 +1,13 @@
 # OSS Footprint: @arayofcode
 
-*Generated on February 8, 2026*
+*Generated on February 22, 2026*
 
 ## Impact Snapshot
 
 - 🔀 **9** PRs Opened
-- 📋 **0** PR Reviews
+- 📋 **10** PR Reviews
 - 🐛 **2** Issues Opened
-- 💬 **23** Issue Comments
+- 💬 **13** Issue Comments
 - 📦 **0** Projects Owned
 - ⭐ **0** Stars Earned
 
@@ -20,8 +20,8 @@
 *Total Impact: **97.3** · 2 PR(s)*
 
 - 💬 **[Error: mvt-android download-apks --output](https://github.com/mvt-project/mvt/issues/51#issuecomment-885251738)** (Jul 22, 2021) · ❤️ 1
-- 💬 **[Updated Documentation](https://github.com/mvt-project/mvt/pull/24#issuecomment-884525803)** (Jul 21, 2021)
-- 💬 **[Updated Documentation](https://github.com/mvt-project/mvt/pull/24#issuecomment-884524848)** (Jul 21, 2021)
+- 💭 **[Updated Documentation](https://github.com/mvt-project/mvt/pull/24#issuecomment-884525803)** (Jul 21, 2021)
+- 💭 **[Updated Documentation](https://github.com/mvt-project/mvt/pull/24#issuecomment-884524848)** (Jul 21, 2021)
 - 🔀 **[Updating Documentation for Arch Linux](https://github.com/mvt-project/mvt/pull/56)** (Jul 21, 2021)
 - 🔀 **[Updated Documentation](https://github.com/mvt-project/mvt/pull/24)** (Jul 20, 2021)
 
@@ -62,7 +62,7 @@
 
 ### [hlxsites/prisma-cloud-docs](https://github.com/hlxsites/prisma-cloud-docs/pulls?q=is%3Apr+author%3Aarayofcode)
 
-*Total Impact: **33.1** · 1 PR(s)*
+*Total Impact: **33.2** · 1 PR(s)*
 
 - 🔀 **[[trivial] Fix BitBucket API URL for unrotated-access-key policy](https://github.com/hlxsites/prisma-cloud-docs/pull/746)** (Jul 3, 2024)
 
@@ -71,6 +71,20 @@
 *Total Impact: **20.0** · 0 PR(s)*
 
 - 🐛 **[Configuration/ Token isn't being detected in workspace + Home dir being created inside workspace](https://github.com/exercism/cli/issues/1226)** (Jan 23, 2026)
+
+### [arayofcode/tokeniser](https://github.com/arayofcode/tokeniser/pulls?q=is%3Apr+author%3Aarayofcode)
+
+*Total Impact: **12.4** · 0 PR(s)*
+
+- 💭 **[Bump golang.org/x/net from 0.33.0 to 0.38.0 in the go_modules group across 1 directory](https://github.com/arayofcode/tokeniser/pull/41#issuecomment-2813202715)** (Apr 17, 2025)
+- 💭 **[Bump golang.org/x/crypto from 0.22.0 to 0.31.0 in the go_modules group](https://github.com/arayofcode/tokeniser/pull/39#issuecomment-2807503235)** (Apr 15, 2025)
+- 💭 **[Refactoring](https://github.com/arayofcode/tokeniser/pull/35#issuecomment-2114904247)** (May 16, 2024)
+- 💬 **[Tests failing in CI/CD](https://github.com/arayofcode/tokeniser/issues/31#issuecomment-2114900848)** (May 16, 2024)
+- 💬 **[Use docker profiles for setting environments to use common services](https://github.com/arayofcode/tokeniser/issues/21#issuecomment-2100256389)** (May 8, 2024)
+- 💭 **[Use docker compose, setup local development environment](https://github.com/arayofcode/tokeniser/pull/19#issuecomment-2032462539)** (Apr 2, 2024)
+- 💭 **[Use docker compose. Need to fix testing and Makefile](https://github.com/arayofcode/tokeniser/pull/17#issuecomment-2029842667)** (Apr 1, 2024)
+- 💭 **[Task 2 for SRE Bootcamp completed](https://github.com/arayofcode/tokeniser/pull/14#issuecomment-2028461209)** (Mar 30, 2024)
+- 💭 **[Task 2 for SRE Bootcamp completed](https://github.com/arayofcode/tokeniser/pull/14#issuecomment-2028461095)** (Mar 30, 2024)
 
 ### [WebGoat/WebGoat](https://github.com/WebGoat/WebGoat/pulls?q=is%3Apr+author%3Aarayofcode)
 
@@ -82,7 +96,7 @@
 
 *Total Impact: **8.0** · 0 PR(s)*
 
-- 💬 **[Closes: #1](https://github.com/google/it-cert-automation-practice/pull/16022#issuecomment-894846665)** (Aug 8, 2021)
+- 💭 **[Closes: #1](https://github.com/google/it-cert-automation-practice/pull/16022#issuecomment-894846665)** (Aug 8, 2021)
 
 ### [hadolint/hadolint](https://github.com/hadolint/hadolint/pulls?q=is%3Apr+author%3Aarayofcode)
 
@@ -107,4 +121,11 @@
 *Total Impact: **5.5** · 0 PR(s)*
 
 - 💬 **[Add a free form "status" field](https://github.com/postgres/pgcommitfest/issues/19#issuecomment-2761654297)** (Mar 28, 2025)
+
+### [arayofcode/CodeSyncHub](https://github.com/arayofcode/CodeSyncHub/pulls?q=is%3Apr+author%3Aarayofcode)
+
+*Total Impact: **4.3** · 0 PR(s)*
+
+- 💬 **[One commit for each submission](https://github.com/arayofcode/CodeSyncHub/issues/4#issuecomment-1826769034)** (Nov 26, 2023)
+- 💬 **[Automatic enforcement of style guide](https://github.com/arayofcode/CodeSyncHub/issues/1#issuecomment-1826762460)** (Nov 26, 2023)
 
