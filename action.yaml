@@ -30,6 +30,10 @@ inputs:
     description: "Generate SVG card"
     required: false
     default: "true"
+  timeout:
+    description: "Timeout for GitHub API operations in seconds"
+    required: false
+    default: "300"
 
 outputs:
   total_contributions:
@@ -55,3 +59,5 @@ runs:
     - "${{ inputs.min_stars }}"
     - "-card"
     - "${{ inputs.card }}"
+    - "-timeout"
+    - "${{ inputs.timeout }}s"

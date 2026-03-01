@@ -21,7 +21,7 @@ func main() {
 	flag.StringVar(&username, "username", "", "GitHub username (defaults to GITHUB_ACTOR)")
 	flag.IntVar(&minStars, "min-stars", 5, "Minimum stars for owned projects")
 	flag.StringVar(&outputDir, "output", "dist", "Output directory")
-	flag.DurationVar(&timeout, "timeout", 60*time.Second, "Timeout for GitHub API operations")
+	flag.DurationVar(&timeout, "timeout", 300*time.Second, "Timeout for GitHub API operations")
 	flag.BoolVar(&enableCard, "card", true, "Generate SVG card")
 	flag.Parse()
 

@@ -53,7 +53,7 @@ func RunCLI(ctx context.Context, cfg CLIConfig) error {
 
 	timeout := cfg.Timeout
 	if timeout <= 0 {
-		timeout = 60 * time.Second
+		timeout = 300 * time.Second
 	}
 
 	ctx, cancel := context.WithTimeout(ctx, timeout)
