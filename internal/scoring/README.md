@@ -10,7 +10,7 @@ Each activity has a different base score:
 |--------------|------------|
 | Pull Request |    10      |
 | Code Review  |     3      |
-| Issue        |     5      |
+| Issue        |     3      |
 | Comment      |     2      |
 
 ### Merged Bonus
@@ -44,9 +44,10 @@ decay_factor = 1.0 / (1.0 + 0.5 * count)
 Where `count` is the number of existing contributions of a decayable type in that repository. This scales scores as: 1.0x, 0.66x, 0.5x, 0.4x, etc.
 
 **Decayable Types:**
-- Issue Comments
-- Pull Request Comments / Review Comments
-- Discussion Comments
+- `IssueComment`
+- `ReviewComment`
+- `PRComment`
+- `DiscussionComment`
 
 ### Repo-Level Aggregation
 For ranking "Top Repositories" on the Footprint card, contributions are grouped by repository. The **Total Impact Score** for a repository is the sum of all individual contribution scores made to that project.
