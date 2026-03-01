@@ -10,7 +10,7 @@ Each activity has a different base score:
 |--------------|------------|
 | Pull Request |    10      |
 | Code Review  |     3      |
-| Issue        |     3      |
+| Issue        |     5      |
 | Comment      |     2      |
 
 ### Merged Bonus

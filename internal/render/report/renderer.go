@@ -55,7 +55,10 @@ func (Renderer) RenderReport(ctx context.Context, user domain.User, stats domain
 
 	// Sort topRepos by ImpactScore
 	sort.Slice(topRepos, func(i, j int) bool {
-		return topRepos[i].ImpactScore > topRepos[j].ImpactScore
+		if topRepos[i].ImpactScore != topRepos[j].ImpactScore {
+			return topRepos[i].ImpactScore > topRepos[j].ImpactScore
+		}
+		return topRepos[i].Repo < topRepos[j].Repo
 	})
 
 	// Sort ownedProjects by final Score
