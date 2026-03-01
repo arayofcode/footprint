@@ -1,6 +1,8 @@
 package scoring
 
 import (
+	"sort"
+
 	"github.com/arayofcode/footprint/internal/domain"
 )
 
@@ -17,28 +19,18 @@ func NewCalculator() *Calculator {
 }
 
 func (c *Calculator) ScoreBatch(events []domain.ContributionEvent) []domain.ContributionEvent {
-	// Sort by CreatedAt to ensure deterministic decay order
-	// We operate on a copy or inplace? The interface implies returning a new slice or modified slice.
-	// Let's modify in place but return the slice.
-	// Actually better to sort a copy to avoid side effects if caller relies on order?
-	// But usually we want chronological order anyway.
-	// For now, let's assume events are mixed.
-	// We need to group by repo and type for decay.
-
 	// Map to track counts: repo -> type -> count
 	counts := make(map[string]map[domain.ContributionType]int)
 
 	scored := make([]domain.ContributionEvent, len(events))
 	copy(scored, events)
 
-	// Sort by date (oldest first) so early contributions get full value
-	// We need a stable sort?
-	// Let's rely on the fact that we process them in temporal order.
-	// Check if we need to import sort.
-	// For now, let's assuming strict temporal processing if we sort first.
-	// BUT, we need to import "sort" first.
-	// I'll add the method first, then add imports if needed.
-	// actually I should check imports in scoring.go.
+	sort.Slice(scored, func(i, j int) bool {
+		if scored[i].CreatedAt.Equal(scored[j].CreatedAt) {
+			return scored[i].URL < scored[j].URL
+		}
+		return scored[i].CreatedAt.Before(scored[j].CreatedAt)
+	})
 
 	for i := range scored {
 		repo := scored[i].Repo

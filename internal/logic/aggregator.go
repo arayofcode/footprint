@@ -55,7 +55,7 @@ func Aggregate(events []domain.SemanticEvent, projects []domain.EnrichedProject)
 		if _, ok := repoMap[e.Repo]; !ok {
 			repoMap[e.Repo] = &domain.RepoContribution{
 				Repo:      e.Repo,
-				RepoURL:   "",
+				RepoURL:   "https://github.com/" + e.Repo,
 				AvatarURL: e.AvatarURL,
 			}
 		}
