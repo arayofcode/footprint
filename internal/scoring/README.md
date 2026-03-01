@@ -6,12 +6,15 @@ Each contribution's impact score is calculated based on two metrics:
 
 Each activity has a different base score:
 
-|   Activity   | Base Score |
-|--------------|------------|
-| Pull Request |    10      |
-| Code Review  |     3      |
-| Issue        |     5      |
-| Comment      |     2      |
+|      Activity       | Base Score |
+|---------------------|------------|
+| Pull Request        |    10      |
+| Code Review         |     3      |
+| Review Comment      |     1      |
+| Issue               |     5      |
+| Issue Comment       |     2      |
+| Discussion          |     2      |
+| Discussion Comment  |     2      |
 
 ### Merged Bonus
 Merged PRs receive a **1.5x base-score bonus** before the popularity multiplier is applied. This prioritizes accepted contributions.
