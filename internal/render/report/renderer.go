@@ -13,6 +13,7 @@ import (
 type Renderer struct{}
 
 type Report struct {
+	SchemaVersion  string                      `json:"schemaVersion"`
 	GeneratedAt    time.Time                   `json:"generatedAt"`
 	Username       string                      `json:"username"`
 	Stats          domain.StatsView            `json:"stats"`
@@ -75,6 +76,7 @@ func (Renderer) RenderReport(ctx context.Context, user domain.User, stats domain
 	})
 
 	report := Report{
+		SchemaVersion:  "1",
 		GeneratedAt:    generatedAt,
 		Username:       user.Username,
 		Stats:          stats,
