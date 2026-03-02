@@ -78,7 +78,7 @@ func RunCLI(ctx context.Context, cfg CLIConfig) error {
 	}
 
 	if cfg.EnableCard {
-		gen.CardRenderer = card.Renderer{}
+		gen.CardRenderer = card.Renderer{MinDisplayStars: minStars}
 	}
 
 	if err := gen.Run(ctx, username); err != nil {

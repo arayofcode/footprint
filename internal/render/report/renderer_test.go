@@ -38,7 +38,7 @@ func TestRenderReport_BasicFields(t *testing.T) {
 	}
 
 	if report.SchemaVersion != "1" {
-	    t.Fatalf("expected schemaVersion 1, got %q", report.SchemaVersion)
+		t.Fatalf("expected schemaVersion 1, got %q", report.SchemaVersion)
 	}
 	if report.Username != "ray" {
 		t.Fatalf("expected username ray, got %s", report.Username)

@@ -20,7 +20,7 @@ func TestBuildCardViewModel(t *testing.T) {
 	generatedAt := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)
 
 	t.Run("Labels match expected display names", func(t *testing.T) {
-		vm := buildViewModel(user, stats, generatedAt, nil, nil, true, false, false)
+		vm := buildViewModel(user, stats, generatedAt, nil, nil, true, false, false, 0)
 		expected := map[string]bool{
 			"PRs Opened":     false,
 			"Code Reviews":   false,
@@ -46,7 +46,7 @@ func TestBuildCardViewModel(t *testing.T) {
 	})
 
 	t.Run("Zero-value stats excluded when showAllStats=false", func(t *testing.T) {
-		vm := buildViewModel(user, stats, generatedAt, nil, nil, false, false, false)
+		vm := buildViewModel(user, stats, generatedAt, nil, nil, false, false, false, 0)
 
 		for _, s := range vm.Stats {
 			if s.Raw == 0 {
@@ -54,20 +54,20 @@ func TestBuildCardViewModel(t *testing.T) {
 			}
 		}
 
-		if len(vm.Stats) != 3 {
-			t.Errorf("Expected 3 stats, got %d", len(vm.Stats))
+		if len(vm.Stats) != 4 {
+			t.Errorf("Expected 4 stats, got %d", len(vm.Stats))
 		}
 	})
 
 	t.Run("Sections omitted when empty and minimalSections=true", func(t *testing.T) {
-		vm := buildViewModel(user, stats, generatedAt, nil, nil, false, true, true)
+		vm := buildViewModel(user, stats, generatedAt, nil, nil, false, true, true, 0)
 		if len(vm.Sections) != 0 {
 			t.Errorf("Expected 0 sections, got %d", len(vm.Sections))
 		}
 	})
 
 	t.Run("User Avatar Key matches", func(t *testing.T) {
-		vm := buildViewModel(user, stats, generatedAt, nil, nil, true, false, false)
+		vm := buildViewModel(user, stats, generatedAt, nil, nil, true, false, false, 0)
 		expectedKey := domain.UserAvatarKey(user.Username)
 		if vm.User.AvatarKey != expectedKey {
 			t.Errorf("Expected avatar key %v, got %v", expectedKey, vm.User.AvatarKey)

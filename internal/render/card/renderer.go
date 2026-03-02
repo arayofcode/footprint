@@ -11,33 +11,35 @@ import (
 	"github.com/arayofcode/footprint/internal/domain"
 )
 
-type Renderer struct{}
+type Renderer struct {
+	MinDisplayStars int
+}
 
 // RenderCard: All stats, no sections
 func (r Renderer) RenderCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProjectImpact, assets map[domain.AssetKey]string) ([]byte, error) {
-	vm := buildViewModel(user, stats, generatedAt, contributions, projects, true, false, false)
+	vm := buildViewModel(user, stats, generatedAt, contributions, projects, true, false, false, r.MinDisplayStars)
 	return renderSVG(vm, assets), nil
 }
 
 // RenderMinimalCard: Non-zero stats only, no sections
 func (r Renderer) RenderMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProjectImpact, assets map[domain.AssetKey]string) ([]byte, error) {
-	vm := buildViewModel(user, stats, generatedAt, contributions, projects, false, false, false)
+	vm := buildViewModel(user, stats, generatedAt, contributions, projects, false, false, false, r.MinDisplayStars)
 	return renderSVG(vm, assets), nil
 }
 
 // RenderExtendedCard: All stats + both sections
 func (r Renderer) RenderExtendedCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProjectImpact, assets map[domain.AssetKey]string) ([]byte, error) {
-	vm := buildViewModel(user, stats, generatedAt, contributions, projects, true, true, false)
+	vm := buildViewModel(user, stats, generatedAt, contributions, projects, true, true, false, r.MinDisplayStars)
 	return renderSVG(vm, assets), nil
 }
 
 // RenderExtendedMinimalCard: Non-zero stats + sections only if content exists
 func (r Renderer) RenderExtendedMinimalCard(ctx context.Context, user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProjectImpact, assets map[domain.AssetKey]string) ([]byte, error) {
-	vm := buildViewModel(user, stats, generatedAt, contributions, projects, false, true, true)
+	vm := buildViewModel(user, stats, generatedAt, contributions, projects, false, true, true, r.MinDisplayStars)
 	return renderSVG(vm, assets), nil
 }
 
-func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProjectImpact, showAllStats bool, showSections bool, minimalSections bool) CardViewModel {
+func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.Time, contributions []domain.RepoContribution, projects []domain.OwnedProjectImpact, showAllStats bool, showSections bool, minimalSections bool, minDisplayStars int) CardViewModel {
 	codeReview := stats.PRReviewComments + stats.PRReviews
 	// 1. Build Stats
 	potentialStats := []StatVM{
@@ -45,7 +47,7 @@ func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.T
 		{Label: "Code Reviews", Value: formatCount(codeReview), Icon: iconReview, Raw: codeReview},
 		{Label: "Issues Opened", Value: formatCount(stats.IssuesOpened), Icon: iconIssue, Raw: stats.IssuesOpened},
 		{Label: "Issue Comments", Value: formatCount(stats.IssueComments), Icon: iconComment, Raw: stats.IssueComments},
-		{Label: "Projects Owned", Value: formatCount(len(projects)), Icon: iconProject, Raw: len(projects)},
+		{Label: "Projects Owned", Value: formatCount(stats.ProjectsOwned), Icon: iconProject, Raw: stats.ProjectsOwned},
 		{Label: "Stars Earned", Value: formatLargeNum(stats.StarsEarned), Icon: iconStar, Raw: stats.StarsEarned},
 	}
 
@@ -58,14 +60,22 @@ func buildViewModel(user domain.User, stats domain.StatsView, generatedAt time.T
 	}
 
 	// 2. Prepare Sections Data
-	topOwned := projects
+	// Filter for display only — stats.ProjectsOwned and stats.StarsEarned are authoritative
+	var sectionProjects []domain.OwnedProjectImpact
+	for _, p := range projects {
+		if p.Stars >= minDisplayStars {
+			sectionProjects = append(sectionProjects, p)
+		}
+	}
+
+	topOwned := sectionProjects
 	if showSections {
 		// Sort by Score desc (finalized weighted impact)
-		sort.Slice(projects, func(i, j int) bool {
-			if projects[i].Score != projects[j].Score {
-				return projects[i].Score > projects[j].Score
+		sort.Slice(sectionProjects, func(i, j int) bool {
+			if sectionProjects[i].Score != sectionProjects[j].Score {
+				return sectionProjects[i].Score > sectionProjects[j].Score
 			}
-			return projects[i].Repo < projects[j].Repo
+			return sectionProjects[i].Repo < sectionProjects[j].Repo
 		})
 		if len(topOwned) > 3 {
 			topOwned = topOwned[:3]
@@ -291,13 +301,13 @@ func renderSVG(vm CardViewModel, assetsMap map[domain.AssetKey]string) []byte {
 	svg := fmt.Sprintf(`<?xml version="1.0" encoding="UTF-8"?>
 <svg width="%d" height="%d" viewBox="0 0 %d %d" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   %s
-  
+
   <!-- Background -->
   %s
-  
+
   <!-- Header -->
   %s
-  
+
 %s
   %s
   %s

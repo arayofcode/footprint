@@ -23,7 +23,10 @@ inputs:
     required: false
     default: "dist"
   min_stars:
-    description: "Minimum stars for owned projects"
+    description: >
+      Minimum star count for a project to appear in card sections.
+      Does not affect aggregate stats (Stars Earned, Projects Owned) —
+      all owned projects are always counted.
     required: false
     default: "5"
   card:
