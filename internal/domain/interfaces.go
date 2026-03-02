@@ -15,7 +15,7 @@ type ContributionStrategy interface {
 }
 
 type ProjectCatalog interface {
-	FetchOwnedProjects(ctx context.Context, username string, minStars int) ([]OwnedProject, error)
+	FetchOwnedProjects(ctx context.Context, username string) ([]OwnedProject, error)
 }
 
 type ScoreCalculator interface {

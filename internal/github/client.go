@@ -87,7 +87,7 @@ func (c *Client) fetchUser(ctx context.Context, username string) (domain.User, e
 	}, nil
 }
 
-func (c *Client) FetchOwnedProjects(ctx context.Context, username string, minStars int) ([]domain.OwnedProject, error) {
+func (c *Client) FetchOwnedProjects(ctx context.Context, username string) ([]domain.OwnedProject, error) {
 	var projects []domain.OwnedProject
 	variables := map[string]any{
 		"login":  githubv4.String(username),
@@ -102,9 +102,6 @@ func (c *Client) FetchOwnedProjects(ctx context.Context, username string, minSta
 
 		for _, repo := range q.User.Repositories.Nodes {
 			if repo.IsPrivate || repo.IsFork {
-				continue
-			}
-			if repo.StargazerCount < minStars {
 				continue
 			}
 

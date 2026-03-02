@@ -33,7 +33,7 @@ func (g *Generator) Run(ctx context.Context, username string) error {
 		return fmt.Errorf("fetching external contributions: %w", err)
 	}
 
-	projects, err := g.Projects.FetchOwnedProjects(ctx, username, g.MinStars)
+	projects, err := g.Projects.FetchOwnedProjects(ctx, username)
 	if err != nil {
 		return fmt.Errorf("fetching owned projects: %w", err)
 	}

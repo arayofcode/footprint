@@ -31,7 +31,7 @@ type fakeProjects struct {
 	err      error
 }
 
-func (f fakeProjects) FetchOwnedProjects(ctx context.Context, username string, minStars int) ([]domain.OwnedProject, error) {
+func (f fakeProjects) FetchOwnedProjects(ctx context.Context, username string) ([]domain.OwnedProject, error) {
 	if f.err != nil {
 		return nil, f.err
 	}
