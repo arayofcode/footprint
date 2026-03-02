@@ -1,6 +1,6 @@
 # OSS Footprint: @arayofcode
 
-*Generated on March 1, 2026*
+*Generated on March 2, 2026*
 
 ## Impact Snapshot
 
@@ -8,10 +8,25 @@
 - 📋 **10** PR Reviews
 - 🐛 **2** Issues Opened
 - 💬 **13** Issue Comments
-- 📦 **0** Projects Owned
-- ⭐ **0** Stars Earned
+- 📦 **12** Projects Owned
+- ⭐ **2** Stars Earned
 
 [View all external PRs authored by @arayofcode](https://github.com/pulls?q=is%3Apr+author%3Aarayofcode+-user%3Aarayofcode)
+
+## Owned Projects
+
+- [`arayofcode/tokeniser`](https://github.com/arayofcode/tokeniser) · ⭐ 1 · 🍴 1
+- [`arayofcode/CodeSyncHub`](https://github.com/arayofcode/CodeSyncHub) · ⭐ 1 · 🍴 0
+- [`arayofcode/Advanced-Algorithms`](https://github.com/arayofcode/Advanced-Algorithms) · ⭐ 0 · 🍴 0
+- [`arayofcode/DM_Project`](https://github.com/arayofcode/DM_Project) · ⭐ 0 · 🍴 0
+- [`arayofcode/arayofcode`](https://github.com/arayofcode/arayofcode) · ⭐ 0 · 🍴 0
+- [`arayofcode/codecrafters-kafka`](https://github.com/arayofcode/codecrafters-kafka) · ⭐ 0 · 🍴 0
+- [`arayofcode/distributed-systems`](https://github.com/arayofcode/distributed-systems) · ⭐ 0 · 🍴 0
+- [`arayofcode/fairValueDashboard`](https://github.com/arayofcode/fairValueDashboard) · ⭐ 0 · 🍴 0
+- [`arayofcode/footprint`](https://github.com/arayofcode/footprint) · ⭐ 0 · 🍴 0
+- [`arayofcode/magicbricks-scrapper`](https://github.com/arayofcode/magicbricks-scrapper) · ⭐ 0 · 🍴 0
+- [`arayofcode/useful-code`](https://github.com/arayofcode/useful-code) · ⭐ 0 · 🍴 0
+- [`arayofcode/wsd-overarching-project`](https://github.com/arayofcode/wsd-overarching-project) · ⭐ 0 · 🍴 0
 
 ## Top Repositories
 
@@ -72,20 +87,6 @@
 
 - 🐛 **[Configuration/ Token isn't being detected in workspace + Home dir being created inside workspace](https://github.com/exercism/cli/issues/1226)** (Jan 23, 2026)
 
-### [arayofcode/tokeniser](https://github.com/arayofcode/tokeniser/pulls?q=is%3Apr+author%3Aarayofcode)
-
-*Total Impact: **12.4** · 0 PR(s)*
-
-- 💭 **[Bump golang.org/x/net from 0.33.0 to 0.38.0 in the go_modules group across 1 directory](https://github.com/arayofcode/tokeniser/pull/41#issuecomment-2813202715)** (Apr 17, 2025)
-- 💭 **[Bump golang.org/x/crypto from 0.22.0 to 0.31.0 in the go_modules group](https://github.com/arayofcode/tokeniser/pull/39#issuecomment-2807503235)** (Apr 15, 2025)
-- 💭 **[Refactoring](https://github.com/arayofcode/tokeniser/pull/35#issuecomment-2114904247)** (May 16, 2024)
-- 💬 **[Tests failing in CI/CD](https://github.com/arayofcode/tokeniser/issues/31#issuecomment-2114900848)** (May 16, 2024)
-- 💬 **[Use docker profiles for setting environments to use common services](https://github.com/arayofcode/tokeniser/issues/21#issuecomment-2100256389)** (May 8, 2024)
-- 💭 **[Use docker compose, setup local development environment](https://github.com/arayofcode/tokeniser/pull/19#issuecomment-2032462539)** (Apr 2, 2024)
-- 💭 **[Use docker compose. Need to fix testing and Makefile](https://github.com/arayofcode/tokeniser/pull/17#issuecomment-2029842667)** (Apr 1, 2024)
-- 💭 **[Task 2 for SRE Bootcamp completed](https://github.com/arayofcode/tokeniser/pull/14#issuecomment-2028461209)** (Mar 30, 2024)
-- 💭 **[Task 2 for SRE Bootcamp completed](https://github.com/arayofcode/tokeniser/pull/14#issuecomment-2028461095)** (Mar 30, 2024)
-
 ### [WebGoat/WebGoat](https://github.com/WebGoat/WebGoat/pulls?q=is%3Apr+author%3Aarayofcode)
 
 *Total Impact: **8.0** · 0 PR(s)*
@@ -121,11 +122,4 @@
 *Total Impact: **5.6** · 0 PR(s)*
 
 - 💬 **[Add a free form "status" field](https://github.com/postgres/pgcommitfest/issues/19#issuecomment-2761654297)** (Mar 28, 2025)
-
-### [arayofcode/CodeSyncHub](https://github.com/arayofcode/CodeSyncHub/pulls?q=is%3Apr+author%3Aarayofcode)
-
-*Total Impact: **4.3** · 0 PR(s)*
-
-- 💬 **[One commit for each submission](https://github.com/arayofcode/CodeSyncHub/issues/4#issuecomment-1826769034)** (Nov 26, 2023)
-- 💬 **[Automatic enforcement of style guide](https://github.com/arayofcode/CodeSyncHub/issues/1#issuecomment-1826762460)** (Nov 26, 2023)
 

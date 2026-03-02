@@ -1,5 +1,6 @@
 {
-  "generatedAt": "2026-03-01T02:00:03.911558804Z",
+  "schemaVersion": "1",
+  "generatedAt": "2026-03-02T08:15:03.855073447Z",
   "username": "arayofcode",
   "stats": {
     "PRsOpened": 9,
@@ -10,16 +11,16 @@
     "DiscussionsOpened": 0,
     "DiscussionComments": 0,
     "TotalCommits": 0,
-    "ProjectsOwned": 0,
-    "StarsEarned": 0,
-    "TotalReposContributedTo": 16
+    "ProjectsOwned": 12,
+    "StarsEarned": 2,
+    "TotalReposContributedTo": 26
   },
-  "totalEvents": 34,
+  "totalEvents": 23,
   "eventsByType": {
     "ISSUE": 2,
-    "ISSUE_COMMENT": 13,
+    "ISSUE_COMMENT": 9,
     "PR": 9,
-    "PR_REVIEW_COMMENT": 10
+    "PR_REVIEW_COMMENT": 3
   },
   "events": [
     {
@@ -28,24 +29,6 @@
       "Title": "Configuration/ Token isn't being detected in workspace + Home dir being created inside workspace",
       "URL": "https://github.com/exercism/cli/issues/1226",
       "CreatedAt": "2026-01-23T09:37:12Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "PR_REVIEW_COMMENT",
-      "Repo": "arayofcode/tokeniser",
-      "Title": "Bump golang.org/x/net from 0.33.0 to 0.38.0 in the go_modules group across 1 directory",
-      "URL": "https://github.com/arayofcode/tokeniser/pull/41#issuecomment-2813202715",
-      "CreatedAt": "2025-04-17T14:51:45Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "PR_REVIEW_COMMENT",
-      "Repo": "arayofcode/tokeniser",
-      "Title": "Bump golang.org/x/crypto from 0.22.0 to 0.31.0 in the go_modules group",
-      "URL": "https://github.com/arayofcode/tokeniser/pull/39#issuecomment-2807503235",
-      "CreatedAt": "2025-04-15T21:03:54Z",
       "ReactionsCount": 0,
       "Merged": false
     },
@@ -113,33 +96,6 @@
       "Merged": false
     },
     {
-      "Type": "PR_REVIEW_COMMENT",
-      "Repo": "arayofcode/tokeniser",
-      "Title": "Refactoring",
-      "URL": "https://github.com/arayofcode/tokeniser/pull/35#issuecomment-2114904247",
-      "CreatedAt": "2024-05-16T10:58:34Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE_COMMENT",
-      "Repo": "arayofcode/tokeniser",
-      "Title": "Tests failing in CI/CD",
-      "URL": "https://github.com/arayofcode/tokeniser/issues/31#issuecomment-2114900848",
-      "CreatedAt": "2024-05-16T10:57:38Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE_COMMENT",
-      "Repo": "arayofcode/tokeniser",
-      "Title": "Use docker profiles for setting environments to use common services",
-      "URL": "https://github.com/arayofcode/tokeniser/issues/21#issuecomment-2100256389",
-      "CreatedAt": "2024-05-08T10:24:18Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
       "Type": "ISSUE_COMMENT",
       "Repo": "testcontainers/testcontainers-go",
       "Title": "[Bug]: Docs state docker context aware, but does not seem to work",
@@ -149,65 +105,11 @@
       "Merged": false
     },
     {
-      "Type": "PR_REVIEW_COMMENT",
-      "Repo": "arayofcode/tokeniser",
-      "Title": "Use docker compose, setup local development environment",
-      "URL": "https://github.com/arayofcode/tokeniser/pull/19#issuecomment-2032462539",
-      "CreatedAt": "2024-04-02T16:05:55Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "PR_REVIEW_COMMENT",
-      "Repo": "arayofcode/tokeniser",
-      "Title": "Use docker compose. Need to fix testing and Makefile",
-      "URL": "https://github.com/arayofcode/tokeniser/pull/17#issuecomment-2029842667",
-      "CreatedAt": "2024-04-01T14:26:13Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "PR_REVIEW_COMMENT",
-      "Repo": "arayofcode/tokeniser",
-      "Title": "Task 2 for SRE Bootcamp completed",
-      "URL": "https://github.com/arayofcode/tokeniser/pull/14#issuecomment-2028461209",
-      "CreatedAt": "2024-03-30T20:24:15Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "PR_REVIEW_COMMENT",
-      "Repo": "arayofcode/tokeniser",
-      "Title": "Task 2 for SRE Bootcamp completed",
-      "URL": "https://github.com/arayofcode/tokeniser/pull/14#issuecomment-2028461095",
-      "CreatedAt": "2024-03-30T20:23:34Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
       "Type": "ISSUE_COMMENT",
       "Repo": "hadolint/hadolint",
       "Title": "Trusted registries don't work correctly for multi-part repo names",
       "URL": "https://github.com/hadolint/hadolint/issues/401#issuecomment-2028460238",
       "CreatedAt": "2024-03-30T20:19:21Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE_COMMENT",
-      "Repo": "arayofcode/CodeSyncHub",
-      "Title": "One commit for each submission",
-      "URL": "https://github.com/arayofcode/CodeSyncHub/issues/4#issuecomment-1826769034",
-      "CreatedAt": "2023-11-26T12:20:17Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE_COMMENT",
-      "Repo": "arayofcode/CodeSyncHub",
-      "Title": "Automatic enforcement of style guide",
-      "URL": "https://github.com/arayofcode/CodeSyncHub/issues/1#issuecomment-1826762460",
-      "CreatedAt": "2023-11-26T11:51:29Z",
       "ReactionsCount": 0,
       "Merged": false
     },
@@ -329,12 +231,133 @@
       "Merged": true
     }
   ],
-  "ownedProjects": null,
+  "ownedProjects": [
+    {
+      "Repo": "arayofcode/tokeniser",
+      "URL": "https://github.com/arayofcode/tokeniser",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 1,
+      "Forks": 1,
+      "BaseScore": 2500,
+      "PopularityRaw": 1.6020599913279625,
+      "Score": 4005.149978319906
+    },
+    {
+      "Repo": "arayofcode/CodeSyncHub",
+      "URL": "https://github.com/arayofcode/CodeSyncHub",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 1,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1.3010299956639813,
+      "Score": 3252.574989159953
+    },
+    {
+      "Repo": "arayofcode/Advanced-Algorithms",
+      "URL": "https://github.com/arayofcode/Advanced-Algorithms",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    },
+    {
+      "Repo": "arayofcode/DM_Project",
+      "URL": "https://github.com/arayofcode/DM_Project",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    },
+    {
+      "Repo": "arayofcode/arayofcode",
+      "URL": "https://github.com/arayofcode/arayofcode",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    },
+    {
+      "Repo": "arayofcode/codecrafters-kafka",
+      "URL": "https://github.com/arayofcode/codecrafters-kafka",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    },
+    {
+      "Repo": "arayofcode/distributed-systems",
+      "URL": "https://github.com/arayofcode/distributed-systems",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    },
+    {
+      "Repo": "arayofcode/fairValueDashboard",
+      "URL": "https://github.com/arayofcode/fairValueDashboard",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    },
+    {
+      "Repo": "arayofcode/footprint",
+      "URL": "https://github.com/arayofcode/footprint",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    },
+    {
+      "Repo": "arayofcode/magicbricks-scrapper",
+      "URL": "https://github.com/arayofcode/magicbricks-scrapper",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    },
+    {
+      "Repo": "arayofcode/useful-code",
+      "URL": "https://github.com/arayofcode/useful-code",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    },
+    {
+      "Repo": "arayofcode/wsd-overarching-project",
+      "URL": "https://github.com/arayofcode/wsd-overarching-project",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    }
+  ],
   "topRepos": [
     {
       "repo": "mvt-project/mvt",
       "repoURL": "https://github.com/mvt-project/mvt",
-      "impactScore": 97.33333333333334,
+      "impactScore": 97.33333333333333,
       "prCount": 2
     },
     {
@@ -358,13 +381,13 @@
     {
       "repo": "zed-industries/zed",
       "repoURL": "https://github.com/zed-industries/zed",
-      "impactScore": 37.33333333333333,
+      "impactScore": 37.333333333333336,
       "prCount": 0
     },
     {
       "repo": "shanirivers/open-source-mathematics-degree",
       "repoURL": "https://github.com/shanirivers/open-source-mathematics-degree",
-      "impactScore": 35.18513939877887,
+      "impactScore": 35.17195897949974,
       "prCount": 1
     },
     {
@@ -380,9 +403,9 @@
       "prCount": 0
     },
     {
-      "repo": "arayofcode/tokeniser",
-      "repoURL": "https://github.com/arayofcode/tokeniser",
-      "impactScore": 12.361291456897185,
+      "repo": "WebGoat/WebGoat",
+      "repoURL": "https://github.com/WebGoat/WebGoat",
+      "impactScore": 8,
       "prCount": 0
     },
     {
@@ -392,20 +415,14 @@
       "prCount": 0
     },
     {
-      "repo": "WebGoat/WebGoat",
-      "repoURL": "https://github.com/WebGoat/WebGoat",
+      "repo": "hadolint/hadolint",
+      "repoURL": "https://github.com/hadolint/hadolint",
       "impactScore": 8,
       "prCount": 0
     },
     {
       "repo": "testcontainers/testcontainers-go",
       "repoURL": "https://github.com/testcontainers/testcontainers-go",
-      "impactScore": 8,
-      "prCount": 0
-    },
-    {
-      "repo": "hadolint/hadolint",
-      "repoURL": "https://github.com/hadolint/hadolint",
       "impactScore": 8,
       "prCount": 0
     },
@@ -419,12 +436,6 @@
       "repo": "postgres/pgcommitfest",
       "repoURL": "https://github.com/postgres/pgcommitfest",
       "impactScore": 5.556302500767287,
-      "prCount": 0
-    },
-    {
-      "repo": "arayofcode/CodeSyncHub",
-      "repoURL": "https://github.com/arayofcode/CodeSyncHub",
-      "impactScore": 4.336766652213271,
       "prCount": 0
     }
   ],
