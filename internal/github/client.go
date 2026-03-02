@@ -44,9 +44,7 @@ func (c *Client) FetchExternalContributions(ctx context.Context, username string
 
 		for _, e := range events {
 			uniqueRepos[e.Repo] = true
-			if _, ok := eventMap[e.ID]; ok {
-				eventMap[e.ID] = e
-			} else {
+			if _, ok := eventMap[e.ID]; !ok {
 				eventMap[e.ID] = e
 			}
 		}
