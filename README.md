@@ -1,6 +1,6 @@
 # Footprint
 
-[![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Footprint-blue?logo=github)](https://github.com/marketplace/actions/footprint) [![CI](https://github.com/arayofcode/footprint/actions/workflows/ci.yml/badge.svg)](https://github.com/arayofcode/footprint/actions/workflows/ci.yml) [![License](https://img.shields.io/github/license/arayofcode/footprint)](LICENSE)
+[![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Footprint-blue?logo=github)](https://github.com/marketplace/actions/oss-footprint) [![CI](https://github.com/arayofcode/footprint/actions/workflows/ci.yml/badge.svg)](https://github.com/arayofcode/footprint/actions/workflows/ci.yml) [![License](https://img.shields.io/github/license/arayofcode/footprint)](LICENSE)
 
 **Footprint is an OSS contributions impact scoring engine** that discovers your public GitHub contributions, scores them by real impact, and generates portfolio-ready artifacts — SVG cards, a structured JSON report, and a Markdown summary.
 
