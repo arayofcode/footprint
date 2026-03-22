@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-03-15T02:03:30.306268456Z",
+  "generatedAt": "2026-03-22T01:56:55.4139297Z",
   "username": "arayofcode",
   "stats": {
     "PRsOpened": 9,
@@ -12,7 +12,7 @@
     "DiscussionComments": 0,
     "TotalCommits": 0,
     "ProjectsOwned": 12,
-    "StarsEarned": 2,
+    "StarsEarned": 3,
     "TotalReposContributedTo": 26
   },
   "totalEvents": 23,
@@ -253,6 +253,16 @@
       "Score": 3252.574989159953
     },
     {
+      "Repo": "arayofcode/footprint",
+      "URL": "https://github.com/arayofcode/footprint",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 1,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1.3010299956639813,
+      "Score": 3252.574989159953
+    },
+    {
       "Repo": "arayofcode/Advanced-Algorithms",
       "URL": "https://github.com/arayofcode/Advanced-Algorithms",
       "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
@@ -305,16 +315,6 @@
     {
       "Repo": "arayofcode/fairValueDashboard",
       "URL": "https://github.com/arayofcode/fairValueDashboard",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
-      "Stars": 0,
-      "Forks": 0,
-      "BaseScore": 2500,
-      "PopularityRaw": 1,
-      "Score": 2500
-    },
-    {
-      "Repo": "arayofcode/footprint",
-      "URL": "https://github.com/arayofcode/footprint",
       "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
       "Stars": 0,
       "Forks": 0,
@@ -387,7 +387,7 @@
     {
       "repo": "shanirivers/open-source-mathematics-degree",
       "repoURL": "https://github.com/shanirivers/open-source-mathematics-degree",
-      "impactScore": 35.17195897949974,
+      "impactScore": 35.158738437116796,
       "prCount": 1
     },
     {
