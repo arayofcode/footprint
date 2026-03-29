@@ -1,125 +1,90 @@
-# OSS Footprint: @arayofcode
+# OSS Footprint: @Dilip-Kashyp
 
 *Generated on March 29, 2026*
 
 ## Impact Snapshot
 
-- 🔀 **9** PRs Opened
-- 📋 **10** PR Reviews
-- 🐛 **2** Issues Opened
-- 💬 **13** Issue Comments
-- 📦 **12** Projects Owned
-- ⭐ **3** Stars Earned
+- 🔀 **2** PRs Opened
+- 📋 **0** PR Reviews
+- 🐛 **0** Issues Opened
+- 💬 **3** Issue Comments
+- 📦 **50** Projects Owned
+- ⭐ **27** Stars Earned
 
-[View all external PRs authored by @arayofcode](https://github.com/pulls?q=is%3Apr+author%3Aarayofcode+-user%3Aarayofcode)
+[View all external PRs authored by @Dilip-Kashyp](https://github.com/pulls?q=is%3Apr+author%3ADilip-Kashyp+-user%3ADilip-Kashyp)
 
 ## Owned Projects
 
-- [`arayofcode/tokeniser`](https://github.com/arayofcode/tokeniser) · ⭐ 1 · 🍴 1
-- [`arayofcode/CodeSyncHub`](https://github.com/arayofcode/CodeSyncHub) · ⭐ 1 · 🍴 0
-- [`arayofcode/footprint`](https://github.com/arayofcode/footprint) · ⭐ 1 · 🍴 0
-- [`arayofcode/Advanced-Algorithms`](https://github.com/arayofcode/Advanced-Algorithms) · ⭐ 0 · 🍴 0
-- [`arayofcode/DM_Project`](https://github.com/arayofcode/DM_Project) · ⭐ 0 · 🍴 0
-- [`arayofcode/arayofcode`](https://github.com/arayofcode/arayofcode) · ⭐ 0 · 🍴 0
-- [`arayofcode/codecrafters-kafka`](https://github.com/arayofcode/codecrafters-kafka) · ⭐ 0 · 🍴 0
-- [`arayofcode/distributed-systems`](https://github.com/arayofcode/distributed-systems) · ⭐ 0 · 🍴 0
-- [`arayofcode/fairValueDashboard`](https://github.com/arayofcode/fairValueDashboard) · ⭐ 0 · 🍴 0
-- [`arayofcode/magicbricks-scrapper`](https://github.com/arayofcode/magicbricks-scrapper) · ⭐ 0 · 🍴 0
-- [`arayofcode/useful-code`](https://github.com/arayofcode/useful-code) · ⭐ 0 · 🍴 0
-- [`arayofcode/wsd-overarching-project`](https://github.com/arayofcode/wsd-overarching-project) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/AI-Assistant`](https://github.com/Dilip-Kashyp/AI-Assistant) · ⭐ 3 · 🍴 0
+- [`Dilip-Kashyp/Animated-Circle`](https://github.com/Dilip-Kashyp/Animated-Circle) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/Backend`](https://github.com/Dilip-Kashyp/Backend) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/Books-`](https://github.com/Dilip-Kashyp/Books-) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/DSA`](https://github.com/Dilip-Kashyp/DSA) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/Dilip-kashyp`](https://github.com/Dilip-Kashyp/Dilip-kashyp) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/E-commerce_Backend`](https://github.com/Dilip-Kashyp/E-commerce_Backend) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/Golang`](https://github.com/Dilip-Kashyp/Golang) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/Goovo-Event`](https://github.com/Dilip-Kashyp/Goovo-Event) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/LiaPlus-AI-Assignment`](https://github.com/Dilip-Kashyp/LiaPlus-AI-Assignment) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/Mic-Animation`](https://github.com/Dilip-Kashyp/Mic-Animation) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/SRE`](https://github.com/Dilip-Kashyp/SRE) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/ScholarMatch-AI`](https://github.com/Dilip-Kashyp/ScholarMatch-AI) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/To-Do-List`](https://github.com/Dilip-Kashyp/To-Do-List) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/Todo-`](https://github.com/Dilip-Kashyp/Todo-) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/User-managment-system`](https://github.com/Dilip-Kashyp/User-managment-system) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/Web-Software-development`](https://github.com/Dilip-Kashyp/Web-Software-development) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/You-Tube`](https://github.com/Dilip-Kashyp/You-Tube) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/contact-api`](https://github.com/Dilip-Kashyp/contact-api) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/dilip-kashyp.github.io`](https://github.com/Dilip-Kashyp/dilip-kashyp.github.io) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/image-searcher`](https://github.com/Dilip-Kashyp/image-searcher) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/job-portal`](https://github.com/Dilip-Kashyp/job-portal) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/leetCode`](https://github.com/Dilip-Kashyp/leetCode) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/python-ai-be`](https://github.com/Dilip-Kashyp/python-ai-be) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/scholar-match-ai-be`](https://github.com/Dilip-Kashyp/scholar-match-ai-be) · ⭐ 1 · 🍴 0
+- [`Dilip-Kashyp/All-program`](https://github.com/Dilip-Kashyp/All-program) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/C`](https://github.com/Dilip-Kashyp/C) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/GO-Practice`](https://github.com/Dilip-Kashyp/GO-Practice) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/GYM`](https://github.com/Dilip-Kashyp/GYM) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/Javascript`](https://github.com/Dilip-Kashyp/Javascript) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/Job-Portal--BE`](https://github.com/Dilip-Kashyp/Job-Portal--BE) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/My_Blogs`](https://github.com/Dilip-Kashyp/My_Blogs) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/Port`](https://github.com/Dilip-Kashyp/Port) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/ResuScore-ai`](https://github.com/Dilip-Kashyp/ResuScore-ai) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/Tesla-clone`](https://github.com/Dilip-Kashyp/Tesla-clone) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/TripMate-BE`](https://github.com/Dilip-Kashyp/TripMate-BE) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/URL-Parser`](https://github.com/Dilip-Kashyp/URL-Parser) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/Voiro-AI`](https://github.com/Dilip-Kashyp/Voiro-AI) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/Whack-the-mole`](https://github.com/Dilip-Kashyp/Whack-the-mole) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/Word_counter`](https://github.com/Dilip-Kashyp/Word_counter) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/all_program`](https://github.com/Dilip-Kashyp/all_program) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/fullstackopen-practice`](https://github.com/Dilip-Kashyp/fullstackopen-practice) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/java`](https://github.com/Dilip-Kashyp/java) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/leedcode`](https://github.com/Dilip-Kashyp/leedcode) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/python-`](https://github.com/Dilip-Kashyp/python-) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/route-genie-app`](https://github.com/Dilip-Kashyp/route-genie-app) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/url-shortener-be`](https://github.com/Dilip-Kashyp/url-shortener-be) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/url-shortener-fe`](https://github.com/Dilip-Kashyp/url-shortener-fe) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/weather`](https://github.com/Dilip-Kashyp/weather) · ⭐ 0 · 🍴 0
+- [`Dilip-Kashyp/working-clock-`](https://github.com/Dilip-Kashyp/working-clock-) · ⭐ 0 · 🍴 0
 
 ## Top Repositories
 
-### [mvt-project/mvt](https://github.com/mvt-project/mvt/pulls?q=is%3Apr+author%3Aarayofcode)
+### [khushi-joshi-05/Food-ordering-website](https://github.com/khushi-joshi-05/Food-ordering-website/pulls?q=is%3Apr+author%3ADilip-Kashyp)
 
-*Total Impact: **97.3** · 2 PR(s)*
+*Total Impact: **73.3** · 1 PR(s)*
 
-- 💬 **[Error: mvt-android download-apks --output](https://github.com/mvt-project/mvt/issues/51#issuecomment-885251738)** (Jul 22, 2021) · ❤️ 1
-- 💭 **[Updated Documentation](https://github.com/mvt-project/mvt/pull/24#issuecomment-884525803)** (Jul 21, 2021)
-- 💭 **[Updated Documentation](https://github.com/mvt-project/mvt/pull/24#issuecomment-884524848)** (Jul 21, 2021)
-- 🔀 **[Updating Documentation for Arch Linux](https://github.com/mvt-project/mvt/pull/56)** (Jul 21, 2021)
-- 🔀 **[Updated Documentation](https://github.com/mvt-project/mvt/pull/24)** (Jul 20, 2021)
+- 💬 **[[BUG]: On hover upper border gets hidden beneath the image above it (manage hovering effect)](https://github.com/khushi-joshi-05/Food-ordering-website/issues/543#issuecomment-2132141373)** (May 26, 2024)
+- 🔀 **[git commit -m "Fix hover border issue and add hover effect on manu items #543"](https://github.com/khushi-joshi-05/Food-ordering-website/pull/544)** (May 26, 2024) · ✅ Merged
+- 💬 **[[BUG]: On hover upper border gets hidden beneath the image above it (manage hovering effect)](https://github.com/khushi-joshi-05/Food-ordering-website/issues/543#issuecomment-2132097297)** (May 26, 2024)
 
-### [cs-ashoka/21-days-of-code](https://github.com/cs-ashoka/21-days-of-code/pulls?q=is%3Apr+author%3Aarayofcode)
+### [Sauvik11/medicine-tracker](https://github.com/Sauvik11/medicine-tracker/pulls?q=is%3Apr+author%3ADilip-Kashyp)
 
-*Total Impact: **93.5** · 3 PR(s)*
+*Total Impact: **15.0** · 1 PR(s)*
 
-- 🔀 **[Updating with Day1 and Day2 Questions](https://github.com/cs-ashoka/21-days-of-code/pull/39)** (Dec 19, 2021) · ✅ Merged
-- 🔀 **[Day1 Problems](https://github.com/cs-ashoka/21-days-of-code/pull/26)** (Dec 18, 2021)
-- 🔀 **[Day1 Commit](https://github.com/cs-ashoka/21-days-of-code/pull/25)** (Dec 18, 2021)
+- 🔀 **[fixed: eventlet to async threading & changed: version for pillow](https://github.com/Sauvik11/medicine-tracker/pull/2)** (Nov 14, 2025) · ✅ Merged
 
-### [github-education-resources/GitHubGraduation-2022](https://github.com/github-education-resources/GitHubGraduation-2022/pulls?q=is%3Apr+author%3Aarayofcode)
+### [reacthyderabad/freshgradprep](https://github.com/reacthyderabad/freshgradprep/pulls?q=is%3Apr+author%3ADilip-Kashyp)
 
-*Total Impact: **60.0** · 1 PR(s)*
+*Total Impact: **4.6** · 0 PR(s)*
 
-- 🔀 **[Adding Aryan](https://github.com/github-education-resources/GitHubGraduation-2022/pull/78)** (May 3, 2022) · ✅ Merged
-
-### [jlord/patchwork](https://github.com/jlord/patchwork/pulls?q=is%3Apr+author%3Aarayofcode)
-
-*Total Impact: **60.0** · 1 PR(s)*
-
-- 🔀 **[New file added in a different branch](https://github.com/jlord/patchwork/pull/35337)** (Jun 15, 2020) · ✅ Merged
-
-### [zed-industries/zed](https://github.com/zed-industries/zed/pulls?q=is%3Apr+author%3Aarayofcode)
-
-*Total Impact: **37.3** · 0 PR(s)*
-
-- 💬 **[git: Stage and unstage buttons both enabled at same time in git diff view](https://github.com/zed-industries/zed/issues/26881#issuecomment-2730390960)** (Mar 17, 2025)
-- 💬 **[git: Stage and unstage buttons both enabled at same time in git diff view](https://github.com/zed-industries/zed/issues/26881#issuecomment-2730048473)** (Mar 17, 2025)
-- 💬 **[git: Stage and unstage buttons both enabled at same time in git diff view](https://github.com/zed-industries/zed/issues/26881#issuecomment-2729954295)** (Mar 17, 2025)
-- 🐛 **[Project Panel: Cannot create directory in parent directory within parent directory if path looks like `directory/subdirectory`](https://github.com/zed-industries/zed/issues/18770)** (Oct 6, 2024)
-
-### [shanirivers/open-source-mathematics-degree](https://github.com/shanirivers/open-source-mathematics-degree/pulls?q=is%3Apr+author%3Aarayofcode)
-
-*Total Impact: **35.2** · 1 PR(s)*
-
-- 🔀 **[Fix Broken Links for UC Irvine](https://github.com/shanirivers/open-source-mathematics-degree/pull/3)** (May 18, 2022)
-
-### [hlxsites/prisma-cloud-docs](https://github.com/hlxsites/prisma-cloud-docs/pulls?q=is%3Apr+author%3Aarayofcode)
-
-*Total Impact: **33.2** · 1 PR(s)*
-
-- 🔀 **[[trivial] Fix BitBucket API URL for unrotated-access-key policy](https://github.com/hlxsites/prisma-cloud-docs/pull/746)** (Jul 3, 2024)
-
-### [exercism/cli](https://github.com/exercism/cli/pulls?q=is%3Apr+author%3Aarayofcode)
-
-*Total Impact: **20.0** · 0 PR(s)*
-
-- 🐛 **[Configuration/ Token isn't being detected in workspace + Home dir being created inside workspace](https://github.com/exercism/cli/issues/1226)** (Jan 23, 2026)
-
-### [WebGoat/WebGoat](https://github.com/WebGoat/WebGoat/pulls?q=is%3Apr+author%3Aarayofcode)
-
-*Total Impact: **8.0** · 0 PR(s)*
-
-- 💬 **[User registration not persistant](https://github.com/WebGoat/WebGoat/issues/986#issuecomment-1351560100)** (Dec 14, 2022)
-
-### [google/it-cert-automation-practice](https://github.com/google/it-cert-automation-practice/pulls?q=is%3Apr+author%3Aarayofcode)
-
-*Total Impact: **8.0** · 0 PR(s)*
-
-- 💭 **[Closes: #1](https://github.com/google/it-cert-automation-practice/pull/16022#issuecomment-894846665)** (Aug 8, 2021)
-
-### [hadolint/hadolint](https://github.com/hadolint/hadolint/pulls?q=is%3Apr+author%3Aarayofcode)
-
-*Total Impact: **8.0** · 0 PR(s)*
-
-- 💬 **[Trusted registries don't work correctly for multi-part repo names](https://github.com/hadolint/hadolint/issues/401#issuecomment-2028460238)** (Mar 30, 2024)
-
-### [testcontainers/testcontainers-go](https://github.com/testcontainers/testcontainers-go/pulls?q=is%3Apr+author%3Aarayofcode)
-
-*Total Impact: **8.0** · 0 PR(s)*
-
-- 💬 **[[Bug]: Docs state docker context aware, but does not seem to work](https://github.com/testcontainers/testcontainers-go/issues/815#issuecomment-2094646790)** (May 5, 2024)
-
-### [Green-Software-Foundation/patterns](https://github.com/Green-Software-Foundation/patterns/pulls?q=is%3Apr+author%3Aarayofcode)
-
-*Total Impact: **6.7** · 0 PR(s)*
-
-- 💬 **[Catch-22 on using Security Tools to reduce impact of security threats](https://github.com/Green-Software-Foundation/patterns/issues/346#issuecomment-2660757567)** (Feb 15, 2025) · ❤️ 1
-
-### [postgres/pgcommitfest](https://github.com/postgres/pgcommitfest/pulls?q=is%3Apr+author%3Aarayofcode)
-
-*Total Impact: **5.6** · 0 PR(s)*
-
-- 💬 **[Add a free form "status" field](https://github.com/postgres/pgcommitfest/issues/19#issuecomment-2761654297)** (Mar 28, 2025)
+- 💬 **[Feature: Implement SolutionSection component](https://github.com/reacthyderabad/freshgradprep/issues/27#issuecomment-4069879818)** (Mar 16, 2026)
 
