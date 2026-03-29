@@ -1,467 +1,49 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-03-29T07:47:42.042968974Z",
-  "username": "shloksri",
+  "generatedAt": "2026-03-29T21:10:23.308486741Z",
+  "username": "sripalideb",
   "stats": {
-    "PRsOpened": 16,
+    "PRsOpened": 0,
     "PRReviews": 0,
-    "PRReviewComments": 4,
-    "IssuesOpened": 14,
-    "IssueComments": 13,
+    "PRReviewComments": 0,
+    "IssuesOpened": 2,
+    "IssueComments": 0,
     "DiscussionsOpened": 0,
     "DiscussionComments": 0,
     "TotalCommits": 0,
-    "ProjectsOwned": 16,
-    "StarsEarned": 1,
-    "TotalReposContributedTo": 19
+    "ProjectsOwned": 3,
+    "StarsEarned": 0,
+    "TotalReposContributedTo": 4
   },
-  "totalEvents": 47,
+  "totalEvents": 2,
   "eventsByType": {
-    "ISSUE": 14,
-    "ISSUE_COMMENT": 13,
-    "PR": 16,
-    "PR_REVIEW_COMMENT": 4
+    "ISSUE": 2
   },
   "events": [
     {
-      "Type": "ISSUE_COMMENT",
+      "Type": "ISSUE",
       "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Documentation Update : Update Calendly Link in Booking Section",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/44#issuecomment-4148375977",
-      "CreatedAt": "2026-03-28T16:27:42Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE_COMMENT",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Typo : Update FounderSection Content",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/45#issuecomment-4148375417",
-      "CreatedAt": "2026-03-28T16:27:19Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "PR",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Issue #44 Issue #45 fixed, em-dashed removed from data files",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/pull/48",
-      "CreatedAt": "2026-03-28T12:42:50Z",
-      "ReactionsCount": 0,
-      "Merged": true
-    },
-    {
-      "Type": "PR",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Doc issue template added, icons for issues",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/pull/43",
-      "CreatedAt": "2026-03-25T12:36:00Z",
-      "ReactionsCount": 0,
-      "Merged": true
-    },
-    {
-      "Type": "PR",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Issue templates added",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/pull/42",
-      "CreatedAt": "2026-03-24T11:00:59Z",
-      "ReactionsCount": 0,
-      "Merged": true
-    },
-    {
-      "Type": "PR",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Event details update",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/pull/41",
-      "CreatedAt": "2026-03-22T08:31:28Z",
-      "ReactionsCount": 0,
-      "Merged": true
-    },
-    {
-      "Type": "PR",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Vercel config changes - Base",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/pull/40",
-      "CreatedAt": "2026-03-18T19:15:22Z",
-      "ReactionsCount": 0,
-      "Merged": true
-    },
-    {
-      "Type": "PR",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "vercel deployment",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/pull/39",
-      "CreatedAt": "2026-03-18T19:07:31Z",
-      "ReactionsCount": 0,
-      "Merged": true
-    },
-    {
-      "Type": "PR",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "UAT merge to Dev branch",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/pull/38",
-      "CreatedAt": "2026-03-18T18:42:54Z",
-      "ReactionsCount": 0,
-      "Merged": true
-    },
-    {
-      "Type": "ISSUE_COMMENT",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement ImpactSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/11#issuecomment-4066803897",
-      "CreatedAt": "2026-03-16T10:54:35Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE_COMMENT",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement ContactSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/14#issuecomment-4060981193",
-      "CreatedAt": "2026-03-14T17:53:23Z",
+      "Title": "Bring a More Human Tone to Testimonials",
+      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/47",
+      "CreatedAt": "2026-03-26T18:36:06Z",
       "ReactionsCount": 0,
       "Merged": false
     },
     {
       "Type": "ISSUE",
       "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement SolutionSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/27",
-      "CreatedAt": "2026-03-14T15:37:03Z",
+      "Title": "Impact-section needs animation",
+      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/46",
+      "CreatedAt": "2026-03-26T18:32:19Z",
       "ReactionsCount": 0,
       "Merged": false
-    },
-    {
-      "Type": "ISSUE",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement EventsSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/26",
-      "CreatedAt": "2026-03-14T15:33:57Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement CommunityPartnersSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/25",
-      "CreatedAt": "2026-03-14T15:32:30Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE_COMMENT",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement FounderSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/16#issuecomment-4060717180",
-      "CreatedAt": "2026-03-14T15:27:58Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE_COMMENT",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement BookingSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/13#issuecomment-4060716856",
-      "CreatedAt": "2026-03-14T15:27:44Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE_COMMENT",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement TestimonialsSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/12#issuecomment-4048981800",
-      "CreatedAt": "2026-03-12T18:19:29Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE_COMMENT",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement AudienceSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/10#issuecomment-4048690942",
-      "CreatedAt": "2026-03-12T17:38:47Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "PR",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Update contribution guides",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/pull/20",
-      "CreatedAt": "2026-03-11T19:15:06Z",
-      "ReactionsCount": 0,
-      "Merged": true
-    },
-    {
-      "Type": "PR",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Update contribution guide readme",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/pull/19",
-      "CreatedAt": "2026-03-11T18:53:24Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE_COMMENT",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement ImpactSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/11#issuecomment-4041276591",
-      "CreatedAt": "2026-03-11T18:32:31Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE_COMMENT",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement ImpactSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/11#issuecomment-4040481975",
-      "CreatedAt": "2026-03-11T16:30:59Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE_COMMENT",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement ProblemSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/7#issuecomment-4033301095",
-      "CreatedAt": "2026-03-10T17:44:22Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE_COMMENT",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement Footer component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/15#issuecomment-4032872391",
-      "CreatedAt": "2026-03-10T16:41:14Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE_COMMENT",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement HeroSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/6#issuecomment-4029425462",
-      "CreatedAt": "2026-03-10T08:00:43Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement FounderSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/16",
-      "CreatedAt": "2026-03-09T21:00:39Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement Footer component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/15",
-      "CreatedAt": "2026-03-09T20:58:41Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement ContactSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/14",
-      "CreatedAt": "2026-03-09T20:58:05Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement BookingSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/13",
-      "CreatedAt": "2026-03-09T20:57:09Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement TestimonialsSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/12",
-      "CreatedAt": "2026-03-09T20:55:53Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement ImpactSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/11",
-      "CreatedAt": "2026-03-09T20:55:22Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement AudienceSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/10",
-      "CreatedAt": "2026-03-09T20:54:19Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement ServicesSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/9",
-      "CreatedAt": "2026-03-09T20:53:18Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement AboutSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/8",
-      "CreatedAt": "2026-03-09T20:52:29Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement ProblemSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/7",
-      "CreatedAt": "2026-03-09T20:51:30Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "ISSUE",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Feature: Implement HeroSection component",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/6",
-      "CreatedAt": "2026-03-09T20:50:12Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "PR",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Merging changes - components, code guides and designs.",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/pull/5",
-      "CreatedAt": "2026-03-09T20:23:56Z",
-      "ReactionsCount": 0,
-      "Merged": true
-    },
-    {
-      "Type": "PR",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Icon updated",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/pull/4",
-      "CreatedAt": "2026-03-07T13:20:04Z",
-      "ReactionsCount": 0,
-      "Merged": true
-    },
-    {
-      "Type": "PR",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Initial app setup",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/pull/3",
-      "CreatedAt": "2026-03-07T13:17:11Z",
-      "ReactionsCount": 0,
-      "Merged": true
-    },
-    {
-      "Type": "PR",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "setup file",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/pull/2",
-      "CreatedAt": "2026-03-07T12:11:50Z",
-      "ReactionsCount": 0,
-      "Merged": true
-    },
-    {
-      "Type": "PR",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Initial app setup",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/pull/1",
-      "CreatedAt": "2026-03-07T11:36:33Z",
-      "ReactionsCount": 0,
-      "Merged": true
-    },
-    {
-      "Type": "PR_REVIEW_COMMENT",
-      "Repo": "reactjs/react.dev",
-      "Title": "Docs: Add React Hyderabad Meetup to community section",
-      "URL": "https://github.com/reactjs/react.dev/pull/8129#issuecomment-3985862215",
-      "CreatedAt": "2026-03-02T17:35:32Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "PR_REVIEW_COMMENT",
-      "Repo": "reactjs/react.dev",
-      "Title": "Docs: Add React Hyderabad Meetup to community section",
-      "URL": "https://github.com/reactjs/react.dev/pull/8129#issuecomment-3628480663",
-      "CreatedAt": "2025-12-08T18:31:27Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "PR_REVIEW_COMMENT",
-      "Repo": "reactjs/react.dev",
-      "Title": "Docs: Add React Hyderabad Meetup to community section",
-      "URL": "https://github.com/reactjs/react.dev/pull/8129#issuecomment-3562109881",
-      "CreatedAt": "2025-11-21T09:17:06Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "PR_REVIEW_COMMENT",
-      "Repo": "reactjs/react.dev",
-      "Title": "Docs: Add React Hyderabad Meetup to community section",
-      "URL": "https://github.com/reactjs/react.dev/pull/8129#issuecomment-3508292197",
-      "CreatedAt": "2025-11-09T13:09:28Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "PR",
-      "Repo": "reactjs/react.dev",
-      "Title": "Docs: Add React Hyderabad Meetup to community section",
-      "URL": "https://github.com/reactjs/react.dev/pull/8129",
-      "CreatedAt": "2025-11-05T18:17:54Z",
-      "ReactionsCount": 0,
-      "Merged": false
-    },
-    {
-      "Type": "PR",
-      "Repo": "appwrite-community/htf24-hackathon-submissions",
-      "Title": "Submission: MoodJournal App",
-      "URL": "https://github.com/appwrite-community/htf24-hackathon-submissions/pull/107",
-      "CreatedAt": "2024-10-31T11:40:57Z",
-      "ReactionsCount": 0,
-      "Merged": true
     }
   ],
   "ownedProjects": [
     {
-      "Repo": "shloksri/health-app-appwrite",
-      "URL": "https://github.com/shloksri/health-app-appwrite",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/25418789?u=78fb4b13348bf531d74bf87422dc095d1d932507\u0026v=4",
-      "Stars": 1,
-      "Forks": 0,
-      "BaseScore": 2500,
-      "PopularityRaw": 1.3010299956639813,
-      "Score": 3252.574989159953
-    },
-    {
-      "Repo": "shloksri/MyPic",
-      "URL": "https://github.com/shloksri/MyPic",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/25418789?u=78fb4b13348bf531d74bf87422dc095d1d932507\u0026v=4",
+      "Repo": "sripalideb/echoes",
+      "URL": "https://github.com/sripalideb/echoes",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/180076795?u=c573c2ac27fca060501b5534be5b67afb11ecb14\u0026v=4",
       "Stars": 0,
       "Forks": 0,
       "BaseScore": 2500,
@@ -469,9 +51,9 @@
       "Score": 2500
     },
     {
-      "Repo": "shloksri/auth-appwrite",
-      "URL": "https://github.com/shloksri/auth-appwrite",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/25418789?u=78fb4b13348bf531d74bf87422dc095d1d932507\u0026v=4",
+      "Repo": "sripalideb/sripalideb",
+      "URL": "https://github.com/sripalideb/sripalideb",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/180076795?u=c573c2ac27fca060501b5534be5b67afb11ecb14\u0026v=4",
       "Stars": 0,
       "Forks": 0,
       "BaseScore": 2500,
@@ -479,129 +61,9 @@
       "Score": 2500
     },
     {
-      "Repo": "shloksri/cityjs-talk-proposal",
-      "URL": "https://github.com/shloksri/cityjs-talk-proposal",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/25418789?u=78fb4b13348bf531d74bf87422dc095d1d932507\u0026v=4",
-      "Stars": 0,
-      "Forks": 0,
-      "BaseScore": 2500,
-      "PopularityRaw": 1,
-      "Score": 2500
-    },
-    {
-      "Repo": "shloksri/collabs",
-      "URL": "https://github.com/shloksri/collabs",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/25418789?u=78fb4b13348bf531d74bf87422dc095d1d932507\u0026v=4",
-      "Stars": 0,
-      "Forks": 0,
-      "BaseScore": 2500,
-      "PopularityRaw": 1,
-      "Score": 2500
-    },
-    {
-      "Repo": "shloksri/gitlab-python-demo",
-      "URL": "https://github.com/shloksri/gitlab-python-demo",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/25418789?u=78fb4b13348bf531d74bf87422dc095d1d932507\u0026v=4",
-      "Stars": 0,
-      "Forks": 0,
-      "BaseScore": 2500,
-      "PopularityRaw": 1,
-      "Score": 2500
-    },
-    {
-      "Repo": "shloksri/health-app",
-      "URL": "https://github.com/shloksri/health-app",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/25418789?u=78fb4b13348bf531d74bf87422dc095d1d932507\u0026v=4",
-      "Stars": 0,
-      "Forks": 0,
-      "BaseScore": 2500,
-      "PopularityRaw": 1,
-      "Score": 2500
-    },
-    {
-      "Repo": "shloksri/health-app-backup",
-      "URL": "https://github.com/shloksri/health-app-backup",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/25418789?u=78fb4b13348bf531d74bf87422dc095d1d932507\u0026v=4",
-      "Stars": 0,
-      "Forks": 0,
-      "BaseScore": 2500,
-      "PopularityRaw": 1,
-      "Score": 2500
-    },
-    {
-      "Repo": "shloksri/namaste-javascript",
-      "URL": "https://github.com/shloksri/namaste-javascript",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/25418789?u=78fb4b13348bf531d74bf87422dc095d1d932507\u0026v=4",
-      "Stars": 0,
-      "Forks": 0,
-      "BaseScore": 2500,
-      "PopularityRaw": 1,
-      "Score": 2500
-    },
-    {
-      "Repo": "shloksri/namaste-react-shlok",
-      "URL": "https://github.com/shloksri/namaste-react-shlok",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/25418789?u=78fb4b13348bf531d74bf87422dc095d1d932507\u0026v=4",
-      "Stars": 0,
-      "Forks": 0,
-      "BaseScore": 2500,
-      "PopularityRaw": 1,
-      "Score": 2500
-    },
-    {
-      "Repo": "shloksri/namaste-youtube",
-      "URL": "https://github.com/shloksri/namaste-youtube",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/25418789?u=78fb4b13348bf531d74bf87422dc095d1d932507\u0026v=4",
-      "Stars": 0,
-      "Forks": 0,
-      "BaseScore": 2500,
-      "PopularityRaw": 1,
-      "Score": 2500
-    },
-    {
-      "Repo": "shloksri/react-ai-tool",
-      "URL": "https://github.com/shloksri/react-ai-tool",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/25418789?u=78fb4b13348bf531d74bf87422dc095d1d932507\u0026v=4",
-      "Stars": 0,
-      "Forks": 0,
-      "BaseScore": 2500,
-      "PopularityRaw": 1,
-      "Score": 2500
-    },
-    {
-      "Repo": "shloksri/react-hyderabad",
-      "URL": "https://github.com/shloksri/react-hyderabad",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/25418789?u=78fb4b13348bf531d74bf87422dc095d1d932507\u0026v=4",
-      "Stars": 0,
-      "Forks": 0,
-      "BaseScore": 2500,
-      "PopularityRaw": 1,
-      "Score": 2500
-    },
-    {
-      "Repo": "shloksri/react-optimize-ai",
-      "URL": "https://github.com/shloksri/react-optimize-ai",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/25418789?u=78fb4b13348bf531d74bf87422dc095d1d932507\u0026v=4",
-      "Stars": 0,
-      "Forks": 0,
-      "BaseScore": 2500,
-      "PopularityRaw": 1,
-      "Score": 2500
-    },
-    {
-      "Repo": "shloksri/react-optimize-v2",
-      "URL": "https://github.com/shloksri/react-optimize-v2",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/25418789?u=78fb4b13348bf531d74bf87422dc095d1d932507\u0026v=4",
-      "Stars": 0,
-      "Forks": 0,
-      "BaseScore": 2500,
-      "PopularityRaw": 1,
-      "Score": 2500
-    },
-    {
-      "Repo": "shloksri/todo-appwrite",
-      "URL": "https://github.com/shloksri/todo-appwrite",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/25418789?u=78fb4b13348bf531d74bf87422dc095d1d932507\u0026v=4",
+      "Repo": "sripalideb/sripalideb.github.io",
+      "URL": "https://github.com/sripalideb/sripalideb.github.io",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/180076795?u=c573c2ac27fca060501b5534be5b67afb11ecb14\u0026v=4",
       "Stars": 0,
       "Forks": 0,
       "BaseScore": 2500,
@@ -613,21 +75,9 @@
     {
       "repo": "reacthyderabad/freshgradprep",
       "repoURL": "https://github.com/reacthyderabad/freshgradprep",
-      "impactScore": 647.1802632997227,
-      "prCount": 14
-    },
-    {
-      "repo": "reactjs/react.dev",
-      "repoURL": "https://github.com/reactjs/react.dev",
-      "impactScore": 60.53333333333334,
-      "prCount": 1
-    },
-    {
-      "repo": "appwrite-community/htf24-hackathon-submissions",
-      "repoURL": "https://github.com/appwrite-community/htf24-hackathon-submissions",
-      "impactScore": 55.011794293349304,
-      "prCount": 1
+      "impactScore": 22.78753600952829,
+      "prCount": 0
     }
   ],
-  "externalPRsUrl": "https://github.com/pulls?q=is:pr+author:shloksri+-user:shloksri"
+  "externalPRsUrl": "https://github.com/pulls?q=is:pr+author:sripalideb+-user:sripalideb"
 }
