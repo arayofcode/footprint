@@ -1,90 +1,98 @@
-# OSS Footprint: @Dilip-Kashyp
+# OSS Footprint: @shloksri
 
 *Generated on March 29, 2026*
 
 ## Impact Snapshot
 
-- 🔀 **2** PRs Opened
-- 📋 **0** PR Reviews
-- 🐛 **0** Issues Opened
-- 💬 **3** Issue Comments
-- 📦 **50** Projects Owned
-- ⭐ **27** Stars Earned
+- 🔀 **16** PRs Opened
+- 📋 **4** PR Reviews
+- 🐛 **14** Issues Opened
+- 💬 **13** Issue Comments
+- 📦 **16** Projects Owned
+- ⭐ **1** Stars Earned
 
-[View all external PRs authored by @Dilip-Kashyp](https://github.com/pulls?q=is%3Apr+author%3ADilip-Kashyp+-user%3ADilip-Kashyp)
+[View all external PRs authored by @shloksri](https://github.com/pulls?q=is%3Apr+author%3Ashloksri+-user%3Ashloksri)
 
 ## Owned Projects
 
-- [`Dilip-Kashyp/AI-Assistant`](https://github.com/Dilip-Kashyp/AI-Assistant) · ⭐ 3 · 🍴 0
-- [`Dilip-Kashyp/Animated-Circle`](https://github.com/Dilip-Kashyp/Animated-Circle) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/Backend`](https://github.com/Dilip-Kashyp/Backend) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/Books-`](https://github.com/Dilip-Kashyp/Books-) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/DSA`](https://github.com/Dilip-Kashyp/DSA) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/Dilip-kashyp`](https://github.com/Dilip-Kashyp/Dilip-kashyp) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/E-commerce_Backend`](https://github.com/Dilip-Kashyp/E-commerce_Backend) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/Golang`](https://github.com/Dilip-Kashyp/Golang) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/Goovo-Event`](https://github.com/Dilip-Kashyp/Goovo-Event) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/LiaPlus-AI-Assignment`](https://github.com/Dilip-Kashyp/LiaPlus-AI-Assignment) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/Mic-Animation`](https://github.com/Dilip-Kashyp/Mic-Animation) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/SRE`](https://github.com/Dilip-Kashyp/SRE) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/ScholarMatch-AI`](https://github.com/Dilip-Kashyp/ScholarMatch-AI) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/To-Do-List`](https://github.com/Dilip-Kashyp/To-Do-List) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/Todo-`](https://github.com/Dilip-Kashyp/Todo-) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/User-managment-system`](https://github.com/Dilip-Kashyp/User-managment-system) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/Web-Software-development`](https://github.com/Dilip-Kashyp/Web-Software-development) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/You-Tube`](https://github.com/Dilip-Kashyp/You-Tube) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/contact-api`](https://github.com/Dilip-Kashyp/contact-api) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/dilip-kashyp.github.io`](https://github.com/Dilip-Kashyp/dilip-kashyp.github.io) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/image-searcher`](https://github.com/Dilip-Kashyp/image-searcher) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/job-portal`](https://github.com/Dilip-Kashyp/job-portal) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/leetCode`](https://github.com/Dilip-Kashyp/leetCode) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/python-ai-be`](https://github.com/Dilip-Kashyp/python-ai-be) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/scholar-match-ai-be`](https://github.com/Dilip-Kashyp/scholar-match-ai-be) · ⭐ 1 · 🍴 0
-- [`Dilip-Kashyp/All-program`](https://github.com/Dilip-Kashyp/All-program) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/C`](https://github.com/Dilip-Kashyp/C) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/GO-Practice`](https://github.com/Dilip-Kashyp/GO-Practice) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/GYM`](https://github.com/Dilip-Kashyp/GYM) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/Javascript`](https://github.com/Dilip-Kashyp/Javascript) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/Job-Portal--BE`](https://github.com/Dilip-Kashyp/Job-Portal--BE) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/My_Blogs`](https://github.com/Dilip-Kashyp/My_Blogs) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/Port`](https://github.com/Dilip-Kashyp/Port) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/ResuScore-ai`](https://github.com/Dilip-Kashyp/ResuScore-ai) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/Tesla-clone`](https://github.com/Dilip-Kashyp/Tesla-clone) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/TripMate-BE`](https://github.com/Dilip-Kashyp/TripMate-BE) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/URL-Parser`](https://github.com/Dilip-Kashyp/URL-Parser) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/Voiro-AI`](https://github.com/Dilip-Kashyp/Voiro-AI) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/Whack-the-mole`](https://github.com/Dilip-Kashyp/Whack-the-mole) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/Word_counter`](https://github.com/Dilip-Kashyp/Word_counter) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/all_program`](https://github.com/Dilip-Kashyp/all_program) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/fullstackopen-practice`](https://github.com/Dilip-Kashyp/fullstackopen-practice) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/java`](https://github.com/Dilip-Kashyp/java) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/leedcode`](https://github.com/Dilip-Kashyp/leedcode) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/python-`](https://github.com/Dilip-Kashyp/python-) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/route-genie-app`](https://github.com/Dilip-Kashyp/route-genie-app) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/url-shortener-be`](https://github.com/Dilip-Kashyp/url-shortener-be) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/url-shortener-fe`](https://github.com/Dilip-Kashyp/url-shortener-fe) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/weather`](https://github.com/Dilip-Kashyp/weather) · ⭐ 0 · 🍴 0
-- [`Dilip-Kashyp/working-clock-`](https://github.com/Dilip-Kashyp/working-clock-) · ⭐ 0 · 🍴 0
+- [`shloksri/health-app-appwrite`](https://github.com/shloksri/health-app-appwrite) · ⭐ 1 · 🍴 0
+- [`shloksri/MyPic`](https://github.com/shloksri/MyPic) · ⭐ 0 · 🍴 0
+- [`shloksri/auth-appwrite`](https://github.com/shloksri/auth-appwrite) · ⭐ 0 · 🍴 0
+- [`shloksri/cityjs-talk-proposal`](https://github.com/shloksri/cityjs-talk-proposal) · ⭐ 0 · 🍴 0
+- [`shloksri/collabs`](https://github.com/shloksri/collabs) · ⭐ 0 · 🍴 0
+- [`shloksri/gitlab-python-demo`](https://github.com/shloksri/gitlab-python-demo) · ⭐ 0 · 🍴 0
+- [`shloksri/health-app`](https://github.com/shloksri/health-app) · ⭐ 0 · 🍴 0
+- [`shloksri/health-app-backup`](https://github.com/shloksri/health-app-backup) · ⭐ 0 · 🍴 0
+- [`shloksri/namaste-javascript`](https://github.com/shloksri/namaste-javascript) · ⭐ 0 · 🍴 0
+- [`shloksri/namaste-react-shlok`](https://github.com/shloksri/namaste-react-shlok) · ⭐ 0 · 🍴 0
+- [`shloksri/namaste-youtube`](https://github.com/shloksri/namaste-youtube) · ⭐ 0 · 🍴 0
+- [`shloksri/react-ai-tool`](https://github.com/shloksri/react-ai-tool) · ⭐ 0 · 🍴 0
+- [`shloksri/react-hyderabad`](https://github.com/shloksri/react-hyderabad) · ⭐ 0 · 🍴 0
+- [`shloksri/react-optimize-ai`](https://github.com/shloksri/react-optimize-ai) · ⭐ 0 · 🍴 0
+- [`shloksri/react-optimize-v2`](https://github.com/shloksri/react-optimize-v2) · ⭐ 0 · 🍴 0
+- [`shloksri/todo-appwrite`](https://github.com/shloksri/todo-appwrite) · ⭐ 0 · 🍴 0
 
 ## Top Repositories
 
-### [khushi-joshi-05/Food-ordering-website](https://github.com/khushi-joshi-05/Food-ordering-website/pulls?q=is%3Apr+author%3ADilip-Kashyp)
+### [reacthyderabad/freshgradprep](https://github.com/reacthyderabad/freshgradprep/pulls?q=is%3Apr+author%3Ashloksri)
 
-*Total Impact: **73.3** · 1 PR(s)*
+*Total Impact: **647.2** · 14 PR(s)*
 
-- 💬 **[[BUG]: On hover upper border gets hidden beneath the image above it (manage hovering effect)](https://github.com/khushi-joshi-05/Food-ordering-website/issues/543#issuecomment-2132141373)** (May 26, 2024)
-- 🔀 **[git commit -m "Fix hover border issue and add hover effect on manu items #543"](https://github.com/khushi-joshi-05/Food-ordering-website/pull/544)** (May 26, 2024) · ✅ Merged
-- 💬 **[[BUG]: On hover upper border gets hidden beneath the image above it (manage hovering effect)](https://github.com/khushi-joshi-05/Food-ordering-website/issues/543#issuecomment-2132097297)** (May 26, 2024)
+- 💬 **[Documentation Update : Update Calendly Link in Booking Section](https://github.com/reacthyderabad/freshgradprep/issues/44#issuecomment-4148375977)** (Mar 28, 2026)
+- 💬 **[Typo : Update FounderSection Content](https://github.com/reacthyderabad/freshgradprep/issues/45#issuecomment-4148375417)** (Mar 28, 2026)
+- 🔀 **[Issue #44 Issue #45 fixed, em-dashed removed from data files](https://github.com/reacthyderabad/freshgradprep/pull/48)** (Mar 28, 2026) · ✅ Merged
+- 🔀 **[Doc issue template added, icons for issues](https://github.com/reacthyderabad/freshgradprep/pull/43)** (Mar 25, 2026) · ✅ Merged
+- 🔀 **[Issue templates added](https://github.com/reacthyderabad/freshgradprep/pull/42)** (Mar 24, 2026) · ✅ Merged
+- 🔀 **[Event details update](https://github.com/reacthyderabad/freshgradprep/pull/41)** (Mar 22, 2026) · ✅ Merged
+- 🔀 **[Vercel config changes - Base](https://github.com/reacthyderabad/freshgradprep/pull/40)** (Mar 18, 2026) · ✅ Merged
+- 🔀 **[vercel deployment](https://github.com/reacthyderabad/freshgradprep/pull/39)** (Mar 18, 2026) · ✅ Merged
+- 🔀 **[UAT merge to Dev branch](https://github.com/reacthyderabad/freshgradprep/pull/38)** (Mar 18, 2026) · ✅ Merged
+- 💬 **[Feature: Implement ImpactSection component](https://github.com/reacthyderabad/freshgradprep/issues/11#issuecomment-4066803897)** (Mar 16, 2026)
+- 💬 **[Feature: Implement ContactSection component](https://github.com/reacthyderabad/freshgradprep/issues/14#issuecomment-4060981193)** (Mar 14, 2026)
+- 🐛 **[Feature: Implement SolutionSection component](https://github.com/reacthyderabad/freshgradprep/issues/27)** (Mar 14, 2026)
+- 🐛 **[Feature: Implement EventsSection component](https://github.com/reacthyderabad/freshgradprep/issues/26)** (Mar 14, 2026)
+- 🐛 **[Feature: Implement CommunityPartnersSection component](https://github.com/reacthyderabad/freshgradprep/issues/25)** (Mar 14, 2026)
+- 💬 **[Feature: Implement FounderSection component](https://github.com/reacthyderabad/freshgradprep/issues/16#issuecomment-4060717180)** (Mar 14, 2026)
+- 💬 **[Feature: Implement BookingSection component](https://github.com/reacthyderabad/freshgradprep/issues/13#issuecomment-4060716856)** (Mar 14, 2026)
+- 💬 **[Feature: Implement TestimonialsSection component](https://github.com/reacthyderabad/freshgradprep/issues/12#issuecomment-4048981800)** (Mar 12, 2026)
+- 💬 **[Feature: Implement AudienceSection component](https://github.com/reacthyderabad/freshgradprep/issues/10#issuecomment-4048690942)** (Mar 12, 2026)
+- 🔀 **[Update contribution guides](https://github.com/reacthyderabad/freshgradprep/pull/20)** (Mar 11, 2026) · ✅ Merged
+- 🔀 **[Update contribution guide readme](https://github.com/reacthyderabad/freshgradprep/pull/19)** (Mar 11, 2026)
+- 💬 **[Feature: Implement ImpactSection component](https://github.com/reacthyderabad/freshgradprep/issues/11#issuecomment-4041276591)** (Mar 11, 2026)
+- 💬 **[Feature: Implement ImpactSection component](https://github.com/reacthyderabad/freshgradprep/issues/11#issuecomment-4040481975)** (Mar 11, 2026)
+- 💬 **[Feature: Implement ProblemSection component](https://github.com/reacthyderabad/freshgradprep/issues/7#issuecomment-4033301095)** (Mar 10, 2026)
+- 💬 **[Feature: Implement Footer component](https://github.com/reacthyderabad/freshgradprep/issues/15#issuecomment-4032872391)** (Mar 10, 2026)
+- 💬 **[Feature: Implement HeroSection component](https://github.com/reacthyderabad/freshgradprep/issues/6#issuecomment-4029425462)** (Mar 10, 2026)
+- 🐛 **[Feature: Implement FounderSection component](https://github.com/reacthyderabad/freshgradprep/issues/16)** (Mar 9, 2026)
+- 🐛 **[Feature: Implement Footer component](https://github.com/reacthyderabad/freshgradprep/issues/15)** (Mar 9, 2026)
+- 🐛 **[Feature: Implement ContactSection component](https://github.com/reacthyderabad/freshgradprep/issues/14)** (Mar 9, 2026)
+- 🐛 **[Feature: Implement BookingSection component](https://github.com/reacthyderabad/freshgradprep/issues/13)** (Mar 9, 2026)
+- 🐛 **[Feature: Implement TestimonialsSection component](https://github.com/reacthyderabad/freshgradprep/issues/12)** (Mar 9, 2026)
+- 🐛 **[Feature: Implement ImpactSection component](https://github.com/reacthyderabad/freshgradprep/issues/11)** (Mar 9, 2026)
+- 🐛 **[Feature: Implement AudienceSection component](https://github.com/reacthyderabad/freshgradprep/issues/10)** (Mar 9, 2026)
+- 🐛 **[Feature: Implement ServicesSection component](https://github.com/reacthyderabad/freshgradprep/issues/9)** (Mar 9, 2026)
+- 🐛 **[Feature: Implement AboutSection component](https://github.com/reacthyderabad/freshgradprep/issues/8)** (Mar 9, 2026)
+- 🐛 **[Feature: Implement ProblemSection component](https://github.com/reacthyderabad/freshgradprep/issues/7)** (Mar 9, 2026)
+- 🐛 **[Feature: Implement HeroSection component](https://github.com/reacthyderabad/freshgradprep/issues/6)** (Mar 9, 2026)
+- 🔀 **[Merging changes - components, code guides and designs.](https://github.com/reacthyderabad/freshgradprep/pull/5)** (Mar 9, 2026) · ✅ Merged
+- 🔀 **[Icon updated](https://github.com/reacthyderabad/freshgradprep/pull/4)** (Mar 7, 2026) · ✅ Merged
+- 🔀 **[Initial app setup](https://github.com/reacthyderabad/freshgradprep/pull/3)** (Mar 7, 2026) · ✅ Merged
+- 🔀 **[setup file](https://github.com/reacthyderabad/freshgradprep/pull/2)** (Mar 7, 2026) · ✅ Merged
+- 🔀 **[Initial app setup](https://github.com/reacthyderabad/freshgradprep/pull/1)** (Mar 7, 2026) · ✅ Merged
 
-### [Sauvik11/medicine-tracker](https://github.com/Sauvik11/medicine-tracker/pulls?q=is%3Apr+author%3ADilip-Kashyp)
+### [reactjs/react.dev](https://github.com/reactjs/react.dev/pulls?q=is%3Apr+author%3Ashloksri)
 
-*Total Impact: **15.0** · 1 PR(s)*
+*Total Impact: **60.5** · 1 PR(s)*
 
-- 🔀 **[fixed: eventlet to async threading & changed: version for pillow](https://github.com/Sauvik11/medicine-tracker/pull/2)** (Nov 14, 2025) · ✅ Merged
+- 💭 **[Docs: Add React Hyderabad Meetup to community section](https://github.com/reactjs/react.dev/pull/8129#issuecomment-3985862215)** (Mar 2, 2026)
+- 💭 **[Docs: Add React Hyderabad Meetup to community section](https://github.com/reactjs/react.dev/pull/8129#issuecomment-3628480663)** (Dec 8, 2025)
+- 💭 **[Docs: Add React Hyderabad Meetup to community section](https://github.com/reactjs/react.dev/pull/8129#issuecomment-3562109881)** (Nov 21, 2025)
+- 💭 **[Docs: Add React Hyderabad Meetup to community section](https://github.com/reactjs/react.dev/pull/8129#issuecomment-3508292197)** (Nov 9, 2025)
+- 🔀 **[Docs: Add React Hyderabad Meetup to community section](https://github.com/reactjs/react.dev/pull/8129)** (Nov 5, 2025)
 
-### [reacthyderabad/freshgradprep](https://github.com/reacthyderabad/freshgradprep/pulls?q=is%3Apr+author%3ADilip-Kashyp)
+### [appwrite-community/htf24-hackathon-submissions](https://github.com/appwrite-community/htf24-hackathon-submissions/pulls?q=is%3Apr+author%3Ashloksri)
 
-*Total Impact: **4.6** · 0 PR(s)*
+*Total Impact: **55.0** · 1 PR(s)*
 
-- 💬 **[Feature: Implement SolutionSection component](https://github.com/reacthyderabad/freshgradprep/issues/27#issuecomment-4069879818)** (Mar 16, 2026)
+- 🔀 **[Submission: MoodJournal App](https://github.com/appwrite-community/htf24-hackathon-submissions/pull/107)** (Oct 31, 2024) · ✅ Merged
 
