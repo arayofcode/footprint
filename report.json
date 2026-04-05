@@ -1,49 +1,271 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-03-29T21:10:23.308486741Z",
-  "username": "sripalideb",
+  "generatedAt": "2026-04-05T02:07:22.166438784Z",
+  "username": "arayofcode",
   "stats": {
-    "PRsOpened": 0,
+    "PRsOpened": 9,
     "PRReviews": 0,
-    "PRReviewComments": 0,
+    "PRReviewComments": 10,
     "IssuesOpened": 2,
-    "IssueComments": 0,
+    "IssueComments": 13,
     "DiscussionsOpened": 0,
     "DiscussionComments": 0,
     "TotalCommits": 0,
-    "ProjectsOwned": 3,
-    "StarsEarned": 0,
-    "TotalReposContributedTo": 4
+    "ProjectsOwned": 12,
+    "StarsEarned": 3,
+    "TotalReposContributedTo": 26
   },
-  "totalEvents": 2,
+  "totalEvents": 23,
   "eventsByType": {
-    "ISSUE": 2
+    "ISSUE": 2,
+    "ISSUE_COMMENT": 9,
+    "PR": 9,
+    "PR_REVIEW_COMMENT": 3
   },
   "events": [
     {
       "Type": "ISSUE",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Bring a More Human Tone to Testimonials",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/47",
-      "CreatedAt": "2026-03-26T18:36:06Z",
+      "Repo": "exercism/cli",
+      "Title": "Configuration/ Token isn't being detected in workspace + Home dir being created inside workspace",
+      "URL": "https://github.com/exercism/cli/issues/1226",
+      "CreatedAt": "2026-01-23T09:37:12Z",
       "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "ISSUE_COMMENT",
+      "Repo": "postgres/pgcommitfest",
+      "Title": "Add a free form \"status\" field",
+      "URL": "https://github.com/postgres/pgcommitfest/issues/19#issuecomment-2761654297",
+      "CreatedAt": "2025-03-28T15:11:55Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "ISSUE_COMMENT",
+      "Repo": "zed-industries/zed",
+      "Title": "git: Stage and unstage buttons both enabled at same time in git diff view",
+      "URL": "https://github.com/zed-industries/zed/issues/26881#issuecomment-2730390960",
+      "CreatedAt": "2025-03-17T17:50:52Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "ISSUE_COMMENT",
+      "Repo": "zed-industries/zed",
+      "Title": "git: Stage and unstage buttons both enabled at same time in git diff view",
+      "URL": "https://github.com/zed-industries/zed/issues/26881#issuecomment-2730048473",
+      "CreatedAt": "2025-03-17T15:57:34Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "ISSUE_COMMENT",
+      "Repo": "zed-industries/zed",
+      "Title": "git: Stage and unstage buttons both enabled at same time in git diff view",
+      "URL": "https://github.com/zed-industries/zed/issues/26881#issuecomment-2729954295",
+      "CreatedAt": "2025-03-17T15:27:47Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "ISSUE_COMMENT",
+      "Repo": "Green-Software-Foundation/patterns",
+      "Title": "Catch-22 on using Security Tools to reduce impact of security threats",
+      "URL": "https://github.com/Green-Software-Foundation/patterns/issues/346#issuecomment-2660757567",
+      "CreatedAt": "2025-02-15T05:46:46Z",
+      "ReactionsCount": 1,
       "Merged": false
     },
     {
       "Type": "ISSUE",
-      "Repo": "reacthyderabad/freshgradprep",
-      "Title": "Impact-section needs animation",
-      "URL": "https://github.com/reacthyderabad/freshgradprep/issues/46",
-      "CreatedAt": "2026-03-26T18:32:19Z",
+      "Repo": "zed-industries/zed",
+      "Title": "Project Panel: Cannot create directory in parent directory within parent directory if path looks like `directory/subdirectory`",
+      "URL": "https://github.com/zed-industries/zed/issues/18770",
+      "CreatedAt": "2024-10-06T05:23:10Z",
       "ReactionsCount": 0,
       "Merged": false
+    },
+    {
+      "Type": "PR",
+      "Repo": "hlxsites/prisma-cloud-docs",
+      "Title": "[trivial] Fix BitBucket API URL for unrotated-access-key policy",
+      "URL": "https://github.com/hlxsites/prisma-cloud-docs/pull/746",
+      "CreatedAt": "2024-07-03T09:42:01Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "ISSUE_COMMENT",
+      "Repo": "testcontainers/testcontainers-go",
+      "Title": "[Bug]: Docs state docker context aware, but does not seem to work",
+      "URL": "https://github.com/testcontainers/testcontainers-go/issues/815#issuecomment-2094646790",
+      "CreatedAt": "2024-05-05T06:09:39Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "ISSUE_COMMENT",
+      "Repo": "hadolint/hadolint",
+      "Title": "Trusted registries don't work correctly for multi-part repo names",
+      "URL": "https://github.com/hadolint/hadolint/issues/401#issuecomment-2028460238",
+      "CreatedAt": "2024-03-30T20:19:21Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "ISSUE_COMMENT",
+      "Repo": "WebGoat/WebGoat",
+      "Title": "User registration not persistant",
+      "URL": "https://github.com/WebGoat/WebGoat/issues/986#issuecomment-1351560100",
+      "CreatedAt": "2022-12-14T14:53:58Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "PR",
+      "Repo": "shanirivers/open-source-mathematics-degree",
+      "Title": "Fix Broken Links for UC Irvine",
+      "URL": "https://github.com/shanirivers/open-source-mathematics-degree/pull/3",
+      "CreatedAt": "2022-05-18T19:42:40Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "PR",
+      "Repo": "github-education-resources/GitHubGraduation-2022",
+      "Title": "Adding Aryan",
+      "URL": "https://github.com/github-education-resources/GitHubGraduation-2022/pull/78",
+      "CreatedAt": "2022-05-03T06:25:43Z",
+      "ReactionsCount": 0,
+      "Merged": true
+    },
+    {
+      "Type": "PR",
+      "Repo": "cs-ashoka/21-days-of-code",
+      "Title": "Updating with Day1 and Day2 Questions",
+      "URL": "https://github.com/cs-ashoka/21-days-of-code/pull/39",
+      "CreatedAt": "2021-12-19T22:02:05Z",
+      "ReactionsCount": 0,
+      "Merged": true
+    },
+    {
+      "Type": "PR",
+      "Repo": "cs-ashoka/21-days-of-code",
+      "Title": "Day1 Problems",
+      "URL": "https://github.com/cs-ashoka/21-days-of-code/pull/26",
+      "CreatedAt": "2021-12-18T19:10:53Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "PR",
+      "Repo": "cs-ashoka/21-days-of-code",
+      "Title": "Day1 Commit",
+      "URL": "https://github.com/cs-ashoka/21-days-of-code/pull/25",
+      "CreatedAt": "2021-12-18T19:04:45Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "PR_REVIEW_COMMENT",
+      "Repo": "google/it-cert-automation-practice",
+      "Title": "Closes: #1",
+      "URL": "https://github.com/google/it-cert-automation-practice/pull/16022#issuecomment-894846665",
+      "CreatedAt": "2021-08-08T19:53:04Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "ISSUE_COMMENT",
+      "Repo": "mvt-project/mvt",
+      "Title": "Error: mvt-android download-apks --output",
+      "URL": "https://github.com/mvt-project/mvt/issues/51#issuecomment-885251738",
+      "CreatedAt": "2021-07-22T21:37:14Z",
+      "ReactionsCount": 1,
+      "Merged": false
+    },
+    {
+      "Type": "PR_REVIEW_COMMENT",
+      "Repo": "mvt-project/mvt",
+      "Title": "Updated Documentation",
+      "URL": "https://github.com/mvt-project/mvt/pull/24#issuecomment-884525803",
+      "CreatedAt": "2021-07-21T21:57:18Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "PR_REVIEW_COMMENT",
+      "Repo": "mvt-project/mvt",
+      "Title": "Updated Documentation",
+      "URL": "https://github.com/mvt-project/mvt/pull/24#issuecomment-884524848",
+      "CreatedAt": "2021-07-21T21:55:10Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "PR",
+      "Repo": "mvt-project/mvt",
+      "Title": "Updating Documentation for Arch Linux",
+      "URL": "https://github.com/mvt-project/mvt/pull/56",
+      "CreatedAt": "2021-07-21T21:53:07Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "PR",
+      "Repo": "mvt-project/mvt",
+      "Title": "Updated Documentation",
+      "URL": "https://github.com/mvt-project/mvt/pull/24",
+      "CreatedAt": "2021-07-20T16:49:44Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "PR",
+      "Repo": "jlord/patchwork",
+      "Title": "New file added in a different branch",
+      "URL": "https://github.com/jlord/patchwork/pull/35337",
+      "CreatedAt": "2020-06-15T09:13:37Z",
+      "ReactionsCount": 0,
+      "Merged": true
     }
   ],
   "ownedProjects": [
     {
-      "Repo": "sripalideb/echoes",
-      "URL": "https://github.com/sripalideb/echoes",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/180076795?u=c573c2ac27fca060501b5534be5b67afb11ecb14\u0026v=4",
+      "Repo": "arayofcode/tokeniser",
+      "URL": "https://github.com/arayofcode/tokeniser",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 1,
+      "Forks": 1,
+      "BaseScore": 2500,
+      "PopularityRaw": 1.6020599913279625,
+      "Score": 4005.149978319906
+    },
+    {
+      "Repo": "arayofcode/CodeSyncHub",
+      "URL": "https://github.com/arayofcode/CodeSyncHub",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 1,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1.3010299956639813,
+      "Score": 3252.574989159953
+    },
+    {
+      "Repo": "arayofcode/footprint",
+      "URL": "https://github.com/arayofcode/footprint",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 1,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1.3010299956639813,
+      "Score": 3252.574989159953
+    },
+    {
+      "Repo": "arayofcode/Advanced-Algorithms",
+      "URL": "https://github.com/arayofcode/Advanced-Algorithms",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
       "Stars": 0,
       "Forks": 0,
       "BaseScore": 2500,
@@ -51,9 +273,9 @@
       "Score": 2500
     },
     {
-      "Repo": "sripalideb/sripalideb",
-      "URL": "https://github.com/sripalideb/sripalideb",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/180076795?u=c573c2ac27fca060501b5534be5b67afb11ecb14\u0026v=4",
+      "Repo": "arayofcode/DM_Project",
+      "URL": "https://github.com/arayofcode/DM_Project",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
       "Stars": 0,
       "Forks": 0,
       "BaseScore": 2500,
@@ -61,9 +283,69 @@
       "Score": 2500
     },
     {
-      "Repo": "sripalideb/sripalideb.github.io",
-      "URL": "https://github.com/sripalideb/sripalideb.github.io",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/180076795?u=c573c2ac27fca060501b5534be5b67afb11ecb14\u0026v=4",
+      "Repo": "arayofcode/arayofcode",
+      "URL": "https://github.com/arayofcode/arayofcode",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    },
+    {
+      "Repo": "arayofcode/codecrafters-kafka",
+      "URL": "https://github.com/arayofcode/codecrafters-kafka",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    },
+    {
+      "Repo": "arayofcode/distributed-systems",
+      "URL": "https://github.com/arayofcode/distributed-systems",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    },
+    {
+      "Repo": "arayofcode/fairValueDashboard",
+      "URL": "https://github.com/arayofcode/fairValueDashboard",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    },
+    {
+      "Repo": "arayofcode/magicbricks-scrapper",
+      "URL": "https://github.com/arayofcode/magicbricks-scrapper",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    },
+    {
+      "Repo": "arayofcode/useful-code",
+      "URL": "https://github.com/arayofcode/useful-code",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    },
+    {
+      "Repo": "arayofcode/wsd-overarching-project",
+      "URL": "https://github.com/arayofcode/wsd-overarching-project",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
       "Stars": 0,
       "Forks": 0,
       "BaseScore": 2500,
@@ -73,11 +355,89 @@
   ],
   "topRepos": [
     {
-      "repo": "reacthyderabad/freshgradprep",
-      "repoURL": "https://github.com/reacthyderabad/freshgradprep",
-      "impactScore": 22.78753600952829,
+      "repo": "mvt-project/mvt",
+      "repoURL": "https://github.com/mvt-project/mvt",
+      "impactScore": 97.33333333333333,
+      "prCount": 2
+    },
+    {
+      "repo": "cs-ashoka/21-days-of-code",
+      "repoURL": "https://github.com/cs-ashoka/21-days-of-code",
+      "impactScore": 93.5234250277501,
+      "prCount": 3
+    },
+    {
+      "repo": "github-education-resources/GitHubGraduation-2022",
+      "repoURL": "https://github.com/github-education-resources/GitHubGraduation-2022",
+      "impactScore": 60,
+      "prCount": 1
+    },
+    {
+      "repo": "jlord/patchwork",
+      "repoURL": "https://github.com/jlord/patchwork",
+      "impactScore": 60,
+      "prCount": 1
+    },
+    {
+      "repo": "zed-industries/zed",
+      "repoURL": "https://github.com/zed-industries/zed",
+      "impactScore": 37.333333333333336,
+      "prCount": 0
+    },
+    {
+      "repo": "shanirivers/open-source-mathematics-degree",
+      "repoURL": "https://github.com/shanirivers/open-source-mathematics-degree",
+      "impactScore": 35.158738437116796,
+      "prCount": 1
+    },
+    {
+      "repo": "hlxsites/prisma-cloud-docs",
+      "repoURL": "https://github.com/hlxsites/prisma-cloud-docs",
+      "impactScore": 33.22219294733919,
+      "prCount": 1
+    },
+    {
+      "repo": "exercism/cli",
+      "repoURL": "https://github.com/exercism/cli",
+      "impactScore": 20,
+      "prCount": 0
+    },
+    {
+      "repo": "WebGoat/WebGoat",
+      "repoURL": "https://github.com/WebGoat/WebGoat",
+      "impactScore": 8,
+      "prCount": 0
+    },
+    {
+      "repo": "google/it-cert-automation-practice",
+      "repoURL": "https://github.com/google/it-cert-automation-practice",
+      "impactScore": 8,
+      "prCount": 0
+    },
+    {
+      "repo": "hadolint/hadolint",
+      "repoURL": "https://github.com/hadolint/hadolint",
+      "impactScore": 8,
+      "prCount": 0
+    },
+    {
+      "repo": "testcontainers/testcontainers-go",
+      "repoURL": "https://github.com/testcontainers/testcontainers-go",
+      "impactScore": 8,
+      "prCount": 0
+    },
+    {
+      "repo": "Green-Software-Foundation/patterns",
+      "repoURL": "https://github.com/Green-Software-Foundation/patterns",
+      "impactScore": 6.688784547370221,
+      "prCount": 0
+    },
+    {
+      "repo": "postgres/pgcommitfest",
+      "repoURL": "https://github.com/postgres/pgcommitfest",
+      "impactScore": 5.639087871083737,
       "prCount": 0
     }
   ],
-  "externalPRsUrl": "https://github.com/pulls?q=is:pr+author:sripalideb+-user:sripalideb"
+  "externalPRsUrl": "https://github.com/pulls?q=is:pr+author:arayofcode+-user:arayofcode"
 }
