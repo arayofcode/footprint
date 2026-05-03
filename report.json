@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-04-26T02:27:22.236829986Z",
+  "generatedAt": "2026-05-03T02:35:51.163651165Z",
   "username": "arayofcode",
   "stats": {
     "PRsOpened": 9,
@@ -12,7 +12,7 @@
     "DiscussionComments": 0,
     "TotalCommits": 0,
     "ProjectsOwned": 12,
-    "StarsEarned": 4,
+    "StarsEarned": 5,
     "TotalReposContributedTo": 26
   },
   "totalEvents": 23,
@@ -233,6 +233,16 @@
   ],
   "ownedProjects": [
     {
+      "Repo": "arayofcode/footprint",
+      "URL": "https://github.com/arayofcode/footprint",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 3,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1.6020599913279625,
+      "Score": 4005.149978319906
+    },
+    {
       "Repo": "arayofcode/tokeniser",
       "URL": "https://github.com/arayofcode/tokeniser",
       "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
@@ -241,16 +251,6 @@
       "BaseScore": 2500,
       "PopularityRaw": 1.6020599913279625,
       "Score": 4005.149978319906
-    },
-    {
-      "Repo": "arayofcode/footprint",
-      "URL": "https://github.com/arayofcode/footprint",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
-      "Stars": 2,
-      "Forks": 0,
-      "BaseScore": 2500,
-      "PopularityRaw": 1.4771212547196624,
-      "Score": 3692.803136799156
     },
     {
       "Repo": "arayofcode/CodeSyncHub",
@@ -387,7 +387,7 @@
     {
       "repo": "shanirivers/open-source-mathematics-degree",
       "repoURL": "https://github.com/shanirivers/open-source-mathematics-degree",
-      "impactScore": 35.158738437116796,
+      "impactScore": 35.17195897949974,
       "prCount": 1
     },
     {
