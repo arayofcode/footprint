@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-05-17T02:45:37.290413151Z",
+  "generatedAt": "2026-05-24T02:53:14.704336415Z",
   "username": "arayofcode",
   "stats": {
     "PRsOpened": 9,
@@ -429,13 +429,13 @@
     {
       "repo": "Green-Software-Foundation/patterns",
       "repoURL": "https://github.com/Green-Software-Foundation/patterns",
-      "impactScore": 6.692705948901277,
+      "impactScore": 6.7043650362227245,
       "prCount": 0
     },
     {
       "repo": "postgres/pgcommitfest",
       "repoURL": "https://github.com/postgres/pgcommitfest",
-      "impactScore": 5.677698181474511,
+      "impactScore": 5.702516697438151,
       "prCount": 0
     }
   ],
