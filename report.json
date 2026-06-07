@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-05-31T03:26:57.399130994Z",
+  "generatedAt": "2026-06-07T03:31:42.597749287Z",
   "username": "arayofcode",
   "stats": {
     "PRsOpened": 9,
@@ -429,7 +429,7 @@
     {
       "repo": "Green-Software-Foundation/patterns",
       "repoURL": "https://github.com/Green-Software-Foundation/patterns",
-      "impactScore": 6.708216878294802,
+      "impactScore": 6.7043650362227245,
       "prCount": 0
     },
     {
