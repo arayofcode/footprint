@@ -1,6 +1,6 @@
 # OSS Footprint: @arayofcode
 
-*Generated on June 7, 2026*
+*Generated on June 14, 2026*
 
 ## Impact Snapshot
 
@@ -77,7 +77,7 @@
 
 ### [hlxsites/prisma-cloud-docs](https://github.com/hlxsites/prisma-cloud-docs/pulls?q=is%3Apr+author%3Aarayofcode)
 
-*Total Impact: **33.2** · 1 PR(s)*
+*Total Impact: **33.3** · 1 PR(s)*
 
 - 🔀 **[[trivial] Fix BitBucket API URL for unrotated-access-key policy](https://github.com/hlxsites/prisma-cloud-docs/pull/746)** (Jul 3, 2024)
 

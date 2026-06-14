@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-06-07T03:31:42.597749287Z",
+  "generatedAt": "2026-06-14T03:38:15.512243669Z",
   "username": "arayofcode",
   "stats": {
     "PRsOpened": 9,
@@ -393,7 +393,7 @@
     {
       "repo": "hlxsites/prisma-cloud-docs",
       "repoURL": "https://github.com/hlxsites/prisma-cloud-docs",
-      "impactScore": 33.22219294733919,
+      "impactScore": 33.263358609287515,
       "prCount": 1
     },
     {
