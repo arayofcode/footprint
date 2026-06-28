@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-06-21T03:44:39.954203948Z",
+  "generatedAt": "2026-06-28T03:27:04.231701404Z",
   "username": "arayofcode",
   "stats": {
     "PRsOpened": 9,
@@ -393,7 +393,7 @@
     {
       "repo": "hlxsites/prisma-cloud-docs",
       "repoURL": "https://github.com/hlxsites/prisma-cloud-docs",
-      "impactScore": 33.263358609287515,
+      "impactScore": 33.22219294733919,
       "prCount": 1
     },
     {
@@ -429,7 +429,7 @@
     {
       "repo": "Green-Software-Foundation/patterns",
       "repoURL": "https://github.com/Green-Software-Foundation/patterns",
-      "impactScore": 6.7043650362227245,
+      "impactScore": 6.712051714386246,
       "prCount": 0
     },
     {
