@@ -1,10 +1,10 @@
 # OSS Footprint: @arayofcode
 
-*Generated on July 5, 2026*
+*Generated on July 12, 2026*
 
 ## Impact Snapshot
 
-- 🔀 **9** PRs Opened
+- 🔀 **10** PRs Opened
 - 📋 **10** PR Reviews
 - 🐛 **2** Issues Opened
 - 💬 **13** Issue Comments
@@ -60,6 +60,13 @@
 
 - 🔀 **[New file added in a different branch](https://github.com/jlord/patchwork/pull/35337)** (Jun 15, 2020) · ✅ Merged
 
+### [google/it-cert-automation-practice](https://github.com/google/it-cert-automation-practice/pulls?q=is%3Apr+author%3Aarayofcode)
+
+*Total Impact: **48.0** · 1 PR(s)*
+
+- 💭 **[Closes: #1](https://github.com/google/it-cert-automation-practice/pull/16022#issuecomment-894846665)** (Aug 8, 2021)
+- 🔀 **[Closes: #1](https://github.com/google/it-cert-automation-practice/pull/16022)** (Aug 8, 2021)
+
 ### [zed-industries/zed](https://github.com/zed-industries/zed/pulls?q=is%3Apr+author%3Aarayofcode)
 
 *Total Impact: **37.3** · 0 PR(s)*
@@ -92,12 +99,6 @@
 *Total Impact: **8.0** · 0 PR(s)*
 
 - 💬 **[User registration not persistant](https://github.com/WebGoat/WebGoat/issues/986#issuecomment-1351560100)** (Dec 14, 2022)
-
-### [google/it-cert-automation-practice](https://github.com/google/it-cert-automation-practice/pulls?q=is%3Apr+author%3Aarayofcode)
-
-*Total Impact: **8.0** · 0 PR(s)*
-
-- 💭 **[Closes: #1](https://github.com/google/it-cert-automation-practice/pull/16022#issuecomment-894846665)** (Aug 8, 2021)
 
 ### [hadolint/hadolint](https://github.com/hadolint/hadolint/pulls?q=is%3Apr+author%3Aarayofcode)
 

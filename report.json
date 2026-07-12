@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-07-05T02:43:05.127668847Z",
+  "generatedAt": "2026-07-12T02:24:23.6372365Z",
   "username": "arayofcode",
   "stats": {
-    "PRsOpened": 9,
+    "PRsOpened": 10,
     "PRReviews": 0,
     "PRReviewComments": 10,
     "IssuesOpened": 2,
@@ -15,11 +15,11 @@
     "StarsEarned": 5,
     "TotalReposContributedTo": 26
   },
-  "totalEvents": 23,
+  "totalEvents": 24,
   "eventsByType": {
     "ISSUE": 2,
     "ISSUE_COMMENT": 9,
-    "PR": 9,
+    "PR": 10,
     "PR_REVIEW_COMMENT": 3
   },
   "events": [
@@ -173,6 +173,15 @@
       "Title": "Closes: #1",
       "URL": "https://github.com/google/it-cert-automation-practice/pull/16022#issuecomment-894846665",
       "CreatedAt": "2021-08-08T19:53:04Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "PR",
+      "Repo": "google/it-cert-automation-practice",
+      "Title": "Closes: #1",
+      "URL": "https://github.com/google/it-cert-automation-practice/pull/16022",
+      "CreatedAt": "2021-08-08T19:47:35Z",
       "ReactionsCount": 0,
       "Merged": false
     },
@@ -379,6 +388,12 @@
       "prCount": 1
     },
     {
+      "repo": "google/it-cert-automation-practice",
+      "repoURL": "https://github.com/google/it-cert-automation-practice",
+      "impactScore": 48,
+      "prCount": 1
+    },
+    {
       "repo": "zed-industries/zed",
       "repoURL": "https://github.com/zed-industries/zed",
       "impactScore": 37.333333333333336,
@@ -409,12 +424,6 @@
       "prCount": 0
     },
     {
-      "repo": "google/it-cert-automation-practice",
-      "repoURL": "https://github.com/google/it-cert-automation-practice",
-      "impactScore": 8,
-      "prCount": 0
-    },
-    {
       "repo": "hadolint/hadolint",
       "repoURL": "https://github.com/hadolint/hadolint",
       "impactScore": 8,
@@ -429,7 +438,7 @@
     {
       "repo": "Green-Software-Foundation/patterns",
       "repoURL": "https://github.com/Green-Software-Foundation/patterns",
-      "impactScore": 6.723455672035186,
+      "impactScore": 6.727223959784288,
       "prCount": 0
     },
     {
