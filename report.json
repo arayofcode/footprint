@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-07-12T02:24:23.6372365Z",
+  "generatedAt": "2026-07-19T02:21:31.475579533Z",
   "username": "arayofcode",
   "stats": {
     "PRsOpened": 10,
@@ -408,7 +408,7 @@
     {
       "repo": "hlxsites/prisma-cloud-docs",
       "repoURL": "https://github.com/hlxsites/prisma-cloud-docs",
-      "impactScore": 33.263358609287515,
+      "impactScore": 33.22219294733919,
       "prCount": 1
     },
     {
@@ -438,13 +438,13 @@
     {
       "repo": "Green-Software-Foundation/patterns",
       "repoURL": "https://github.com/Green-Software-Foundation/patterns",
-      "impactScore": 6.727223959784288,
+      "impactScore": 6.730975969781799,
       "prCount": 0
     },
     {
       "repo": "postgres/pgcommitfest",
       "repoURL": "https://github.com/postgres/pgcommitfest",
-      "impactScore": 5.714664992862537,
+      "impactScore": 5.7384634394619525,
       "prCount": 0
     }
   ],
