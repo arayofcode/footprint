@@ -1,6 +1,6 @@
 # OSS Footprint: @arayofcode
 
-*Generated on August 2, 2026*
+*Generated on August 9, 2026*
 
 ## Impact Snapshot
 
@@ -8,7 +8,7 @@
 - 📋 **10** PR Reviews
 - 🐛 **2** Issues Opened
 - 💬 **13** Issue Comments
-- 📦 **12** Projects Owned
+- 📦 **11** Projects Owned
 - ⭐ **5** Stars Earned
 
 [View all external PRs authored by @arayofcode](https://github.com/pulls?q=is%3Apr+author%3Aarayofcode+-user%3Aarayofcode)
@@ -20,7 +20,6 @@
 - [`arayofcode/CodeSyncHub`](https://github.com/arayofcode/CodeSyncHub) · ⭐ 1 · 🍴 0
 - [`arayofcode/Advanced-Algorithms`](https://github.com/arayofcode/Advanced-Algorithms) · ⭐ 0 · 🍴 0
 - [`arayofcode/DM_Project`](https://github.com/arayofcode/DM_Project) · ⭐ 0 · 🍴 0
-- [`arayofcode/arayofcode`](https://github.com/arayofcode/arayofcode) · ⭐ 0 · 🍴 0
 - [`arayofcode/codecrafters-kafka`](https://github.com/arayofcode/codecrafters-kafka) · ⭐ 0 · 🍴 0
 - [`arayofcode/distributed-systems`](https://github.com/arayofcode/distributed-systems) · ⭐ 0 · 🍴 0
 - [`arayofcode/fairValueDashboard`](https://github.com/arayofcode/fairValueDashboard) · ⭐ 0 · 🍴 0

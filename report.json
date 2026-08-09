@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-08-02T02:25:07.003186979Z",
+  "generatedAt": "2026-08-09T01:20:51.028496514Z",
   "username": "arayofcode",
   "stats": {
     "PRsOpened": 10,
@@ -11,9 +11,9 @@
     "DiscussionsOpened": 0,
     "DiscussionComments": 0,
     "TotalCommits": 0,
-    "ProjectsOwned": 12,
+    "ProjectsOwned": 11,
     "StarsEarned": 5,
-    "TotalReposContributedTo": 26
+    "TotalReposContributedTo": 25
   },
   "totalEvents": 24,
   "eventsByType": {
@@ -284,16 +284,6 @@
     {
       "Repo": "arayofcode/DM_Project",
       "URL": "https://github.com/arayofcode/DM_Project",
-      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
-      "Stars": 0,
-      "Forks": 0,
-      "BaseScore": 2500,
-      "PopularityRaw": 1,
-      "Score": 2500
-    },
-    {
-      "Repo": "arayofcode/arayofcode",
-      "URL": "https://github.com/arayofcode/arayofcode",
       "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
       "Stars": 0,
       "Forks": 0,
