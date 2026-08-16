@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-08-09T01:20:51.028496514Z",
+  "generatedAt": "2026-08-16T01:03:04.520627898Z",
   "username": "arayofcode",
   "stats": {
     "PRsOpened": 10,
@@ -392,13 +392,13 @@
     {
       "repo": "shanirivers/open-source-mathematics-degree",
       "repoURL": "https://github.com/shanirivers/open-source-mathematics-degree",
-      "impactScore": 35.211380837040366,
+      "impactScore": 35.224442335063195,
       "prCount": 1
     },
     {
       "repo": "hlxsites/prisma-cloud-docs",
       "repoURL": "https://github.com/hlxsites/prisma-cloud-docs",
-      "impactScore": 33.22219294733919,
+      "impactScore": 33.18063334962761,
       "prCount": 1
     },
     {
@@ -428,7 +428,7 @@
     {
       "repo": "Green-Software-Foundation/patterns",
       "repoURL": "https://github.com/Green-Software-Foundation/patterns",
-      "impactScore": 6.734711842052038,
+      "impactScore": 6.738431714820286,
       "prCount": 0
     },
     {
