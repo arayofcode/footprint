@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-08-23T01:04:31.466289433Z",
+  "generatedAt": "2026-08-30T03:22:10.636148511Z",
   "username": "arayofcode",
   "stats": {
     "PRsOpened": 10,
@@ -434,7 +434,7 @@
     {
       "repo": "postgres/pgcommitfest",
       "repoURL": "https://github.com/postgres/pgcommitfest",
-      "impactScore": 5.7384634394619525,
+      "impactScore": 5.7501225267834,
       "prCount": 0
     }
   ],
