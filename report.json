@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-08-30T03:22:10.636148511Z",
+  "generatedAt": "2026-09-06T02:41:42.519805736Z",
   "username": "arayofcode",
   "stats": {
     "PRsOpened": 10,
@@ -398,7 +398,7 @@
     {
       "repo": "hlxsites/prisma-cloud-docs",
       "repoURL": "https://github.com/hlxsites/prisma-cloud-docs",
-      "impactScore": 33.18063334962761,
+      "impactScore": 33.138672203691534,
       "prCount": 1
     },
     {
@@ -434,7 +434,7 @@
     {
       "repo": "postgres/pgcommitfest",
       "repoURL": "https://github.com/postgres/pgcommitfest",
-      "impactScore": 5.7501225267834,
+      "impactScore": 5.772981450344964,
       "prCount": 0
     }
   ],
