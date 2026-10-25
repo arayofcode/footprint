@@ -1,28 +1,46 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-10-18T02:50:20.578012135Z",
+  "generatedAt": "2026-10-25T03:00:06.668508168Z",
   "username": "arayofcode",
   "stats": {
     "PRsOpened": 10,
     "PRReviews": 0,
     "PRReviewComments": 10,
     "IssuesOpened": 2,
-    "IssueComments": 13,
+    "IssueComments": 15,
     "DiscussionsOpened": 0,
     "DiscussionComments": 0,
     "TotalCommits": 0,
     "ProjectsOwned": 11,
     "StarsEarned": 5,
-    "TotalReposContributedTo": 25
+    "TotalReposContributedTo": 26
   },
-  "totalEvents": 24,
+  "totalEvents": 26,
   "eventsByType": {
     "ISSUE": 2,
-    "ISSUE_COMMENT": 9,
+    "ISSUE_COMMENT": 11,
     "PR": 10,
     "PR_REVIEW_COMMENT": 3
   },
   "events": [
+    {
+      "Type": "ISSUE_COMMENT",
+      "Repo": "SigNoz/foundry",
+      "Title": "[foundryctl] Enable version upgrades via the `upgrade` command",
+      "URL": "https://github.com/SigNoz/foundry/issues/166#issuecomment-6274959782",
+      "CreatedAt": "2026-10-19T19:01:34Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
+    {
+      "Type": "ISSUE_COMMENT",
+      "Repo": "SigNoz/foundry",
+      "Title": "[foundryctl] Enable version upgrades via the `upgrade` command",
+      "URL": "https://github.com/SigNoz/foundry/issues/166#issuecomment-6247391573",
+      "CreatedAt": "2026-10-18T07:59:29Z",
+      "ReactionsCount": 0,
+      "Merged": false
+    },
     {
       "Type": "ISSUE",
       "Repo": "exercism/cli",
@@ -408,6 +426,12 @@
       "prCount": 0
     },
     {
+      "repo": "SigNoz/foundry",
+      "repoURL": "https://github.com/SigNoz/foundry",
+      "impactScore": 10.16406007556727,
+      "prCount": 0
+    },
+    {
       "repo": "WebGoat/WebGoat",
       "repoURL": "https://github.com/WebGoat/WebGoat",
       "impactScore": 8,
@@ -428,13 +452,13 @@
     {
       "repo": "Green-Software-Foundation/patterns",
       "repoURL": "https://github.com/Green-Software-Foundation/patterns",
-      "impactScore": 6.753153914113024,
+      "impactScore": 6.756795801896276,
       "prCount": 0
     },
     {
       "repo": "postgres/pgcommitfest",
       "repoURL": "https://github.com/postgres/pgcommitfest",
-      "impactScore": 5.858837851428586,
+      "impactScore": 5.8790385052372365,
       "prCount": 0
     }
   ],

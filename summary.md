@@ -1,13 +1,13 @@
 # OSS Footprint: @arayofcode
 
-*Generated on October 18, 2026*
+*Generated on October 25, 2026*
 
 ## Impact Snapshot
 
 - 🔀 **10** PRs Opened
 - 📋 **10** PR Reviews
 - 🐛 **2** Issues Opened
-- 💬 **13** Issue Comments
+- 💬 **15** Issue Comments
 - 📦 **11** Projects Owned
 - ⭐ **5** Stars Earned
 
@@ -92,6 +92,13 @@
 *Total Impact: **20.0** · 0 PR(s)*
 
 - 🐛 **[Configuration/ Token isn't being detected in workspace + Home dir being created inside workspace](https://github.com/exercism/cli/issues/1226)** (Jan 23, 2026)
+
+### [SigNoz/foundry](https://github.com/SigNoz/foundry/pulls?q=is%3Apr+author%3Aarayofcode)
+
+*Total Impact: **10.2** · 0 PR(s)*
+
+- 💬 **[[foundryctl] Enable version upgrades via the `upgrade` command](https://github.com/SigNoz/foundry/issues/166#issuecomment-6274959782)** (Oct 19, 2026)
+- 💬 **[[foundryctl] Enable version upgrades via the `upgrade` command](https://github.com/SigNoz/foundry/issues/166#issuecomment-6247391573)** (Oct 18, 2026)
 
 ### [WebGoat/WebGoat](https://github.com/WebGoat/WebGoat/pulls?q=is%3Apr+author%3Aarayofcode)
 
