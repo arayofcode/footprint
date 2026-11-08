@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-11-01T04:03:57.590658596Z",
+  "generatedAt": "2026-11-08T04:10:05.027134218Z",
   "username": "arayofcode",
   "stats": {
     "PRsOpened": 10,
@@ -11,9 +11,9 @@
     "DiscussionsOpened": 0,
     "DiscussionComments": 0,
     "TotalCommits": 0,
-    "ProjectsOwned": 12,
+    "ProjectsOwned": 13,
     "StarsEarned": 5,
-    "TotalReposContributedTo": 27
+    "TotalReposContributedTo": 28
   },
   "totalEvents": 26,
   "eventsByType": {
@@ -340,6 +340,16 @@
       "Score": 2500
     },
     {
+      "Repo": "arayofcode/incident-triage-agent",
+      "URL": "https://github.com/arayofcode/incident-triage-agent",
+      "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
+      "Stars": 0,
+      "Forks": 0,
+      "BaseScore": 2500,
+      "PopularityRaw": 1,
+      "Score": 2500
+    },
+    {
       "Repo": "arayofcode/magicbricks-scrapper",
       "URL": "https://github.com/arayofcode/magicbricks-scrapper",
       "AvatarURL": "https://avatars.githubusercontent.com/u/49439106?u=1c676f5de548f30a5ba5dcdcdfe7c03bab1a0482\u0026v=4",
@@ -438,7 +448,7 @@
     {
       "repo": "SigNoz/foundry",
       "repoURL": "https://github.com/SigNoz/foundry",
-      "impactScore": 10.16406007556727,
+      "impactScore": 10.202326134512038,
       "prCount": 0
     },
     {
