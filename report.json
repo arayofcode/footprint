@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-11-15T04:37:03.302982008Z",
+  "generatedAt": "2026-11-22T04:51:57.68194203Z",
   "username": "arayofcode",
   "stats": {
     "PRsOpened": 10,
@@ -430,7 +430,7 @@
     {
       "repo": "shanirivers/open-source-mathematics-degree",
       "repoURL": "https://github.com/shanirivers/open-source-mathematics-degree",
-      "impactScore": 35.31478917042256,
+      "impactScore": 35.327543789924974,
       "prCount": 1
     },
     {
@@ -448,7 +448,7 @@
     {
       "repo": "SigNoz/foundry",
       "repoURL": "https://github.com/SigNoz/foundry",
-      "impactScore": 10.202326134512038,
+      "impactScore": 10.214859964089726,
       "prCount": 0
     },
     {
@@ -472,13 +472,13 @@
     {
       "repo": "Green-Software-Foundation/patterns",
       "repoURL": "https://github.com/Green-Software-Foundation/patterns",
-      "impactScore": 6.760422483423212,
+      "impactScore": 6.756795801896276,
       "prCount": 0
     },
     {
       "repo": "postgres/pgcommitfest",
       "repoURL": "https://github.com/postgres/pgcommitfest",
-      "impactScore": 5.918082784642187,
+      "impactScore": 5.9084850188786495,
       "prCount": 0
     }
   ],
